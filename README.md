@@ -1,10 +1,10 @@
 # BaichOye.com
 # Technology Stack
 - Frontend
-  - React.js
+  - **React.js**
   - **Vite** for better efficient loading of the app when we make changes
   - **Redux** for state management
-  - **Tailwind** for styling components
+  - **TailwindCss** for styling components
 - Backend
   - Node.js
   - Express.js
