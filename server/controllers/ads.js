@@ -10,18 +10,13 @@ export const getAds = async (req, res) => {
 }
 
 export const createAd = async (req, res) => {
-    res.send("this works");
-    // try {
-    //     const {name, prompt, photo } = req.body;
-
-    //     const photoUrl = await cloudinary.uploader.upload(photo);
-    //     const newPost = await PostSchema.create({   
-    //         name,
-    //         prompt,
-    //         photo: photoUrl.url,
-    //     });
-    //     res.status(201).json({success: true, data: newPost});
-    // } catch (error) {
-    //     res.status(500).json({success: false, message: error});
-    // }
+    try {
+        const ad = req.body;
+        // const newAd = await PostSchema.create(ad);
+        const newAd = new Ad(ad);
+        await newAd.save();
+        res.status(201).json({success: true, data: newAd});
+    } catch (error) {
+        res.status(500).json({success: false, message: error});
+    }
 }

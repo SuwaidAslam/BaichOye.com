@@ -1,9 +1,9 @@
 import express from "express";
-import {getPosts, createAd} from '../controllers/ads.js';
+import {getAds, createAd} from '../controllers/ads.js';
 
 const router = express.Router();
 
-router.get('/', getPosts); 
+router.get('/', getAds); 
 router.post('/', createAd);
 
 export default router;
