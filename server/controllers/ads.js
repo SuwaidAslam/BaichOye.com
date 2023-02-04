@@ -1,16 +1,15 @@
-// import PostSchema from '../mongodb/models/post.js';
+import Ad from '../mongodb/models/ad.js';
 
-export const getPosts = async (req, res) => {
-    res.send("this works");
-    // try {
-    //     const posts = await PostSchema.find({});
-    //     res.status(200).json({success: true, data: posts});
-    // } catch (error) {
-    //     res.status(500).json({success: false, data: error});
-    // }
+export const getAds = async (req, res) => {
+    try {
+        const ads = await Ad.find({});
+        res.status(200).json({success: true, data: ads});
+    } catch (error) {
+        res.status(500).json({success: false, data: error});
+    }
 }
 
-export const createPosts = async (req, res) => {
+export const createAd = async (req, res) => {
     res.send("this works");
     // try {
     //     const {name, prompt, photo } = req.body;

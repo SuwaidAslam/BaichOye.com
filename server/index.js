@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './mongodb/connect.js';
-import postRoutes from './routes/posts.js';
+import postRoutes from './routes/ads.js';
 
 dotenv.config();
 
