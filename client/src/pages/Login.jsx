@@ -1,64 +1,63 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import GoogleLogin from 'react-google-login';
+
 
 const Login = () => {
+    const responseGoogle = (response) => {
+        console.log(response)
+    }
     return (
-        <div class="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md white:bg-gray-800">
-            <div class="flex justify-center mx-auto">
-                <img class="w-auto h-7 sm:h-8" src="https://merakiui.com/images/logo.svg" alt=""/>
-            </div>
+        <div className="h-full bg-gradient-to-tl from-green-400 to-indigo-900 w-full py-16 px-4">
+            <div className="flex flex-col items-center justify-center">
+                <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/sign_in-svg1.svg" alt="logo" />
 
-            <form class="mt-6">
-                <div>
-                    <label for="username" class="block text-sm text-gray-800 white:text-gray-200">Username</label>
-                    <input type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg white:bg-gray-800 white:text-gray-300 white:border-gray-600 focus:border-blue-400 white:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
-                </div>
-
-                <div class="mt-4">
-                    <div class="flex items-center justify-between">
-                        <label for="password" class="block text-sm text-gray-800 white:text-gray-200">Password</label>
-                        <a href="#" class="text-xs text-gray-600 white:text-gray-400 hover:underline">Forget Password?</a>
+                <div className="bg-white shadow rounded lg:w-1/3  md:w-1/2 w-full p-10 mt-16">
+                    <p tabIndex="0" className="focus:outline-none text-2xl font-extrabold leading-6 text-gray-800 text-center">Login to your account</p>
+                    <p tabIndex="0" className="focus:outline-none text-sm mt-4 font-medium leading-none text-gray-500 text-center">Dont have account? <a href="javascript:void(0)" className="hover:text-gray-500 focus:text-gray-500 focus:outline-none focus:underline hover:underline text-sm font-medium leading-none  text-gray-800 cursor-pointer"> Sign up here</a></p>
+                    <GoogleLogin
+                        clientId="119339202842-bslshn2kpa0i4qgt0vpt5gaqnmbleql2.apps.googleusercontent.com"
+                        render={(renderProps) => (
+                            <button
+                                type="button"
+                                onClick={renderProps.onClick}
+                                disabled={renderProps.disabled}
+                                className="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 flex items-center w-full mt-10">
+                                <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/sign_in-svg2.svg" alt="google" />
+                                <p className="text-base font-medium ml-4 text-gray-700">Continue with Google</p>
+                            </button>
+                        )}
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                        cookiePolicy="single_host_origin"
+                    />
+                    <div className="w-full flex items-center justify-between py-5">
+                        <hr className="w-full bg-gray-400" />
+                        <p className="text-base font-medium leading-4 px-2.5 text-gray-400">OR</p>
+                        <hr className="w-full bg-gray-400 0" />
                     </div>
-
-                    <input type="password" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg white:bg-gray-800 white:text-gray-300 white:border-gray-600 focus:border-blue-400 white:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
+                    <div>
+                        <label id="email" className="text-sm font-medium leading-none text-gray-800">
+                            Email
+                        </label>
+                        <input aria-labelledby="email" type="email" className="bg-gray-200 border rounded  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2" />
+                    </div>
+                    <div className="mt-6  w-full">
+                        <label htmlFor="pass" className="text-sm font-medium leading-none text-gray-800">
+                            Password
+                        </label>
+                        <div className="relative flex items-center justify-center">
+                            <input id="pass" type="password" className="bg-gray-200 border rounded  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2" />
+                            <div className="absolute right-0 mt-2 mr-3 cursor-pointer">
+                                <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/sign_in-svg5.svg" alt="viewport" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mt-8">
+                        <button role="button" className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">Create my account</button>
+                    </div>
                 </div>
-
-                <div class="mt-6">
-                    <button class="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
-                        Sign In
-                    </button>
-                </div>
-            </form>
-
-            <div class="flex items-center justify-between mt-4">
-                <span class="w-1/5 border-b white:border-gray-600 lg:w-1/5"></span>
-
-                <a href="#" class="text-xs text-center text-gray-500 uppercase white:text-gray-400 hover:underline">
-                    or login with Social Media
-                </a>
-
-                <span class="w-1/5 border-b white:border-gray-400 lg:w-1/5"></span>
             </div>
-
-            <div class="flex items-center mt-6 -mx-2">
-                <button type="button" class="flex items-center justify-center w-full px-6 py-2 mx-2 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:bg-blue-400 focus:outline-none">
-                    <svg class="w-4 h-4 mx-2 fill-current" viewBox="0 0 24 24">
-                        <path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z">
-                        </path>
-                    </svg>
-
-                    <span class="hidden mx-2 sm:inline">Sign in with Google</span>
-                </button>
-
-                <a href="#" class="p-2 mx-2 text-sm font-medium text-gray-500 transition-colors duration-300 transform bg-gray-300 rounded-lg hover:bg-gray-200">
-                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                        <path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z">
-                        </path>
-                    </svg>
-                </a>
-            </div>
-
-            <p class="mt-8 text-xs font-light text-center text-gray-400"> Don't have an account? <a href="#" class="font-medium text-gray-700 white:text-gray-200 hover:underline">Create One</a></p>
         </div>
     )
 }

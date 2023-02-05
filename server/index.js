@@ -13,6 +13,8 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cors());
 
 app.use('/api/v1/post', postRoutes);
+app.use('/api/v1/user', postRoutes);
+
 app.get('/', async (req, res) => {
     res.send('Hello from BaichOye.com!');
 })
