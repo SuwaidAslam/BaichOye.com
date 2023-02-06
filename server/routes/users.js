@@ -3,7 +3,7 @@ import {getUsers, createUser} from '../controllers/users.js';
 
 const router = express.Router();
 
-router.get('/', getAds); 
-router.post('/', createAd);
+router.get('/', getUsers);
+router.post('/', createUser);
 
 export default router;

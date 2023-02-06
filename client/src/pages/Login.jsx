@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 
 
@@ -15,7 +15,7 @@ const Login = () => {
                 <div className="bg-white shadow rounded lg:w-1/3  md:w-1/2 w-full p-10 mt-16">
                     <p tabIndex="0" className="focus:outline-none text-2xl font-extrabold leading-6 text-gray-800 text-center">Login to your account</p>
                     <p tabIndex="0" className="focus:outline-none text-sm mt-4 font-medium leading-none text-gray-500 text-center">Dont have account? <a href="javascript:void(0)" className="hover:text-gray-500 focus:text-gray-500 focus:outline-none focus:underline hover:underline text-sm font-medium leading-none  text-gray-800 cursor-pointer"> Sign up here</a></p>
-                    <GoogleLogin
+                    {/* <GoogleLogin
                         clientId="119339202842-bslshn2kpa0i4qgt0vpt5gaqnmbleql2.apps.googleusercontent.com"
                         render={(renderProps) => (
                             <button
@@ -30,7 +30,7 @@ const Login = () => {
                         onSuccess={responseGoogle}
                         onFailure={responseGoogle}
                         cookiePolicy="single_host_origin"
-                    />
+                    /> */}
                     <div className="w-full flex items-center justify-between py-5">
                         <hr className="w-full bg-gray-400" />
                         <p className="text-base font-medium leading-4 px-2.5 text-gray-400">OR</p>
@@ -54,7 +54,14 @@ const Login = () => {
                         </div>
                     </div>
                     <div className="mt-8">
-                        <button role="button" className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">Create my account</button>
+                        <Link to="/signup">
+                            <button
+                                type="button"
+                                className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+                            >
+                                Create my account
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>

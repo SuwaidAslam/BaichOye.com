@@ -4,16 +4,17 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './mongodb/connect.js';
 import postRoutes from './routes/ads.js';
+import userRoutes from './routes/users.js';
 
 dotenv.config();
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-app.use(cors());
 
-app.use('/api/v1/post', postRoutes);
-app.use('/api/v1/user', postRoutes);
+app.use('/api/post', postRoutes);
+app.use('/api/user', userRoutes);
 
 app.get('/', async (req, res) => {
     res.send('Hello from BaichOye.com!');
