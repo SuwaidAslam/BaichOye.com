@@ -1,12 +1,14 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
+import { useSelector } from 'react-redux';
 
 
 const Login = () => {
     const responseGoogle = (response) => {
         console.log(response)
     }
+    // const users = useSelector(state => state.users);
     return (
         <div className="h-full bg-gradient-to-tl from-green-400 to-indigo-900 w-full py-16 px-4">
             <div className="flex flex-col items-center justify-center">
