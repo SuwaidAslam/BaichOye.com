@@ -1,5 +1,7 @@
 import {DELETE, FETCH_ALL, CREATE, UPDATE} from '../constants/actionTypes';
-export default (users = [], action) => {
+
+const initialState = []
+export default (users = initialState, action) => {
     switch (action.type) {
         case FETCH_ALL:
             return action.payload;
