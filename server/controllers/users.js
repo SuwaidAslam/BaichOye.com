@@ -1,4 +1,6 @@
-import User from '../mongodb/models/user.js';
+import {User, validate} from '../mongodb/models/user.js';
+import bcrypt from "bcrypt";
+
 
 export const getUsers = async (req, res) => {
     try {
@@ -11,17 +13,23 @@ export const getUsers = async (req, res) => {
 
 export const createUser = async (req, res) => {
     try {
-        const {name, phone, password }  = req.body;
-        // const newAd = await PostSchema.create(ad);
-        const newUser = await User.create({   
-            name: name,
-            phone: phone,
-            password: password,
-        });
-        // const newUser = new User(user);
-        // await newUser.save();
-        res.status(201).json({success: true, data: newUser});
-    } catch (error) {
-        res.status(500).json({success: false, message: error});
-    }
+		const { error } = validate(req.body);
+		if (error)
+			return res.status(400).send({ message: error.details[0].message });
+
+		const user = await User.findOne({ email: req.body.email });
+		if (user)
+			return res
+				.status(409)
+				.send({ message: "User with given email already Exist!" });
+
+		const salt = await bcrypt.genSalt(Number(process.env.SALT));
+		const hashPassword = await bcrypt.hash(req.body.password, salt);
+
+		await new User({ ...req.body, password: hashPassword }).save();
+		res.status(201).send({ message: "User created successfully" });
+	} catch (error) {
+		console.log(error)
+		res.status(500).send({ message: "Internal Server Error" });
+	}
 }

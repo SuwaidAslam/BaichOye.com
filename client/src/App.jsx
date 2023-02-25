@@ -1,34 +1,19 @@
-import { Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Home from './pages/Home';
-import AdDetails from './pages/AdDetail';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { getUsers } from './actions/users';
-import Footer from './components/Footer';
-import Navbar from './components/Navbar';
+import { Route, Routes, Navigate } from "react-router-dom";
+import Home from "./pages/Home";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 
 function App() {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(getUsers());
-  // }, [dispatch])
+	const user = localStorage.getItem("token");
 
-  return (
-    <>
-      <Navbar />
-      <div>
-        <Routes>
-          <Route exact path="login" element={<Login />}></Route>
-          <Route exact path="signup" element={<Signup />}></Route>
-          <Route exact path="/" element={<Home />}></Route>
-          <Route exact path="item/:id" element={<AdDetails />}></Route>
-        </Routes>
-      </div>
-      <Footer />
-    </>
-  )
+	return (
+		<Routes>
+			{user && <Route path="/" exact element={<Home />} />}
+			<Route path="/signup" exact element={<Signup />} />
+			<Route path="/login" exact element={<Login />} />
+			<Route path="/" element={<Navigate replace to="/login" />} />
+		</Routes>
+	);
 }
 
-export default App
+export default App;
