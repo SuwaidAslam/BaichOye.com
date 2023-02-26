@@ -1,0 +1,26 @@
+.file_upload_button {
+  background-color: transparent;
+  padding: 20px;
+  border: 1px solid #000;
+}
+
+.file_uploads {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+
+.image-container{
+  display: flex;
+}
+
+.image-item {
+  display: flex;
+  margin: 10px 0;
+  flex-direction: row;
+}
+.image-item__btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
