@@ -52,8 +52,7 @@ const Sell = () => {
             formData.append('images', allValues.images[i].file)
         }
         if (!locationValue) {
-            // toast.error('Location cannot be empty');
-            alert('Location cannot be empty');
+            toast.error('Location cannot be empty');
             return
         }
 
