@@ -31,23 +31,23 @@ export const postAd = createAsyncThunk(
   }
 )
 
-// // GET ADS
-// export const getAds = createAsyncThunk(
-//   '/api/getads',
-//   async (data, ThunkAPI) => {
-//     try {
-//       return await adsService.getAds()
-//     } catch (error) {
-//       const message =
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message ||
-//         error.toString()
-//       return ThunkAPI.rejectWithValue(message)
-//     }
-//   }
-// )
+// GET ADS
+export const getAds = createAsyncThunk(
+  '/api/getads',
+  async (data, ThunkAPI) => {
+    try {
+      return await adsService.getAds()
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return ThunkAPI.rejectWithValue(message)
+    }
+  }
+)
 // // GET MY ADS
 // export const myads = createAsyncThunk('/api/myads', async (data, ThunkAPI) => {
 //   const token = JSON.parse(localStorage.getItem('token'))
@@ -118,49 +118,49 @@ export const postAd = createAsyncThunk(
 export const adsSlice = createSlice({
   name: 'ads',
   initialState,
-  // reducers: {
-  //   reset: (state) => {
-  //     state.ads = []
-  //     state.filteredAds = []
-  //     state.errorMessage = ''
-  //     state.successMessage = ''
-  //     state.isError = false
-  //     state.isSuccess = false
-  //     state.isLoading = false
-  //   },
-  //   resetUserItem: (state) => {
-  //     state.errorMessage = ''
-  //     state.itemUser = {}
-  //   },
-  //   filterAds: (state, action) => {
-  //     const place = action.payload
+  reducers: {
+    reset: (state) => {
+      state.ads = []
+      state.filteredAds = []
+      state.errorMessage = ''
+      state.successMessage = ''
+      state.isError = false
+      state.isSuccess = false
+      state.isLoading = false
+    },
+    // resetUserItem: (state) => {
+    //   state.errorMessage = ''
+    //   state.itemUser = {}
+    // },
+    // filterAds: (state, action) => {
+    //   const place = action.payload
 
-  //     if (!place || place.length === 0) {
-  //       state.filteredAds = state.ads
-  //       return
-  //     }
+    //   if (!place || place.length === 0) {
+    //     state.filteredAds = state.ads
+    //     return
+    //   }
 
-  //     const filterAds = state.ads.filter((ad) =>
-  //       ad.location.includes(action.payload)
-  //     )
+    //   const filterAds = state.ads.filter((ad) =>
+    //     ad.location.includes(action.payload)
+    //   )
 
-  //     state.filteredAds = filterAds
-  //   },
+    //   state.filteredAds = filterAds
+    // },
 
-  //   searchFilter: (state, action) => {
-  //     const input = action.payload
+    // searchFilter: (state, action) => {
+    //   const input = action.payload
 
-  //     state.filteredAds = state.ads.filter((ad) =>
-  //       ad.title.toLowerCase().includes(input.toLowerCase())
-  //     )
-  //   },
+    //   state.filteredAds = state.ads.filter((ad) =>
+    //     ad.title.toLowerCase().includes(input.toLowerCase())
+    //   )
+    // },
 
-  //   filterByCategory: (state, action) => {
-  //     state.filteredAds = state.ads.filter(
-  //       (ad) => ad.category === action.payload
-  //     )
-  //   },
-  // },
+    // filterByCategory: (state, action) => {
+    //   state.filteredAds = state.ads.filter(
+    //     (ad) => ad.category === action.payload
+    //   )
+    // },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(postAd.pending, (state) => {
@@ -185,30 +185,30 @@ export const adsSlice = createSlice({
         state.errorMessage = actions.payload
       })
 
-      // // get all ads
-      // .addCase(getAds.pending, (state) => {
-      //   state.isLoading = true
-      //   state.isSuccess = false
-      //   state.isError = false
-      //   state.successMessage = ''
-      //   state.errorMessage = ''
-      // })
-      // .addCase(getAds.fulfilled, (state, actions) => {
-      //   state.ads = actions.payload
-      //   state.filteredAds = actions.payload
-      //   state.isSuccess = true
-      //   state.isLoading = false
-      //   state.isError = false
-      //   state.successMessage = ''
-      //   state.errorMessage = ''
-      // })
-      // .addCase(getAds.rejected, (state, actions) => {
-      //   state.isSuccess = false
-      //   state.isLoading = false
-      //   state.isError = true
-      //   state.successMessage = ''
-      //   state.errorMessage = actions.payload
-      // })
+      // get all ads
+      .addCase(getAds.pending, (state) => {
+        state.isLoading = true
+        state.isSuccess = false
+        state.isError = false
+        state.successMessage = ''
+        state.errorMessage = ''
+      })
+      .addCase(getAds.fulfilled, (state, actions) => {
+        state.ads = actions.payload
+        state.filteredAds = actions.payload
+        state.isSuccess = true
+        state.isLoading = false
+        state.isError = false
+        state.successMessage = ''
+        state.errorMessage = ''
+      })
+      .addCase(getAds.rejected, (state, actions) => {
+        state.isSuccess = false
+        state.isLoading = false
+        state.isError = true
+        state.successMessage = ''
+        state.errorMessage = actions.payload
+      })
 
       // // GET MY ADS
       // .addCase(myads.pending, (state) => {
@@ -279,11 +279,11 @@ export const adsSlice = createSlice({
   },
 })
 
-// export const {
-//   reset,
-//   resetUserItem,
-//   searchFilter,
-//   filterAds,
-//   filterByCategory,
-// } = adsSlice.actions
+export const {
+  reset,
+  // resetUserItem,
+  // searchFilter,
+  // filterAds,
+  // filterByCategory,
+} = adsSlice.actions
 export default adsSlice.reducer

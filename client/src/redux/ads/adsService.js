@@ -18,12 +18,12 @@ const postAd = async (data) => {
   return ad.data
 }
 
-// // GET ADS
-// const getAds = async () => {
-//   const ads = await axios.get(`${url}/items`)
+// GET ADS
+const getAds = async () => {
+  const ads = await axios.get(`${url}/items`)
 
-//   return ads.data
-// }
+  return ads.data
+}
 
 // // GET ITEM USER
 // const getItemUser = async (userId) => {
@@ -89,7 +89,7 @@ const postAd = async (data) => {
 
 const adsService = {
   postAd,
-  // getAds,
+  getAds,
   // getItemUser,
   // myads,
   // deleteAd,

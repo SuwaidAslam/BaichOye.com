@@ -59,17 +59,16 @@ export const postAd = asyncHandler(async (req, res) => {
     }
 })
 
-// // GET ADS
-// export const getAds = asyncHandler(async (req, res) => {
-//     const ads = await AdModel.find({})
+// GET ADS
+export const getAds = asyncHandler(async (req, res) => {
+    const ads = await AdModel.find({})
+    if (!ads) {
+        res.status(404)
+        throw new Error('No ads data to show')
+    }
 
-//     if (!ads) {
-//         res.status(404)
-//         throw new Error('No ads data to show')
-//     }
-
-//     res.json(ads)
-// })
+    res.json(ads)
+})
 
 // // GET INDIVIDUAL AD
 // export const getAd = asyncHandler(async (req, res) => {
