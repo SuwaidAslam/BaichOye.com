@@ -1,11 +1,11 @@
 import AdModel from '../mongodb/models/adModel.js';
 import asyncHandler from 'express-async-handler';
-// import AuthModel from '../mongodb/models/authModel.js';
+import AuthModel from '../mongodb/models/authModel.js';
 
 // POST ADS
 export const postAd = asyncHandler(async (req, res) => {
-    // const user = req.user
-
+    const user = req.user
+    
     if (!req.files || req.files.length < 1) {
         throw new Error('Please include at least one image')
     }
@@ -14,7 +14,6 @@ export const postAd = asyncHandler(async (req, res) => {
 
     const { title, description, brand, condition, location, price, category } =
         req.body
-        
     if (
         !title ||
         !description ||
@@ -38,7 +37,7 @@ export const postAd = asyncHandler(async (req, res) => {
         location,
         price,
         category,
-        // user: user._id,
+        user: user._id,
     }
 
     const doc = new AdModel(data)
@@ -47,13 +46,13 @@ export const postAd = asyncHandler(async (req, res) => {
     if (doc) {
         res.json({ successMsg: 'Your ad has been published' })
 
-        // // add item to user array
-        // const updateUserItem = await AuthModel.findOneAndUpdate(
-        //     { _id: doc.user._id },
-        //     {
-        //         $push: { ads: doc._id },
-        //     }
-        // )
+        // add item to user array
+        const updateUserItem = await AuthModel.findOneAndUpdate(
+            { _id: doc.user._id },
+            {
+                $push: { ads: doc._id },
+            }
+        )
     } else {
         throw new Error('could not save your ad')
     }
@@ -70,37 +69,37 @@ export const getAds = asyncHandler(async (req, res) => {
     res.json(ads)
 })
 
-// // GET INDIVIDUAL AD
-// export const getAd = asyncHandler(async (req, res) => {
-//     const id = req.params.id
-//     const ad = await AdModel.findOne({ _id: id }).populate({
-//         path: 'user',
-//         select: '-password',
-//     })
+// GET INDIVIDUAL AD
+export const getAd = asyncHandler(async (req, res) => {
+    const id = req.params.id
+    const ad = await AdModel.findOne({ _id: id }).populate({
+        path: 'user',
+        select: '-password',
+    })
 
-//     if (!ad) {
-//         res.status(404)
-//         throw new Error('No item found')
-//     }
+    if (!ad) {
+        res.status(404)
+        throw new Error('No item found')
+    }
 
-//     res.json(ad)
-// })
+    res.json(ad)
+})
 
-// // GET Item User
-// export const itemUser = asyncHandler(async (req, res) => {
-//     const { userId } = req.body
+// GET Item User
+export const itemUser = asyncHandler(async (req, res) => {
+    const { userId } = req.body
 
-//     const user = await AuthModel.findOne({ _id: userId })
-//         .select('-password')
-//         .select('-ads')
+    const user = await AuthModel.findOne({ _id: userId })
+        .select('-password')
+        .select('-ads')
 
-//     if (!user) {
-//         res.status(404)
-//         throw new Error('No user found')
-//     }
+    if (!user) {
+        res.status(404)
+        throw new Error('No user found')
+    }
 
-//     res.json(user)
-// })
+    res.json(user)
+})
 
 // // DELETE INDIVIDUAL AD
 // export const deleteAd = asyncHandler(async (req, res) => {

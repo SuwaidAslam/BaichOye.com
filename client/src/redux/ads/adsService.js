@@ -4,8 +4,8 @@ const url = 'http://localhost:5000/api'
 
 // POST ADS
 const postAd = async (data) => {
-  // const token = JSON.parse(localStorage.getItem('token'))
-  const token = localStorage.getItem('token')
+  const token = JSON.parse(localStorage.getItem('token'))
+  // const token = localStorage.getItem('token')
   const header = {
     Authorization: `Bearer ${token}`,
   }
@@ -25,16 +25,16 @@ const getAds = async () => {
   return ads.data
 }
 
-// // GET ITEM USER
-// const getItemUser = async (userId) => {
-//   const user = await axios({
-//     method: 'post',
-//     url: `${url}/item/user`,
-//     data: { userId },
-//   })
+// GET ITEM USER
+const getItemUser = async (userId) => {
+  const user = await axios({
+    method: 'post',
+    url: `${url}/item/user`,
+    data: { userId },
+  })
 
-//   return user.data
-// }
+  return user.data
+}
 
 // // MY ADS
 // const myads = async () => {
@@ -90,7 +90,7 @@ const getAds = async () => {
 const adsService = {
   postAd,
   getAds,
-  // getItemUser,
+  getItemUser,
   // myads,
   // deleteAd,
   // updateAd,

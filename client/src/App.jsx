@@ -6,22 +6,24 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Sell from "./pages/Sell";
+import Ad from './pages/Item';
+import { PublicRoute, ProtectedRoute } from './utils/ProtectedRoute'
+
+
 
 
 function App() {
-	const user = localStorage.getItem("token");
-
 	return (
 		<div className="app">
 			<Router>
 				<Header />
 				<Routes>
-					{/* {user && <Route path="/" exact element={<Home />} />} */}
 					<Route path="/" exact element={<Home />} />
-					<Route path="/signup" exact element={<Signup />} />
-					<Route path="/login" exact element={<Login />} />
 					<Route path="/" element={<Navigate replace to="/" />} />
-					<Route path="/sell" exact element={<Sell />} />
+					<Route path="/signup" exact element={<PublicRoute> <Signup /> </PublicRoute>} />
+					<Route path="/login" exact element={<PublicRoute> <Login /> </PublicRoute>} />
+					<Route path="/sell" exact element={<ProtectedRoute> <Sell /> </ProtectedRoute>} />
+					<Route path="/item/:id" element={<Ad />} />
 				</Routes>
 				<Footer />
 			</Router>

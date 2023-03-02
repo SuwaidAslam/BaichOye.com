@@ -6,16 +6,33 @@ import connectDB from './mongodb/connect.js';
 import adRoutes from './routes/ads.js';
 import userRoutes from './routes/users.js';
 import authRoutes from './routes/auth.js';
+import session from 'express-session';
+import cookieParser from 'cookie-parser'
 
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// app.use(cookieParser()) // required before session.
+// app.use(session({secret: 'keyboard cat'}))
+
+
+// body parser middlewares
+// app.use(express.json())
+// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
+// cors
+app.use(cors());
 
+// app.use(sessions({ secret: 'anything' }));
+// // app.use(passport.initialize());
+// // app.use(passport.session());
+
+
+// router
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api', adRoutes);

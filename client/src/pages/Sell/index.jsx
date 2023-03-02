@@ -5,7 +5,7 @@ import styles from "./styles.module.css"
 import ContactInput from '../../components/Input'
 import FileUpload from '../../components/FileUpload'
 import { postAd } from '../../redux/ads/adsSlice';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { ThreeDots } from 'react-loader-spinner'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
 

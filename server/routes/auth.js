@@ -1,8 +1,29 @@
 import express from "express";
-import {login} from '../controllers/auth.js';
+// import {login} from '../controllers/auth.js';
+
+// router.post("/", login);
+
+
+
+import {
+  signup,
+  signin,
+//   currentUser,
+//   activateAccount,
+//   forgotPassword,
+//   changePassword,
+//   googleLogin,
+} from '../controllers/authController.js'
+// const authUser = require('../middlewares/authUser')
 
 const router = express.Router();
 
-router.post("/", login);
+router.post('/signup', signup)
+router.post('/signin', signin)
+// router.get('/me', authUser, currentUser)
+// router.post('/activate', activateAccount)
+// router.post('/forget', forgotPassword)
+// router.put('/change-password', changePassword)
+// router.post('/googlelogin', googleLogin)
 
 export default router;

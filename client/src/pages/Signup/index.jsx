@@ -1,18 +1,43 @@
-import { useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+// import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
+import { useDispatch, useSelector } from 'react-redux'
+import { register, reset } from '../../redux/auth/authSlice'
+import toast from 'react-hot-toast';
+
 
 const Signup = () => {
 	const [data, setData] = useState({
-		firstName: "",
-		lastName: "",
+		fullName: "",
 		email: "",
 		phone: "",
 		password: "",
+		password2: "",
 	});
-	const [error, setError] = useState("");
+	// const [error, setError] = useState("");
 	const navigate = useNavigate();
+
+	const dispatch = useDispatch()
+	const { errorMessage, successMessage, isError, isSuccess, isLoading } =
+		useSelector((selector) => selector.auth)
+
+	useEffect(() => {
+		if (isError) {
+			toast.error(errorMessage)
+		}
+
+		if (isSuccess) {
+			toast.success(successMessage)
+			navigate("/login");
+		}
+
+		return () => dispatch(reset())
+	}, [isError, isSuccess, errorMessage, successMessage, dispatch])
+
+
+
+
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
@@ -20,20 +45,22 @@ const Signup = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			const url = "http://localhost:5000/api/users";
-			const { data: res } = await axios.post(url, data);
-			navigate("/login");
-			console.log(res.message);
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
-			}
-		}
+		dispatch(register(data))
+		// try {
+		// 	console.log(data)
+		// 	const url = "http://localhost:5000/api/users";
+		// 	const { data: res } = await axios.post(url, data);
+		// 	navigate("/login");
+		// 	console.log(res.message);
+		// } catch (error) {
+		// 	if (
+		// 		error.response &&
+		// 		error.response.status >= 400 &&
+		// 		error.response.status <= 500
+		// 	) {
+		// 		setError(error.response.data.message);
+		// 	}
+		// }
 	};
 
 	return (
@@ -52,19 +79,10 @@ const Signup = () => {
 						<h1>Create Account</h1>
 						<input
 							type="text"
-							placeholder="First Name"
-							name="firstName"
+							placeholder="Full Name"
+							name="fullName"
 							onChange={handleChange}
-							value={data.firstName}
-							required
-							className={styles.input}
-						/>
-						<input
-							type="text"
-							placeholder="Last Name"
-							name="lastName"
-							onChange={handleChange}
-							value={data.lastName}
+							value={data.fullName}
 							required
 							className={styles.input}
 						/>
@@ -95,7 +113,16 @@ const Signup = () => {
 							required
 							className={styles.input}
 						/>
-						{error && <div className={styles.error_msg}>{error}</div>}
+						<input
+							type="password"
+							placeholder="Confirm Password"
+							name="password2"
+							onChange={handleChange}
+							value={data.password2}
+							required
+							className={styles.input}
+						/>
+						{/* {error && <div className={styles.error_msg}>{error}</div>} */}
 						<button type="submit" className={styles.green_btn}>
 							Sign Up
 						</button>

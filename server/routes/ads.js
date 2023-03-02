@@ -4,20 +4,20 @@ import {
     postAd,
     getAds,
     //   updateAd,
-    //   getAd,
+      getAd,
     //   deleteAd,
-    //   itemUser,
+      itemUser,
     //   myads,
 } from '../controllers/adController.js';
-// import authUser from '../middlewares/authUser.js';
+import authUser from '../middlewares/authUser.js';
 
 const router = express.Router();
 
-// router.post('/post', authUser, upload, multerMiddleware, postAd)
-router.post('/post', upload, multerMiddleware, postAd)
+router.post('/post', authUser, upload, multerMiddleware, postAd)
+// router.post('/post', upload, multerMiddleware, postAd)
 router.get('/items', getAds)
-// router.post('/item/user', itemUser)
-// router.get('/item/:id', getAd)
+router.post('/item/user', itemUser)
+router.get('/item/:id', getAd)
 // router.put('/item/update/:id', authUser, upload, multerMiddleware, updateAd)
 // router.delete('/item/delete/:id', authUser, deleteAd)
 // router.get('/myads', authUser, myads)

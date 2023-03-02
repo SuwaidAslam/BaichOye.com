@@ -97,23 +97,23 @@ export const getAds = createAsyncThunk(
 //   }
 // )
 
-// // GET ITEM USER
-// export const itemUser = createAsyncThunk(
-//   '/api/getItemUser',
-//   async (userId, ThunkAPI) => {
-//     try {
-//       return await adsService.getItemUser(userId)
-//     } catch (error) {
-//       const message =
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message ||
-//         error.toString()
-//       return ThunkAPI.rejectWithValue(message)
-//     }
-//   }
-// )
+// GET ITEM USER
+export const itemUser = createAsyncThunk(
+  '/api/getItemUser',
+  async (userId, ThunkAPI) => {
+    try {
+      return await adsService.getItemUser(userId)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return ThunkAPI.rejectWithValue(message)
+    }
+  }
+)
 
 export const adsSlice = createSlice({
   name: 'ads',
@@ -128,10 +128,10 @@ export const adsSlice = createSlice({
       state.isSuccess = false
       state.isLoading = false
     },
-    // resetUserItem: (state) => {
-    //   state.errorMessage = ''
-    //   state.itemUser = {}
-    // },
+    resetUserItem: (state) => {
+      state.errorMessage = ''
+      state.itemUser = {}
+    },
     // filterAds: (state, action) => {
     //   const place = action.payload
 
@@ -269,19 +269,19 @@ export const adsSlice = createSlice({
       //   state.errorMessage = actions.payload
       // })
 
-      // // get item user
-      // .addCase(itemUser.fulfilled, (state, actions) => {
-      //   state.itemUser = actions.payload
-      // })
-      // .addCase(itemUser.rejected, (state, actions) => {
-      //   state.errorMessage = actions.payload
-      // })
+      // get item user
+      .addCase(itemUser.fulfilled, (state, actions) => {
+        state.itemUser = actions.payload
+      })
+      .addCase(itemUser.rejected, (state, actions) => {
+        state.errorMessage = actions.payload
+      })
   },
 })
 
 export const {
   reset,
-  // resetUserItem,
+  resetUserItem,
   // searchFilter,
   // filterAds,
   // filterByCategory,

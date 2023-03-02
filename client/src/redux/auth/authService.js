@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = '/api/auth'
+const url = 'http://localhost:5000/api/auth'
 
 const register = async (data) => {
   const user = await axios.post(`${url}/signup`, data)
@@ -8,23 +8,23 @@ const register = async (data) => {
   return user.data
 }
 
-const activateAccount = async (token) => {
-  const header = {
-    authorization: `Bearer ${token}`,
-  }
+// const activateAccount = async (token) => {
+//   const header = {
+//     authorization: `Bearer ${token}`,
+//   }
 
-  const user = await axios({
-    method: 'post',
-    url: `${url}/activate`,
-    headers: header,
-  })
+//   const user = await axios({
+//     method: 'post',
+//     url: `${url}/activate`,
+//     headers: header,
+//   })
 
-  if (user) {
-    localStorage.setItem('token', JSON.stringify(user.data.token))
-  }
+//   if (user) {
+//     localStorage.setItem('token', JSON.stringify(user.data.token))
+//   }
 
-  return user.data
-}
+//   return user.data
+// }
 
 // login
 const login = async (data) => {
@@ -41,60 +41,61 @@ const login = async (data) => {
 
   return user.data
 }
-// google login
-const googleLogin = async (response) => {
-  const user = await axios({
-    method: 'POST',
-    url: `${url}/googlelogin`,
-    headers: {
-      Authorization: `Bearer ${response.credential}`,
-    },
-  })
 
-  if (user) {
-    localStorage.setItem('token', JSON.stringify(user.data.token))
-    localStorage.setItem('user', JSON.stringify(user.data.user))
-  }
+// // google login
+// const googleLogin = async (response) => {
+//   const user = await axios({
+//     method: 'POST',
+//     url: `${url}/googlelogin`,
+//     headers: {
+//       Authorization: `Bearer ${response.credential}`,
+//     },
+//   })
 
-  return user.data
-}
+//   if (user) {
+//     localStorage.setItem('token', JSON.stringify(user.data.token))
+//     localStorage.setItem('user', JSON.stringify(user.data.user))
+//   }
 
-const findAccount = async (email) => {
-  const user = await axios({
-    method: 'post',
-    url: `${url}/forget`,
-    data: email,
-  })
+//   return user.data
+// }
 
-  return user.data
-}
+// const findAccount = async (email) => {
+//   const user = await axios({
+//     method: 'post',
+//     url: `${url}/forget`,
+//     data: email,
+//   })
 
-const changePassword = async (data) => {
-  const { password, password2, token } = data
+//   return user.data
+// }
 
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  }
-  const user = await axios({
-    method: 'put',
-    url: `${url}/change-password`,
-    data: {
-      password,
-      password2,
-    },
-    headers,
-  })
+// const changePassword = async (data) => {
+//   const { password, password2, token } = data
 
-  return user.data
-}
+//   const headers = {
+//     Authorization: `Bearer ${token}`,
+//   }
+//   const user = await axios({
+//     method: 'put',
+//     url: `${url}/change-password`,
+//     data: {
+//       password,
+//       password2,
+//     },
+//     headers,
+//   })
+
+//   return user.data
+// }
 
 const authService = {
   register,
-  activateAccount,
+  // activateAccount,
   login,
-  findAccount,
-  changePassword,
-  googleLogin,
+  // findAccount,
+  // changePassword,
+  // googleLogin,
 }
 
 export default authService
