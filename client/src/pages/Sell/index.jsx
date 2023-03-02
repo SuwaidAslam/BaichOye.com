@@ -174,7 +174,6 @@ const Sell = () => {
                                         locationValue,
                                         onChange: setLocationValue,
                                     }}
-                                    apiKey="AIzaSyDuUtfXuyRXaGlbzRGVYRYMx41T02DkLzw"
                                     autocompletionRequest={{
                                         componentRestrictions: { country: ['pk'] },
                                     }}

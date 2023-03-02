@@ -38,7 +38,7 @@ const Cards = () => {
     <div className="AdCard">
       <Row className="g-3">
         {filteredAds.length > 0 ? (
-          filteredAds.map((ad) => <InnerCard ad={ad} />)
+          filteredAds.map((ad) => <InnerCard key={ad} ad={ad} />)
         ) : (
           <div style={{ height: '35vh' }}>
             <h1>You have no ads to show</h1>

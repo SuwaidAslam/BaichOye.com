@@ -11,11 +11,10 @@ export const ProtectedRoute = ({ children }) => {
 }
 
 export const PublicRoute = ({ children }) => {
-  const user = JSON.parse(localStorage.getItem('user'))
-
-  if (!user) {
-    return children
-  }else{
-    return <Navigate replace to="/" />
-  }
+  // const user = JSON.parse(localStorage.getItem('user'))
+  return children
+  // if (!user) {
+  //   return children
+  // }
+  // return <Navigate replace to="/" />
 }

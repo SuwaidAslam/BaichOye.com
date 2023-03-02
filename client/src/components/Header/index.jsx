@@ -81,7 +81,6 @@ const Header = () => {
                   value,
                   onChange: setValue,
                 }}
-                apiKey="AIzaSyDuUtfXuyRXaGlbzRGVYRYMx41T02DkLzw"
                 autocompletionRequest={{
                   componentRestrictions: { country: ['pk'] },
                 }}

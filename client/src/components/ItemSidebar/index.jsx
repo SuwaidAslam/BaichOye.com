@@ -9,7 +9,7 @@ import { Loader } from '@googlemaps/js-api-loader'
 
 const ItemSidebar = ({ ad }) => {
   const dispatch = useDispatch()
-  const { fullname, email, phoneno } = useSelector(
+  const { fullName, email, phone } = useSelector(
     (select) => select.ads.itemUser
   )
 
@@ -96,7 +96,7 @@ const ItemSidebar = ({ ad }) => {
               marginLeft: '1rem',
             }}
           >
-            <span style={{ fontWeight: 'bold' }}>{fullname && fullname}</span>
+            <span style={{ fontWeight: 'bold' }}>{fullName && fullName}</span>
             <span style={{ opacity: '.6' }}>Member since {date}</span>
           </div>
         </div>
@@ -104,10 +104,10 @@ const ItemSidebar = ({ ad }) => {
         <p style={{ marginTop: '14px' }}>
           <span style={{ fontWeight: 'bold' }}>Email:</span> {email && email}
         </p>
-        {phoneno && (
+        {phone && (
           <p style={{ marginTop: '14px', marginBottom: '0px' }}>
             <span style={{ fontWeight: 'bold' }}>Phone:</span>{' '}
-            {phoneno && phoneno}
+            {[phone] && phone}
           </p>
         )}
       </div>

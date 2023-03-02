@@ -7,7 +7,7 @@ const Slider = ({ images }) => {
       <Carousel style={{ background: '#000' }} indicators={false}>
         {images.map((img) => {
           return (
-            <Carousel.Item>
+            <Carousel.Item key={img}>
               <img
                 className="d-block w-100"
                 src={`../uploads/${img}`}
