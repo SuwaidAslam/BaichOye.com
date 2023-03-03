@@ -44,11 +44,11 @@ const Header = () => {
   //   }, [dispatch, input])
 
     const logout = () => {
-      // localStorage.clear()
+      localStorage.clear()
       // dispatch(resetUser())
-      // navigate('/')
-      localStorage.removeItem("token");
-		  window.location.reload();
+      navigate('/')
+      // localStorage.removeItem("token");
+		  // window.location.reload();
     }
 
     const handleSellBtnClick = () => {

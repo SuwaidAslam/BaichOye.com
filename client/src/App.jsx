@@ -23,7 +23,7 @@ function App() {
 					<Route path="/signup" exact element={<PublicRoute> <Signup /> </PublicRoute>} />
 					<Route path="/login" exact element={<PublicRoute> <Login /> </PublicRoute>} />
 					<Route path="/sell" exact element={<ProtectedRoute> <Sell /> </ProtectedRoute>} />
-					<Route path="/item/:id" element={<Ad />} />
+					<Route path="/item/:id" element={<ProtectedRoute> <Ad /> </ProtectedRoute>} />
 				</Routes>
 				<Footer />
 			</Router>
