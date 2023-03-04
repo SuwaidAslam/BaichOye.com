@@ -9,7 +9,7 @@ import './item.css'
 
 const Item = () => {
   const { state: ad } = useLocation()
-
+  
   return (
     <div className="item_container">
       <Container>

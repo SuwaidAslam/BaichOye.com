@@ -48,54 +48,54 @@ export const getAds = createAsyncThunk(
     }
   }
 )
-// // GET MY ADS
-// export const myads = createAsyncThunk('/api/myads', async (data, ThunkAPI) => {
-//   const token = JSON.parse(localStorage.getItem('token'))
-//   try {
-//     return await adsService.myads(token)
-//   } catch (error) {
-//     const message =
-//       (error.response && error.response.data && error.response.data.message) ||
-//       error.message ||
-//       error.toString()
-//     return ThunkAPI.rejectWithValue(message)
-//   }
-// })
-// // DELETE AD
-// export const deleteAd = createAsyncThunk(
-//   '/api/deleteAd',
-//   async (id, ThunkAPI) => {
-//     try {
-//       return await adsService.deleteAd(id)
-//     } catch (error) {
-//       const message =
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message ||
-//         error.toString()
-//       return ThunkAPI.rejectWithValue(message)
-//     }
-//   }
-// )
+// GET MY ADS
+export const myads = createAsyncThunk('/api/myads', async (data, ThunkAPI) => {
+  const token = JSON.parse(localStorage.getItem('token'))
+  try {
+    return await adsService.myads(token)
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return ThunkAPI.rejectWithValue(message)
+  }
+})
+// DELETE AD
+export const deleteAd = createAsyncThunk(
+  '/api/deleteAd',
+  async (id, ThunkAPI) => {
+    try {
+      return await adsService.deleteAd(id)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return ThunkAPI.rejectWithValue(message)
+    }
+  }
+)
 
-// // UPDATE AD
-// export const updateAd = createAsyncThunk(
-//   '/api/updateAd',
-//   async (data, ThunkAPI) => {
-//     try {
-//       return await adsService.updateAd(data)
-//     } catch (error) {
-//       const message =
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message ||
-//         error.toString()
-//       return ThunkAPI.rejectWithValue(message)
-//     }
-//   }
-// )
+// UPDATE AD
+export const updateAd = createAsyncThunk(
+  '/api/updateAd',
+  async (data, ThunkAPI) => {
+    try {
+      return await adsService.updateAd(data)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return ThunkAPI.rejectWithValue(message)
+    }
+  }
+)
 
 // GET ITEM USER
 export const itemUser = createAsyncThunk(
@@ -210,64 +210,64 @@ export const adsSlice = createSlice({
         state.errorMessage = actions.payload
       })
 
-      // // GET MY ADS
-      // .addCase(myads.pending, (state) => {
-      //   state.isLoading = true
-      //   state.isSuccess = false
-      //   state.isError = false
-      // })
-      // .addCase(myads.fulfilled, (state, actions) => {
-      //   state.ads = actions.payload
-      //   state.isSuccess = true
-      //   state.isLoading = false
-      //   state.isError = false
-      // })
-      // .addCase(myads.rejected, (state, actions) => {
-      //   state.isSuccess = false
-      //   state.isLoading = false
-      //   state.isError = true
-      //   state.errorMessage = actions.payload
-      // })
+      // GET MY ADS
+      .addCase(myads.pending, (state) => {
+        state.isLoading = true
+        state.isSuccess = false
+        state.isError = false
+      })
+      .addCase(myads.fulfilled, (state, actions) => {
+        state.ads = actions.payload
+        state.isSuccess = true
+        state.isLoading = false
+        state.isError = false
+      })
+      .addCase(myads.rejected, (state, actions) => {
+        state.isSuccess = false
+        state.isLoading = false
+        state.isError = true
+        state.errorMessage = actions.payload
+      })
 
-      // // DELETE AD
-      // .addCase(deleteAd.pending, (state) => {
-      //   state.isLoading = true
-      //   state.isSuccess = false
-      //   state.isError = false
-      // })
-      // .addCase(deleteAd.fulfilled, (state, actions) => {
-      //   state.successMessage = actions.payload.successMsg
-      //   state.ads = state.ads.filter((ad) => ad._id !== actions.payload.id)
-      //   state.isSuccess = true
-      //   state.isLoading = false
-      //   state.isError = false
-      // })
-      // .addCase(deleteAd.rejected, (state, actions) => {
-      //   state.isSuccess = false
-      //   state.isLoading = false
-      //   state.isError = true
-      //   state.errorMessage = actions.payload
-      // })
+      // DELETE AD
+      .addCase(deleteAd.pending, (state) => {
+        state.isLoading = true
+        state.isSuccess = false
+        state.isError = false
+      })
+      .addCase(deleteAd.fulfilled, (state, actions) => {
+        state.successMessage = actions.payload.successMsg
+        state.ads = state.ads.filter((ad) => ad._id !== actions.payload.id)
+        state.isSuccess = true
+        state.isLoading = false
+        state.isError = false
+      })
+      .addCase(deleteAd.rejected, (state, actions) => {
+        state.isSuccess = false
+        state.isLoading = false
+        state.isError = true
+        state.errorMessage = actions.payload
+      })
 
-      // // UPDATE AD
-      // .addCase(updateAd.pending, (state) => {
-      //   state.isLoading = true
-      //   state.isSuccess = false
-      //   state.isError = false
-      // })
-      // .addCase(updateAd.fulfilled, (state, actions) => {
-      //   state.successMessage = actions.payload.successMsg
-      //   console.log(actions.payload)
-      //   state.isSuccess = true
-      //   state.isLoading = false
-      //   state.isError = false
-      // })
-      // .addCase(updateAd.rejected, (state, actions) => {
-      //   state.isSuccess = false
-      //   state.isLoading = false
-      //   state.isError = true
-      //   state.errorMessage = actions.payload
-      // })
+      // UPDATE AD
+      .addCase(updateAd.pending, (state) => {
+        state.isLoading = true
+        state.isSuccess = false
+        state.isError = false
+      })
+      .addCase(updateAd.fulfilled, (state, actions) => {
+        state.successMessage = actions.payload.successMsg
+        console.log(actions.payload)
+        state.isSuccess = true
+        state.isLoading = false
+        state.isError = false
+      })
+      .addCase(updateAd.rejected, (state, actions) => {
+        state.isSuccess = false
+        state.isLoading = false
+        state.isError = true
+        state.errorMessage = actions.payload
+      })
 
       // get item user
       .addCase(itemUser.fulfilled, (state, actions) => {

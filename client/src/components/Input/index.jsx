@@ -2,7 +2,7 @@ import React from 'react'
 import { Col } from 'react-bootstrap'
 import styles from "./styles.module.css";
 
-const Input = ({ label, placeholder, type, name, handleChange }) => {
+const Input = ({ label, placeholder, type, name, value=null, handleChange }) => {
   if (label === 'Description') {
     return (
       <Col xs={12}>
@@ -14,6 +14,7 @@ const Input = ({ label, placeholder, type, name, handleChange }) => {
             rows="10"
             placeholder={placeholder}
             name={name}
+            value={value}
             onChange={handleChange}
           />
         </div>
@@ -33,6 +34,7 @@ const Input = ({ label, placeholder, type, name, handleChange }) => {
           type={type === 'number' ? 'number' : 'text'}
           placeholder={placeholder}
           name={name}
+          value={value}
           id="auto-complete-input"
           onChange={handleChange}
         />

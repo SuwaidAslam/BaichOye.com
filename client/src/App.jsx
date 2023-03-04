@@ -8,6 +8,8 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Sell from "./pages/Sell";
 import Ad from './pages/Item';
+import MyAds from './pages/MyAds';
+import UpdateAd from './pages/UpdateAd';
 import { PublicRoute, ProtectedRoute } from './utils/ProtectedRoute'
 
 
@@ -23,6 +25,8 @@ function App() {
 					<Route path="/signup" exact element={<PublicRoute> <Signup /> </PublicRoute>} />
 					<Route path="/login" exact element={<PublicRoute> <Login /> </PublicRoute>} />
 					<Route path="/sell" exact element={<ProtectedRoute> <Sell /> </ProtectedRoute>} />
+					<Route path="/myads" exact element={<ProtectedRoute> <MyAds /> </ProtectedRoute>} />
+					<Route path="/update/item/:id" exact element={<ProtectedRoute> <UpdateAd /> </ProtectedRoute>} />
 					<Route path="/item/:id" element={<ProtectedRoute> <Ad /> </ProtectedRoute>} />
 				</Routes>
 				<Footer />

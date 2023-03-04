@@ -4,19 +4,24 @@ import { Button, Container, Form, Row } from 'react-bootstrap'
 import styles from "./styles.module.css"
 import ContactInput from '../../components/Input'
 import FileUpload from '../../components/FileUpload'
-import { postAd } from '../../redux/ads/adsSlice';
-import toast from 'react-hot-toast';
+import { reset, updateAd } from '../../redux/ads/adsSlice'
+import toast from 'react-hot-toast'
 import { ThreeDots } from 'react-loader-spinner'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
+import { useLocation } from 'react-router-dom'
 
-const Sell = () => {
+
+const UpdateAd = () => {
     const [locationValue, setLocationValue] = useState(null)
+    // const { state: ad } = useLocation()
+    const location = useLocation()
+    const id = location.state
     const [allValues, setAllValues] = useState({
         title: '',
         description: '',
         brand: '',
-        condition: 'New',
-        category: 'Mobile Phones',
+        condition: '',
+        category: '',
         price: null,
         images: [],
     })
@@ -35,6 +40,10 @@ const Sell = () => {
         }
     }, [isError, isSuccess, errorMessage, successMessage, dispatch])
 
+    useEffect(() => {
+        return () => dispatch(reset())
+    }, [dispatch])
+
     const handleChange = (e) => {
         setAllValues({ ...allValues, [e.target.name]: e.target.value })
     }
@@ -47,31 +56,35 @@ const Sell = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
         const formData = new FormData()
-        for (let i = 0; i < allValues.images.length; i++) {
-            formData.append('images', allValues.images[i].file)
-        }
-        if (!locationValue) {
-            toast.error('Location cannot be empty');
-            return
+
+        if (allValues.images) {
+            for (let i = 0; i < allValues.images.length; i++) {
+                formData.append('images', allValues.images[i].file)
+            }
         }
 
-        formData.append('title', allValues.title)
-        formData.append('brand', allValues.brand)
-        formData.append('category', allValues.category)
-        formData.append('condition', allValues.condition)
-        formData.append('description', allValues.description)
-        formData.append('location', locationValue.label)
-        formData.append('price', allValues.price)
+        allValues.title && formData.append('title', allValues.title)
+        allValues.brand && formData.append('brand', allValues.brand)
+        allValues.category && formData.append('category', allValues.category)
+        allValues.condition && formData.append('condition', allValues.condition)
+        allValues.description && formData.append('description', allValues.description)
 
-        dispatch(postAd(formData))
+        if (locationValue !== null) {
+            formData.append('location', locationValue && locationValue.label)
+        }
+
+        allValues.price && formData.append('price', allValues.price)
+
+        dispatch(updateAd({ id, ad: formData }))
 
         setAllValues({
             title: '',
             description: '',
             brand: '',
             condition: '',
-            category: 'Mobile Phones',
+            category: '',
             price: null,
             images: [],
         })
@@ -98,10 +111,10 @@ const Sell = () => {
             <Container>
                 <div className={styles.contact_us_container}>
                     <h3 className={styles.heading} style={{ color: '#fff' }}>
-                        POST YOUR AD
+                        Update YOUR AD
                     </h3>
                     <p className={styles.description} style={{ color: '#fff' }}>
-                        Include Some Details
+                        Update Some Details
                     </p>
                     <form
                         className={styles.contactform}
@@ -113,6 +126,7 @@ const Sell = () => {
                                 label="Ad Title"
                                 placeholder="title..."
                                 name="title"
+                                // value={allValues.title}
                                 handleChange={handleChange}
                             />
                             <ContactInput
@@ -163,7 +177,7 @@ const Sell = () => {
                                 handleChange={handleChange}
                             />
 
-                            <FileUpload allValues={allValues} setAllValues={setAllValues}/>
+                            <FileUpload allValues={allValues} setAllValues={setAllValues} />
 
                             <div className="input-control">
                                 <label className="mb-2 text-uppercase">
@@ -183,7 +197,7 @@ const Sell = () => {
 
                         <div>
                             <Button className={styles.postButton} type="submit">
-                                Post Now
+                                Update
                             </Button>
                         </div>
                     </form>
@@ -193,4 +207,4 @@ const Sell = () => {
     )
 }
 
-export default Sell
+export default UpdateAd
