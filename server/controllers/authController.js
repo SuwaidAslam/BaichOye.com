@@ -9,13 +9,13 @@ import passwordComplexity from "joi-password-complexity";
 
 
 export const validate = (data) => {
-	const schema = Joi.object({
-		fullName: Joi.string().required().label("Full Name"),
-		email: Joi.string().email().required().label("Email"),
-		phone: Joi.string().pattern(new RegExp('^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$')).messages({'string.pattern.base': `Phone number is not Valid`}).required().label("Phone"),
-		password: passwordComplexity().required().label("Password"),
-	});
-	return schema.validate(data);
+  const schema = Joi.object({
+    fullName: Joi.string().required().label("Full Name"),
+    email: Joi.string().email().required().label("Email"),
+    phone: Joi.string().pattern(new RegExp('^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$')).messages({ 'string.pattern.base': `Phone number is not Valid` }).required().label("Phone"),
+    password: passwordComplexity().required().label("Password"),
+  });
+  return schema.validate(data);
 };
 
 // const client = new OAuth2Client({
@@ -412,9 +412,66 @@ const signin = asynHandler(async (req, res) => {
 //   })
 // })
 
+
+
+// route      /api/auth/update/:id
+// access     private
+// method     put
+const updateProfile = asynHandler(async (req, res) => {
+  const { fullName, email, phone } = req.body
+  console.log("Hello world")
+  const id = req.params.id
+
+  if (
+    !fullName ||
+    !email ||
+    !phone
+  ) {
+    res.status(400)
+    throw new Error('Please include all fields')
+  }
+
+  // get token
+  const token = req.headers.authorization
+    ? req.headers.authorization.split(' ')[1]
+    : null
+
+  // no token
+  if (!token) {
+    res.status(401)
+    throw new Error('Not authorized! no token')
+  }
+
+  // token exists
+  const tokenVerified = jwt.verify(token, process.env.JWTPRIVATEKEY)
+
+  // tempered token
+  if (!tokenVerified) {
+    res.status(403)
+    throw new Error('Invalid or expired token')
+  }
+
+  const updatedUser = await authModel.findByIdAndUpdate(
+    id,
+    {
+      fullName,
+      email,
+      phone
+    },
+    { new: true }
+  )
+
+  if (!updatedUser) {
+    throw new Error('Something went wrong')
+  }
+
+  res.json({ successMsg: 'Your details updated successfully', user: updatedUser })
+})
+
 export {
   signup,
   signin,
+  updateProfile,
   //   currentUser,
   //   activateAccount,
   //   forgotPassword,

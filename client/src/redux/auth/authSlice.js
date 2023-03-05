@@ -112,6 +112,24 @@ export const login = createAsyncThunk('auth/signin', async (data, ThunkAPI) => {
 //   }
 // )
 
+// Update Profile
+export const update = createAsyncThunk(
+  'auth/update',
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.update(data)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return ThunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -281,6 +299,29 @@ export const authSlice = createSlice({
       //   state.successMessage = ''
       //   state.errorMessage = actions.payload
       // })
+      // Update
+      .addCase(update.pending, (state) => {
+        state.isLoading = true
+        state.isSuccess = false
+        state.isError = false
+        state.successMessage = ''
+        state.errorMessage = ''
+      })
+      .addCase(update.fulfilled, (state, actions) => {
+        state.isSuccess = true
+        state.isLoading = false
+        state.isError = false
+        state.successMessage = actions.payload.successMsg
+        state.errorMessage = ''
+      })
+      .addCase(update.rejected, (state, actions) => {
+        console.log(actions)
+        state.isSuccess = false
+        state.isLoading = false
+        state.isError = true
+        state.successMessage = ''
+        state.errorMessage = actions.payload
+      })
   },
 })
 

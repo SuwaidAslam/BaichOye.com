@@ -46,21 +46,6 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		dispatch(register(data))
-		// try {
-		// 	console.log(data)
-		// 	const url = "http://localhost:5000/api/users";
-		// 	const { data: res } = await axios.post(url, data);
-		// 	navigate("/login");
-		// 	console.log(res.message);
-		// } catch (error) {
-		// 	if (
-		// 		error.response &&
-		// 		error.response.status >= 400 &&
-		// 		error.response.status <= 500
-		// 	) {
-		// 		setError(error.response.data.message);
-		// 	}
-		// }
 	};
 
 	return (
@@ -122,7 +107,6 @@ const Signup = () => {
 							required
 							className={styles.input}
 						/>
-						{/* {error && <div className={styles.error_msg}>{error}</div>} */}
 						<button type="submit" className={styles.green_btn}>
 							Sign Up
 						</button>

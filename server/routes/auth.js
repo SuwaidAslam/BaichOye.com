@@ -8,6 +8,7 @@ import express from "express";
 import {
   signup,
   signin,
+  updateProfile,
 //   currentUser,
 //   activateAccount,
 //   forgotPassword,
@@ -20,6 +21,7 @@ const router = express.Router();
 
 router.post('/signup', signup)
 router.post('/signin', signin)
+router.put('/update/:id', updateProfile)
 // router.get('/me', authUser, currentUser)
 // router.post('/activate', activateAccount)
 // router.post('/forget', forgotPassword)

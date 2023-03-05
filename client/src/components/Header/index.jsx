@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 // import { filterAds, searchFilter } from '../redux/ads/adsSlice'
-// import { resetUser } from '../redux/auth/authSlice'
+import { resetUser } from '../../redux/auth/authSlice'
 
 import profile from '../../images/profile.png'
 
@@ -45,7 +45,7 @@ const Header = () => {
 
   const logout = () => {
     localStorage.clear()
-    // dispatch(resetUser())
+    dispatch(resetUser())
     navigate('/')
   }
 
@@ -157,9 +157,17 @@ const Header = () => {
                     </div>
                   </div>
                   <hr />
-                  <MenuItem to="/" >
+                  <Link
+                    to="/profile"
+                    className="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root"
+                    style={{
+                      color: '#333',
+                      padding: '6px 16px',
+                      textDecoration: 'none',
+                    }}
+                  >
                     My Account
-                  </MenuItem>
+                  </Link>
                   <Link
                     to="/myads"
                     className="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root"

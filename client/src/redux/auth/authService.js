@@ -89,6 +89,23 @@ const login = async (data) => {
 //   return user.data
 // }
 
+const update = async (data) => {
+  const token = JSON.parse(localStorage.getItem('token'))
+  const current_user = JSON.parse(localStorage.getItem('user'))
+  const id = current_user._id
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  }
+  const user = await axios({
+    method: 'put',
+    url: `${url}/update/${id}`,
+    data: data,
+    headers,
+  })
+  localStorage.setItem('user', JSON.stringify(user.data.user))
+  return user.data
+}
+
 const authService = {
   register,
   // activateAccount,
@@ -96,6 +113,7 @@ const authService = {
   // findAccount,
   // changePassword,
   // googleLogin,
+  update
 }
 
 export default authService

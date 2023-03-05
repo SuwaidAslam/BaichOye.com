@@ -41,20 +41,6 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		dispatch(login(data))
-		// try {
-		// 	const url = "http://localhost:5000/api/auth";
-		// 	const { data: res } = await axios.post(url, data);
-		// 	localStorage.setItem("token", res.data);
-		// 	window.location = "/";
-		// } catch (error) {
-		// 	if (
-		// 		error.response &&
-		// 		error.response.status >= 400 &&
-		// 		error.response.status <= 500
-		// 	) {
-		// 		setError(error.response.data.message);
-		// 	}
-		// }
 	};
 
 	if (isLoading) {

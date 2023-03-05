@@ -1,0 +1,54 @@
+.update_h1 {
+	border-bottom: 1px solid white;
+	color: #3d3d3d;
+	font-family: sans-serif;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 24px;
+	padding: 10px;
+	text-align: center;
+  }
+ 
+  .profile_form {
+	background: white;
+	border: 1px solid #dedede;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	margin: 3% auto;
+	max-width: 500px;
+	padding: 30px 50px;
+  }
+ 
+  .profile_input {
+	border: 1px solid #d9d9d9;
+	border-radius: 4px;
+	box-sizing: border-box;
+	padding: 10px;
+	width: 100%;
+  }
+ 
+  .profile_label {
+	color: #3d3d3d;
+	display: block;
+	font-family: sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	margin-top: 6px;
+	margin-bottom: 5px;
+  }
+ 
+  /* .error {
+	color: red;
+	font-family: sans-serif;
+	font-size: 12px;
+	height: 30px;
+  } */
+ 
+  .profile_update_btn {
+	background-color: #6976d9;
+	color: white;
+	font-family: sans-serif;
+	font-size: 14px;
+	margin: 20px 0px;
+  }
