@@ -12,17 +12,16 @@ import { useLocation } from 'react-router-dom'
 
 
 const UpdateAd = () => {
+    const { state: ad } = useLocation()
     const [locationValue, setLocationValue] = useState(null)
-    // const { state: ad } = useLocation()
-    const location = useLocation()
-    const id = location.state
+    const id = ad._id
     const [allValues, setAllValues] = useState({
-        title: '',
-        description: '',
-        brand: '',
-        condition: '',
-        category: '',
-        price: null,
+        title: ad.title,
+        description: ad.description,
+        brand: ad.brand,
+        condition: ad.condition,
+        category: ad.category,
+        price: ad.price,
         images: [],
     })
 
@@ -56,9 +55,7 @@ const UpdateAd = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
         const formData = new FormData()
-
         if (allValues.images) {
             for (let i = 0; i < allValues.images.length; i++) {
                 formData.append('images', allValues.images[i].file)
@@ -126,25 +123,27 @@ const UpdateAd = () => {
                                 label="Ad Title"
                                 placeholder="title..."
                                 name="title"
-                                // value={allValues.title}
+                                value={allValues.title}
                                 handleChange={handleChange}
                             />
                             <ContactInput
                                 label="Description"
                                 placeholder="Add your ad description..."
                                 name="description"
+                                value={allValues.description}
                                 handleChange={handleChange}
                             />
                             <ContactInput
                                 label="Brand"
                                 placeholder="e.g Apple, Samsung..."
                                 name="brand"
+                                value={allValues.brand}
                                 handleChange={handleChange}
                             />
 
                             <div>
                                 <p className={styles.input_label}>Condition</p>
-                                <Form.Select onChange={dropDownChange} className={styles.dropdowns}>
+                                <Form.Select onChange={dropDownChange} className={styles.dropdowns} value={allValues.condition}>
                                     <option value="New">New</option>
                                     <option value="Open">Open</option>
                                     <option value="Used">Used</option>
@@ -155,7 +154,7 @@ const UpdateAd = () => {
                             <div>
                                 <p className={styles.input_label}>Categories</p>
 
-                                <Form.Select onChange={categoryDropdownChange} className={styles.dropdowns}>
+                                <Form.Select onChange={categoryDropdownChange} className={styles.dropdowns} value={allValues.condition}>
                                     <option value="Mobile Phones">Mobile Phones</option>
                                     <option value="Cars">Cars</option>
                                     <option value="Motorcycles">Motorcycles</option>
@@ -174,10 +173,11 @@ const UpdateAd = () => {
                                 placeholder="price..."
                                 type="number"
                                 name="price"
+                                value={allValues.price}
                                 handleChange={handleChange}
                             />
 
-                            <FileUpload allValues={allValues} setAllValues={setAllValues} />
+                            <FileUpload allValues={allValues} setAllValues={setAllValues} update_page={true}/>
 
                             <div className="input-control">
                                 <label className="mb-2 text-uppercase">
@@ -187,6 +187,7 @@ const UpdateAd = () => {
                                     selectProps={{
                                         locationValue,
                                         onChange: setLocationValue,
+                                        placeholder: "Ad Location",
                                     }}
                                     autocompletionRequest={{
                                         componentRestrictions: { country: ['pk'] },

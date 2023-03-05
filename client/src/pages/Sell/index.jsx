@@ -173,6 +173,7 @@ const Sell = () => {
                                     selectProps={{
                                         locationValue,
                                         onChange: setLocationValue,
+                                        placeholder: "Ad Location",
                                     }}
                                     autocompletionRequest={{
                                         componentRestrictions: { country: ['pk'] },

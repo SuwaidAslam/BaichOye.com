@@ -132,16 +132,18 @@ export const updateAd = asyncHandler(async (req, res) => {
 
     const id = req.params.id
 
+    const filenames = req.files.map((file) => file.filename)
+
     const {
         title,
         description,
         brand,
         condition,
-        images,
         location,
         price,
         category,
     } = req.body
+    
 
     // check if user is authorized to delete this ad
     const ad = await AdModel.findOne({ _id: id }).select('user')
@@ -158,7 +160,7 @@ export const updateAd = asyncHandler(async (req, res) => {
             description,
             brand,
             condition,
-            images,
+            images: filenames,
             location,
             price,
             category,
@@ -176,9 +178,10 @@ export const updateAd = asyncHandler(async (req, res) => {
 // my ads
 export const myads = asyncHandler(async (req, res) => {
     const user = req.user
-    const ads = await AdModel.find({ user: user.id }).select(
-        'title price images createdAt'
-    )
+    // const ads = await AdModel.find({ user: user.id }).select(
+    //     'title price images createdAt'
+    // )
+    const ads = await AdModel.find({ user: user.id })
 
     if (!ads) {
         throw new Error('Something went wrong')

@@ -69,7 +69,6 @@ const deleteAd = async (id) => {
 }
 // UPDATE AD
 const updateAd = async ({ id, ad }) => {
-  console.log(ad)
   const token = JSON.parse(localStorage.getItem('token'))
 
   const header = {

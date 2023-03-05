@@ -2,7 +2,7 @@ import React from 'react'
 import ImageUploading from 'react-images-uploading'
 import './fileupload.css'
 
-const FileUpload = ({ allValues, setAllValues }) => {
+const FileUpload = ({ allValues, setAllValues, update_page = false }) => {
   const maxNumber = 5
 
   const onChange = (imageList) => {
@@ -47,6 +47,12 @@ const FileUpload = ({ allValues, setAllValues }) => {
             <div className='image-container'>
               {imageList.map((image, index) => (
                 <div key={index} className="image-item">
+                  {/* {update_page
+                    ?
+                    (<img src={`/uploads/${image}`} alt="" width="100" />)
+                    :
+                    (<img src={image.data_url} alt="" width="100" />)
+                  } */}
                   <img src={image.data_url} alt="" width="100" />
                   <div className="image-item__btn-wrapper">
                     <button onClick={() => onImageUpdate(index)}>Update</button>

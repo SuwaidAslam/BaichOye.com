@@ -10,7 +10,7 @@ const Slider = ({ images }) => {
             <Carousel.Item key={img}>
               <img
                 className="d-block w-100"
-                src={`../uploads/${img}`}
+                src={`/uploads/${img}`}
                 alt="First slide"
                 width={500}
                 height={500}

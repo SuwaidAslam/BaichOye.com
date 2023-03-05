@@ -34,7 +34,7 @@ const MyAd = ({ ad }) => {
   }
 
   const handleEditBtnClick = () => {
-    navigate(`/update/item/${id}`, { state: id })
+    navigate(`/update/item/${id}`, { state: ad })
   }
 
   return (
@@ -96,7 +96,6 @@ const MyAd = ({ ad }) => {
           >
             Active
           </span>
-          <span style={{ fontSize: '14px' }}>This ad is currently live</span>
 
           <IconButton onClick={handleClick}>
             <BsThreeDots />
