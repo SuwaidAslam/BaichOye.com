@@ -31,7 +31,7 @@ export const InnerCard = ({ ad }) => {
             }}
           >
             {ad.title}
-            <span style={{ userSelect: 'none' }}>
+            {/* <span style={{ userSelect: 'none' }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -45,7 +45,7 @@ export const InnerCard = ({ ad }) => {
                   d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
                 />
               </svg>
-            </span>
+            </span> */}
           </Card.Title>
           <Card.Text style={{ fontSize: '25px', fontWeight: 'bold' }}>
             Rs {ad.price}

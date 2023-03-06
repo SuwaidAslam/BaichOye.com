@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { itemUser, resetUserItem } from '../../redux/ads/adsSlice'
-
 import profile from '../../images/profile.png'
 import moment from 'moment'
-
 import { Loader } from '@googlemaps/js-api-loader'
+import { Button } from 'react-bootstrap'
+import { blue } from '@mui/material/colors'
+import { fontWeight } from '@mui/system'
+import { useNavigate } from 'react-router-dom'
 
 const ItemSidebar = ({ ad }) => {
   const dispatch = useDispatch()
@@ -15,6 +17,15 @@ const ItemSidebar = ({ ad }) => {
 
   const time = moment(ad.createdAt).fromNow()
   const date = moment(ad.createdAt).format('ll')
+  const navigate = useNavigate()
+  
+  const handleBuy = () => {
+    console.log("buy module")
+  }
+
+  const handleChat = () => {
+    navigate('/chat')
+  }
 
   useEffect(() => {
     dispatch(itemUser(ad.user))
@@ -66,7 +77,7 @@ const ItemSidebar = ({ ad }) => {
   return (
     <div className="item_sidebar_container">
       <div className="details_container">
-        <h1 className="heading" style={{ fontSize: '2rem' }}>
+        <h1 className="heading" style={{ fontSize: '2rem', fontWeight: '1000', color: "#0d6efd" }}>
           Rs {ad.price}
         </h1>
         <div
@@ -110,6 +121,31 @@ const ItemSidebar = ({ ad }) => {
             {[phone] && phone}
           </p>
         )}
+        <div className="d-grid gap-2 mt-2">
+          <Button variant="primary" size="lg" onClick={handleBuy}>
+            Buy
+          </Button>
+          <Button variant="secondary" size="lg" onClick={handleChat}>
+            Chat
+          </Button>
+        </div>
+        <div className="d-inline-flex flex-row justify-content-between align-items-center mt-4" style={{backgroundColor: "#F1FBFD"}}>
+          <div>
+            <img loading="lazy" data-src="https://teja9.kuikr.com/core/clsfd/assets/ic-get-all-details-2x.png"
+              alt="" src="https://teja9.kuikr.com/core/clsfd/assets/ic-get-all-details-2x.png" />
+            <label>Get all details</label>
+          </div>
+          <div>
+            <img loading="lazy" data-src="https://teja9.kuikr.com/core/clsfd/assets/ic-schedule-visit-bazaar-2x.png"
+              alt="" src="https://teja9.kuikr.com/core/clsfd/assets/ic-schedule-visit-bazaar-2x.png" />
+            <label>Schedule a visit</label>
+          </div>
+          <div>
+            <img loading="lazy" data-src="https://teja9.kuikr.com/core/clsfd/assets/ic-negotiate-2x.png"
+              alt="" src="https://teja9.kuikr.com/core/clsfd/assets/ic-negotiate-2x.png" />
+            <label>Negotiate price</label>
+          </div>
+        </div>
       </div>
 
       {/* map */}
@@ -126,11 +162,11 @@ const ItemSidebar = ({ ad }) => {
         ></div>
       </div>
 
-      <div
+      {/* <div
         style={{ fontWeight: 'bold', marginTop: '8px', paddingLeft: '10px' }}
       >
         AD ID {ad._id}
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -21,7 +21,7 @@ const Categories = () => {
       <li className="navlink" onClick={() => handleCategories('Mobile Phones')}>
         <img src="https://cdn-icons-png.flaticon.com/512/644/644458.png" alt="" className='nav_image' />
         <br />
-        Mobile Phones
+        Phones
       </li>
       <li className="navlink" onClick={() => handleCategories('Cars')}>
         <img src="https://cdn-icons-png.flaticon.com/512/2962/2962520.png" alt="" className='nav_image' />

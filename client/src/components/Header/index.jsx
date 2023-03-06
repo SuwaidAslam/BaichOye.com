@@ -9,15 +9,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { filterAds, searchFilter } from '../../redux/ads/adsSlice'
 import { resetUser } from '../../redux/auth/authSlice'
-
 import profile from '../../images/profile.png'
-
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { Avatar } from '@mui/material'
 import logo from '../../assets/default.png';
-import appLogo from '../../assets/logo.svg';
-import { Button } from 'react-bootstrap'
+// import appLogo from '../../assets/logo.svg';
+// import { Button } from 'react-bootstrap'
 
 
 const Header = () => {
