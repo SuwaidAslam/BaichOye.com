@@ -7,7 +7,7 @@ import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
-// import { filterAds, searchFilter } from '../redux/ads/adsSlice'
+import { filterAds, searchFilter } from '../../redux/ads/adsSlice'
 import { resetUser } from '../../redux/auth/authSlice'
 
 import profile from '../../images/profile.png'
@@ -15,7 +15,8 @@ import profile from '../../images/profile.png'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { Avatar } from '@mui/material'
-import logo from '../../assets/logo.png';
+import logo from '../../assets/default.png';
+import appLogo from '../../assets/logo.svg';
 import { Button } from 'react-bootstrap'
 
 
@@ -29,19 +30,17 @@ const Header = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  // const user = localStorage.getItem("token");
-
   const { user } = useSelector((select) => select.auth)
 
-  // useEffect(() => {
-  //   if (value || value !== null) {
-  //     dispatch(filterAds(value.label))
-  //   }
-  // }, [dispatch, value])
+  useEffect(() => {
+    if (value || value !== null) {
+      dispatch(filterAds(value.label))
+    }
+  }, [dispatch, value])
 
-  // useEffect(() => {
-  //   dispatch(searchFilter(input))
-  // }, [dispatch, input])
+  useEffect(() => {
+    dispatch(searchFilter(input))
+  }, [dispatch, input])
 
   const logout = () => {
     localStorage.clear()
@@ -63,10 +62,10 @@ const Header = () => {
   }
 
   return (
-    <Navbar bg="light" expand="lg" style={{ height: '80px' }}>
-      <Container>
-        <NavLink to="/" className="navbar-brand">
-          <img src={logo} alt="BaichOye logo" height="300" />
+    <Navbar bg="light" expand="lg" style={{ height: '6rem'}}>
+      <Container fluid>
+        <NavLink to="/">
+          <img src={logo} alt="BaichOye logo" width={300}/>
         </NavLink>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">

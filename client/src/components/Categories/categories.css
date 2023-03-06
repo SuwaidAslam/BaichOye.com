@@ -1,0 +1,26 @@
+.categories_navlinks {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.navlink {
+    margin: 1rem 1rem 0rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-basis: 6em;
+    padding: 5px;
+    cursor: pointer;
+}
+
+/* mouse over link */
+.navlink:hover {
+    background: rgba(122, 176, 237, 0.4)
+  }
+
+.nav_image {
+    height: 2.6rem;
+}

@@ -132,34 +132,34 @@ export const adsSlice = createSlice({
       state.errorMessage = ''
       state.itemUser = {}
     },
-    // filterAds: (state, action) => {
-    //   const place = action.payload
+    filterAds: (state, action) => {
+      const place = action.payload
 
-    //   if (!place || place.length === 0) {
-    //     state.filteredAds = state.ads
-    //     return
-    //   }
+      if (!place || place.length === 0) {
+        state.filteredAds = state.ads
+        return
+      }
 
-    //   const filterAds = state.ads.filter((ad) =>
-    //     ad.location.includes(action.payload)
-    //   )
+      const filterAds = state.ads.filter((ad) =>
+        ad.location.includes(action.payload)
+      )
 
-    //   state.filteredAds = filterAds
-    // },
+      state.filteredAds = filterAds
+    },
 
-    // searchFilter: (state, action) => {
-    //   const input = action.payload
+    searchFilter: (state, action) => {
+      const input = action.payload
 
-    //   state.filteredAds = state.ads.filter((ad) =>
-    //     ad.title.toLowerCase().includes(input.toLowerCase())
-    //   )
-    // },
+      state.filteredAds = state.ads.filter((ad) =>
+        ad.title.toLowerCase().includes(input.toLowerCase())
+      )
+    },
 
-    // filterByCategory: (state, action) => {
-    //   state.filteredAds = state.ads.filter(
-    //     (ad) => ad.category === action.payload
-    //   )
-    // },
+    filterByCategory: (state, action) => {
+      state.filteredAds = state.ads.filter(
+        (ad) => ad.category === action.payload
+      )
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -282,8 +282,8 @@ export const adsSlice = createSlice({
 export const {
   reset,
   resetUserItem,
-  // searchFilter,
-  // filterAds,
-  // filterByCategory,
+  searchFilter,
+  filterAds,
+  filterByCategory,
 } = adsSlice.actions
 export default adsSlice.reducer

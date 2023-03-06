@@ -1,7 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-// import { filterByCategory } from '../redux/ads/adsSlice'
+import { filterByCategory } from '../../redux/ads/adsSlice'
+import "./categories.css"
 
 const Categories = () => {
   const [category, setCategory] = useState('')
@@ -12,8 +13,7 @@ const Categories = () => {
     if (!category) {
       return
     }
-
-    // dispatch(filterByCategory(category))
+    dispatch(filterByCategory(category))
   }
 
   return (

@@ -22,7 +22,6 @@ function App() {
 				<Header />
 				<Routes>
 					<Route path="/" exact element={<Home />} />
-					{/* <Route path="/" element={<Navigate replace to="/" />} /> */}
 					<Route path="/signup" exact element={<PublicRoute> <Signup /> </PublicRoute>} />
 					<Route path="/login" exact element={<PublicRoute> <Login /> </PublicRoute>} />
 					<Route path="/sell" exact element={<ProtectedRoute> <Sell /> </ProtectedRoute>} />
