@@ -5,6 +5,7 @@ import cors from 'cors';
 import connectDB from './mongodb/connect.js';
 import adRoutes from './routes/ads.js';
 import authRoutes from './routes/auth.js';
+import chatRoutes from './routes/chat.js';
 
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(cors());
 // router
 app.use('/api/auth', authRoutes);
 app.use('/api', adRoutes);
+app.use('/api/chat', chatRoutes);
 
 
 app.get('/', async (req, res) => {

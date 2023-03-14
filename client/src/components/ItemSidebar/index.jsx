@@ -11,9 +11,11 @@ import { useNavigate } from 'react-router-dom'
 
 const ItemSidebar = ({ ad }) => {
   const dispatch = useDispatch()
-  const { fullName, email, phone } = useSelector(
+  const user = useSelector(
     (select) => select.ads.itemUser
   )
+
+  const { fullName, email, phone } = user
 
   const time = moment(ad.createdAt).fromNow()
   const date = moment(ad.createdAt).format('ll')
@@ -23,8 +25,8 @@ const ItemSidebar = ({ ad }) => {
     console.log("buy module")
   }
 
-  const handleChat = () => {
-    navigate('/chat')
+  const handleChat = (userId, adId) => {
+    navigate(`/chat/${userId}/${adId}`, { state: {user, ad} })
   }
 
   useEffect(() => {
@@ -125,7 +127,7 @@ const ItemSidebar = ({ ad }) => {
           <Button variant="primary" size="lg" onClick={handleBuy}>
             Buy
           </Button>
-          <Button variant="secondary" size="lg" onClick={handleChat}>
+          <Button variant="secondary" size="lg" onClick={() => handleChat(ad.user, ad._id)}>
             Chat
           </Button>
         </div>
