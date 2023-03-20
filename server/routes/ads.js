@@ -1,13 +1,13 @@
 import express from "express";
 import { multerMiddleware, upload } from '../config/multer.js';
 import {
-    postAd,
-    getAds,
-      updateAd,
-      getAd,
-      deleteAd,
-      itemUser,
-      myads,
+  postAd,
+  getAds,
+  updateAd,
+  getAd,
+  deleteAd,
+  itemUser,
+  myads,
 } from '../controllers/adController.js';
 import authUser from '../middlewares/authUser.js';
 

@@ -1,17 +1,102 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react'
 import './chat.css';
 //Importing bootstrap and other modules
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
+import { ThreeDots } from 'react-loader-spinner'
 import { useLocation } from 'react-router-dom'
-
+import { useDispatch, useSelector } from 'react-redux'
+import toast from 'react-hot-toast'
+import { sendChat, getChatMessages, resetChatMessages } from '../../redux/chat/chatSlice';
+import moment from 'moment'
 
 const Chat = () => {
+
+    const dispatch = useDispatch()
     const { state: { user, ad } } = useLocation()
     const { fullName } = user
-    const { title, price, images} = ad
+    const { title, price, images } = ad
     const initials = fullName.charAt(0)
 
+    const [data, setData] = useState({
+        receiver: user._id,
+        ad: ad._id,
+        message: ""
+    })
+
+    const { chatMessages, errorMessage, successMessage, isError, isSuccess, isLoading } =
+        useSelector((selector) => selector.chats)
+
+    const bottomRef = useRef(null);
+
+    const currentUser = useSelector((selector) => selector.auth)
+
+    const [reloadChat, setReloadChat] = useState(false)
+
+    useEffect(() => {
+        // if (isError && errorMessage) {
+        //     toast.error(errorMessage)
+        // }
+
+        // if (isSuccess && successMessage) {
+        //     toast.success(successMessage)
+        // }
+    }, [isError, isSuccess, errorMessage, successMessage, dispatch])
+
+    useEffect(() => {
+        const queryData = {
+            receiver: data.receiver,
+            sender: currentUser.user._id,
+            ad: data.ad,
+        }
+        dispatch(getChatMessages(queryData))
+        setReloadChat(false)
+        return () => dispatch(resetChatMessages())
+    }, [reloadChat, dispatch])
+
+
+    useEffect(() => {
+        if (bottomRef) {
+            bottomRef.current.addEventListener('DOMNodeInserted', event => {
+                const { currentTarget: target } = event;
+                target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+            });
+        }
+    }, [])
+
+
+    const handleChatBox = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value })
+    }
+
+    const handleSendAction = (e) => {
+        e.preventDefault()
+
+        dispatch(sendChat(data))
+
+        setData({
+            receiver: user._id,
+            ad: ad._id,
+            message: ""
+        })
+        setReloadChat(true)
+    }
+
+
+    // if (isLoading) {
+    //     return (
+    //         <div
+    //             style={{
+    //                 height: '100vh',
+    //                 display: 'flex',
+    //                 justifyContent: 'center',
+    //                 alignItems: 'center',
+    //             }}
+    //         >
+    //             <ThreeDots color="#3a77ff" height={100} width={100} />
+    //         </div>
+    //     )
+    // }
 
     return (
         <div className="container">
@@ -36,18 +121,8 @@ const Chat = () => {
                                 <div className="chat_people">
                                     <div className="chat_img">{initials}</div>
                                     <div className="chat_ib">
-                                        <h5> {fullName} <span className="chat_date">Dec 25</span></h5>
+                                        <h5> {fullName} <span className="chat_date">date</span></h5>
                                         <p>{title}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="chat_list">
-                                <div className="chat_people">
-                                    <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                                    <div className="chat_ib">
-                                        <h5>Sunil Rajput <span className="chat_date">Dec 25</span></h5>
-                                        <p>Test, which is a new approach to have all solutions
-                                            astrology under one roof.</p>
                                     </div>
                                 </div>
                             </div>
@@ -65,58 +140,44 @@ const Chat = () => {
                                 <img src={`/uploads/${images[0]}`}
                                     alt="image"
                                     width={100}
-                                    height={100}
-                                    />
+                                    height={80}
+                                />
                             </div>
                             <div className="active_ad_info">
                                 <h5> {title}</h5>
                                 <p> Rs {price}</p>
                             </div>
                         </div>
-                        <div className="msg_history">
-                            <div className="incoming_msg">
-                                <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                                <div className="received_msg">
-                                    <div className="received_withd_msg">
-                                        <p>Test which is a new approach to have all
-                                            solutions</p>
-                                        <span className="time_date"> 11:01 AM    |    June 9</span></div>
+                        <div className="msg_history" ref={bottomRef}>
+                            {chatMessages.length > 0 ? (
+                                chatMessages.map((message) => (
+                                    (message.sender == user._id) ? (
+                                        <div className="incoming_msg">
+                                            <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
+                                            <div className="received_msg">
+                                                <div className="received_withd_msg">
+                                                    <p>{message.message}</p>
+                                                    <span className="time_date">{moment(message.createdAt).fromNow()}</span></div>
+                                            </div>
+                                        </div>
+                                    )
+                                        :
+                                        (<div className="outgoing_msg">
+                                            <div className="sent_msg">
+                                                <p>{message.message}</p>
+                                                <span className="time_date">{moment(message.createdAt).fromNow()}</span> </div>
+                                        </div>)
+                                ))
+                            ) : (
+                                <div style={{ textAlign: "center" }}>
+                                    <h5>You have no chats to show</h5>
                                 </div>
-                            </div>
-                            <div className="outgoing_msg">
-                                <div className="sent_msg">
-                                    <p>Test which is a new approach to have all
-                                        solutions</p>
-                                    <span className="time_date"> 11:01 AM    |    June 9</span> </div>
-                            </div>
-                            <div className="incoming_msg">
-                                <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                                <div className="received_msg">
-                                    <div className="received_withd_msg">
-                                        <p>Test, which is a new approach to have</p>
-                                        <span className="time_date"> 11:01 AM    |    Yesterday</span></div>
-                                </div>
-                            </div>
-                            <div className="outgoing_msg">
-                                <div className="sent_msg">
-                                    <p>Apollo University, Delhi, India Test</p>
-                                    <span className="time_date"> 11:01 AM    |    Today</span> </div>
-                            </div>
-                            <div className="incoming_msg">
-                                <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                                <div className="received_msg">
-                                    <div className="received_withd_msg">
-                                        <p>We work directly with our designers and suppliers,
-                                            and sell direct to you, which means quality, exclusive
-                                            products, at a price anyone can afford.</p>
-                                        <span className="time_date"> 11:01 AM    |    Today</span></div>
-                                </div>
-                            </div>
+                            )}
                         </div>
                         <div className="type_msg">
                             <div className="input_msg_write">
-                                <input type="text" className="write_msg" placeholder="Type a message" />
-                                <button className="msg_send_btn" type="button"><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                                <input type="text" className="write_msg" placeholder="Type a message" onChange={handleChatBox} name="message" value={data.message} />
+                                <button className="msg_send_btn" type="button"><i className="fa fa-paper-plane-o" aria-hidden="true" onClick={handleSendAction}></i></button>
                             </div>
                         </div>
                     </div>

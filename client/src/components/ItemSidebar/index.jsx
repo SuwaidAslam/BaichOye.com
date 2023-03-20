@@ -8,6 +8,8 @@ import { Button } from 'react-bootstrap'
 import { blue } from '@mui/material/colors'
 import { fontWeight } from '@mui/system'
 import { useNavigate } from 'react-router-dom'
+import { current } from '@reduxjs/toolkit'
+import toast from 'react-hot-toast'
 
 const ItemSidebar = ({ ad }) => {
   const dispatch = useDispatch()
@@ -16,17 +18,18 @@ const ItemSidebar = ({ ad }) => {
   )
 
   const { fullName, email, phone } = user
+  const currentUser = useSelector((select) => select.auth)
 
   const time = moment(ad.createdAt).fromNow()
   const date = moment(ad.createdAt).format('ll')
   const navigate = useNavigate()
-  
+
   const handleBuy = () => {
     console.log("buy module")
   }
 
   const handleChat = (userId, adId) => {
-    navigate(`/chat/${userId}/${adId}`, { state: {user, ad} })
+    (userId == currentUser.user._id) ? toast.error("Cannot send message to Yourself") : navigate(`/chat/${userId}/${adId}`, { state: { user, ad } })
   }
 
   useEffect(() => {
@@ -131,7 +134,7 @@ const ItemSidebar = ({ ad }) => {
             Chat
           </Button>
         </div>
-        <div className="d-inline-flex flex-row justify-content-between align-items-center mt-4" style={{backgroundColor: "#F1FBFD"}}>
+        <div className="d-inline-flex flex-row justify-content-between align-items-center mt-4" style={{ backgroundColor: "#F1FBFD" }}>
           <div>
             <img loading="lazy" data-src="https://teja9.kuikr.com/core/clsfd/assets/ic-get-all-details-2x.png"
               alt="" src="https://teja9.kuikr.com/core/clsfd/assets/ic-get-all-details-2x.png" />

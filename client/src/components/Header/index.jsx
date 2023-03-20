@@ -51,6 +51,13 @@ const Header = () => {
       toast.error('To post Ad, Please login')
     }
   }
+  
+  const handleInboxBtnClick = () => {
+    if (!user) {
+      toast.error('To check Inbox, Please login')
+    }
+  }
+
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -60,10 +67,10 @@ const Header = () => {
   }
 
   return (
-    <Navbar bg="light" expand="lg" style={{ height: '6rem'}}>
+    <Navbar bg="light" expand="lg" style={{ height: '6rem' }}>
       <Container fluid>
         <NavLink to="/">
-          <img src={logo} alt="BaichOye logo" width={300}/>
+          <img src={logo} alt="BaichOye logo" width={300} />
         </NavLink>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -93,6 +100,13 @@ const Header = () => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
+            <NavLink
+              className="nav-link ms-2"
+              to="/chat"
+              onClick={handleInboxBtnClick}
+            >
+              Inbox
+            </NavLink>
             <NavLink
               className="nav-link ms-2"
               to="/sell"

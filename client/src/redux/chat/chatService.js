@@ -18,8 +18,45 @@ const sendChat = async (data) => {
 }
 
 
+// MY Chats
+const myChats = async () => {
+  const token = JSON.parse(localStorage.getItem('token'))
+
+  const header = {
+    Authorization: `Bearer ${token}`,
+  }
+
+  const user = await axios({
+    method: 'get',
+    url: `${url}/myChats`,
+    headers: header,
+  })
+
+  return user.data
+}
+
+// Particular chat messages
+const chatMessages = async (data) => {
+  const token = JSON.parse(localStorage.getItem('token'))
+
+  const header = {
+    Authorization: `Bearer ${token}`,
+  }
+
+  const user = await axios({
+    method: 'post',
+    url: `${url}/chatMessages`,
+    headers: header,
+    data,
+  })
+
+  return user.data
+}
+
 const chatService = {
   sendChat,
+  myChats,
+  chatMessages,
 }
 
 export default chatService

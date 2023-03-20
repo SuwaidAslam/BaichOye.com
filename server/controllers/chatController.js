@@ -1,16 +1,19 @@
 import chatModel from '../mongodb/models/chatModel.js';
 import asyncHandler from 'express-async-handler';
 import AuthModel from '../mongodb/models/authModel.js';
+import adModel from '../mongodb/models/adModel.js';
 
 // send chat
 export const sendChat = asyncHandler(async (req, res) => {
-    
-    const { sender, receiver, message} =
+    const user = req.user
+
+    const { receiver, ad, message } =
         req.body
 
     const data = {
-        sender,
+        sender: user._id,
         receiver,
+        ad,
         message,
     }
 
@@ -25,17 +28,80 @@ export const sendChat = asyncHandler(async (req, res) => {
     }
 })
 
-// // my chats
-// export const myChats = asyncHandler(async (req, res) => {
-//     const user = req.user
-//     // const ads = await AdModel.find({ user: user.id }).select(
-//     //     'title price images createdAt'
-//     // )
-//     const ads = await AdModel.find({ user: user.id })
 
-//     if (!ads) {
-//         throw new Error('Something went wrong')
-//     }
+// my chats
+export const myChats = asyncHandler(async (req, res) => {
+    const user = req.user
+    const chats = await chatModel.aggregate(
+        [
+            {
+                $match: { $or: [{ sender: user._id }, { receiver: user._id }] }
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "sender",
+                    foreignField: "_id",
+                    as: "sender"
+                }
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "receiver",
+                    foreignField: "_id",
+                    as: "receiver"
+                }
+            },
+            {
+                $lookup: {
+                    from: "ads",
+                    localField: "ad",
+                    foreignField: "_id",
+                    as: "ad"
+                }
+            },
+            {
+                $group: {
+                    _id: "$ad",
+                    "messages": {
+                        "$push": {
+                            "message": "$message",
+                            "sender": "$sender",
+                            "receiver": "$receiver",
+                            "createdAt": "$createdAt",
+                            "updatedAt": "$updatedAt"
+                        },
+                    }
+                },
 
-//     res.json(ads)
-// })
+            }
+        ]
+    )
+
+    if (!chats) {
+        throw new Error('Something went wrong')
+    }
+    console.log(chats[0])
+    res.json(chats)
+})
+
+
+// particular chats
+export const chatMessages = asyncHandler(async (req, res) => {
+    const { receiver, sender, ad } = req.body
+    const chats = await chatModel.find(
+        {
+            $and: [
+                { sender: sender },
+                { receiver: receiver },
+                { ad: ad }
+            ]
+        }
+    )
+
+    if (!chats) {
+        throw new Error('Something went wrong')
+    }
+    res.json(chats)
+})
