@@ -82,7 +82,6 @@ export const myChats = asyncHandler(async (req, res) => {
     if (!chats) {
         throw new Error('Something went wrong')
     }
-    console.log(chats[0])
     res.json(chats)
 })
 

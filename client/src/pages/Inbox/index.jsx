@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './inbox.css';
 //Importing bootstrap and other modules
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,13 +10,13 @@ import toast from 'react-hot-toast'
 import { sendChat, myChats, resetChats } from '../../redux/chat/chatSlice';
 import moment from 'moment'
 
-const Chat = () => {
+const Inbox = () => {
 
     const dispatch = useDispatch()
-    const { state: { user, ad } } = useLocation()
-    const { fullName } = user
-    const { title, price, images } = ad
-    const initials = fullName.charAt(0)
+    // const { state: { user, ad } } = useLocation()
+    // const { fullName } = user
+    // const { title, price, images } = ad
+    // const initials = fullName.charAt(0)
 
     const [data, setData] = useState({
         receiver: "",
@@ -27,27 +27,38 @@ const Chat = () => {
 
     const [message_history, setMessage_history] = useState({})
     const [active_chat_data, setActive_chat_data] = useState({})
+    const bottomRef = useRef(null)
 
     const { chats, errorMessage, successMessage, isError, isSuccess, isLoading } =
         useSelector((selector) => selector.chats)
 
     const currentUser = useSelector((selector) => selector.auth)
+    const [reloadChat, setReloadChat] = useState(false)
 
     useEffect(() => {
-        if (isError && errorMessage) {
-            toast.error(errorMessage)
-        }
+        // if (isError && errorMessage) {
+        //     toast.error(errorMessage)
+        // }
 
-        if (isSuccess && successMessage) {
-            toast.success(successMessage)
-        }
+        // if (isSuccess && successMessage) {
+        //     toast.success(successMessage)
+        // }
     }, [isError, isSuccess, errorMessage, successMessage, dispatch])
 
     useEffect(() => {
         dispatch(myChats())
-
+        setReloadChat(false)
         return () => dispatch(resetChats())
-    }, [dispatch])
+    }, [reloadChat, dispatch])
+
+    useEffect(() => {
+        if (bottomRef) {
+            bottomRef.current.addEventListener('DOMNodeInserted', event => {
+                const { currentTarget: target } = event;
+                target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+            });
+        }
+    }, [])
 
 
     const handleChatBox = (e) => {
@@ -64,27 +75,45 @@ const Chat = () => {
             ad: "",
             message: ""
         })
+        setReloadChat(true)
     }
 
     const handleChatClick = (messages, chat) => {
+
+        if (chat.messages[0].sender[0]._id == currentUser.user._id) {
+            const receiver = chat.messages[0].receiver[0]._id
+            setData({
+                ...data,
+                receiver: receiver,
+                ad: chat._id[0]._id,
+            })
+        }
+        else {
+            const receiver = chat.messages[0].sender[0]._id
+            setData({
+                ...data,
+                receiver: receiver,
+                ad: chat._id[0]._id,
+            })
+        }
         setMessage_history(messages)
         setActive_chat_data(chat)
     }
 
-    if (isLoading) {
-        return (
-            <div
-                style={{
-                    height: '100vh',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <ThreeDots color="#3a77ff" height={100} width={100} />
-            </div>
-        )
-    }
+    // if (isLoading) {
+    //     return (
+    //         <div
+    //             style={{
+    //                 height: '100vh',
+    //                 display: 'flex',
+    //                 justifyContent: 'center',
+    //                 alignItems: 'center',
+    //             }}
+    //         >
+    //             <ThreeDots color="#3a77ff" height={100} width={100} />
+    //         </div>
+    //     )
+    // }
 
     return (
         <div className="container">
@@ -133,15 +162,22 @@ const Chat = () => {
                             &&
                             <>
                                 <div className="active_chat_user">
-                                    <div className="active_chat_img">{initials}</div>
-                                    <div className="active_chat_name">
-                                        {(active_chat_data.messages[0].sender[0]._id == currentUser.user._id)
-                                            ?
-                                            <h5> {active_chat_data.messages[0].receiver[0].fullName}</h5>
-                                            :
-                                            <h5> {active_chat_data.messages[0].sender[0].fullName}</h5>
-                                        }
-                                    </div>
+                                    {(active_chat_data.messages[0].sender[0]._id == currentUser.user._id)
+                                        ?
+                                        <>
+                                            <div className="active_chat_img">{active_chat_data.messages[0].receiver[0].fullName.charAt(0)}</div>
+                                            <div className="active_chat_name">
+                                                <h5> {active_chat_data.messages[0].receiver[0].fullName}</h5>
+                                            </div>
+                                        </>
+                                        :
+                                        <>
+                                            <div className="active_chat_img">{active_chat_data.messages[0].sender[0].fullName.charAt(0)}</div>
+                                            <div className="active_chat_name">
+                                                <h5> {active_chat_data.messages[0].sender[0].fullName}</h5>
+                                            </div>
+                                        </>
+                                    }
                                 </div>
                                 <div className='active_ad_user'>
                                     <div className="active_ad_img">
@@ -158,10 +194,10 @@ const Chat = () => {
                                 </div>
                             </>
                         }
-                        <div className="msg_history">
+                        <div className="msg_history" ref={bottomRef}>
                             {message_history.length > 0 ? (
                                 message_history.map((message) => (
-                                    (message.sender == user._id) ? (
+                                    (message.sender == currentUser.user._id) ? (
                                         <div className="incoming_msg">
                                             <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
                                             <div className="received_msg">
@@ -198,4 +234,4 @@ const Chat = () => {
     )
 }
 
-export default Chat;
+export default Inbox;

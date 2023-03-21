@@ -102,7 +102,7 @@ const Header = () => {
           >
             <NavLink
               className="nav-link ms-2"
-              to="/chat"
+              to="/inbox"
               onClick={handleInboxBtnClick}
             >
               Inbox
