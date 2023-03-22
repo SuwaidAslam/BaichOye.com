@@ -91,10 +91,21 @@ export const chatMessages = asyncHandler(async (req, res) => {
     const { receiver, sender, ad } = req.body
     const chats = await chatModel.find(
         {
-            $and: [
-                { sender: sender },
-                { receiver: receiver },
-                { ad: ad }
+            $or: [
+                {
+                    $and: [
+                        { sender: sender },
+                        { receiver: receiver },
+                        { ad: ad }
+                    ]
+                },
+                {
+                    $and: [
+                        { sender: receiver },
+                        { receiver: sender },
+                        { ad: ad }
+                    ]
+                }
             ]
         }
     )

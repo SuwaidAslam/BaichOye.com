@@ -7,7 +7,7 @@ import { ThreeDots } from 'react-loader-spinner'
 import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
-import { sendChat, myChats, resetChats } from '../../redux/chat/chatSlice';
+import { sendChat, myChats, resetChats, getChatMessages, resetChatMessages } from '../../redux/chat/chatSlice';
 import moment from 'moment'
 
 const Inbox = () => {
@@ -29,7 +29,7 @@ const Inbox = () => {
     const [active_chat_data, setActive_chat_data] = useState({})
     const bottomRef = useRef(null)
 
-    const { chats, errorMessage, successMessage, isError, isSuccess, isLoading } =
+    const { chats, chatMessages, errorMessage, successMessage, isError, isSuccess, isLoading } =
         useSelector((selector) => selector.chats)
 
     const currentUser = useSelector((selector) => selector.auth)
@@ -47,8 +47,21 @@ const Inbox = () => {
 
     useEffect(() => {
         dispatch(myChats())
-        setReloadChat(false)
+        // setReloadChat(false)
         return () => dispatch(resetChats())
+    }, [dispatch])
+
+    
+    useEffect(() => {
+        const queryData = {
+            receiver: data.receiver,
+            sender: currentUser.user._id,
+            ad: data.ad,
+        }
+        console.log(queryData)
+        dispatch(getChatMessages(queryData))
+        setReloadChat(false)
+        return () => dispatch(resetChatMessages())
     }, [reloadChat, dispatch])
 
     useEffect(() => {
@@ -71,8 +84,7 @@ const Inbox = () => {
         dispatch(sendChat(data))
 
         setData({
-            receiver: "",
-            ad: "",
+            ...data,
             message: ""
         })
         setReloadChat(true)
@@ -98,6 +110,7 @@ const Inbox = () => {
         }
         setMessage_history(messages)
         setActive_chat_data(chat)
+        setReloadChat(true)
     }
 
     // if (isLoading) {
@@ -162,7 +175,7 @@ const Inbox = () => {
                             &&
                             <>
                                 <div className="active_chat_user">
-                                    {(active_chat_data.messages[0].sender[0]._id == currentUser.user._id)
+                                    {(active_chat_data._id[0].user == currentUser.user._id)
                                         ?
                                         <>
                                             <div className="active_chat_img">{active_chat_data.messages[0].receiver[0].fullName.charAt(0)}</div>
@@ -195,9 +208,16 @@ const Inbox = () => {
                             </>
                         }
                         <div className="msg_history" ref={bottomRef}>
-                            {message_history.length > 0 ? (
-                                message_history.map((message) => (
-                                    (message.sender == currentUser.user._id) ? (
+                            {chatMessages.length > 0 ? (
+                                chatMessages.map((message) => (
+                                    (message.sender == currentUser.user._id)
+                                        ?
+                                        <div className="outgoing_msg">
+                                            <div className="sent_msg">
+                                                <p>{message.message}</p>
+                                                <span className="time_date">{moment(message.createdAt).fromNow()}</span> </div>
+                                        </div>
+                                        :
                                         <div className="incoming_msg">
                                             <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
                                             <div className="received_msg">
@@ -206,13 +226,6 @@ const Inbox = () => {
                                                     <span className="time_date">{moment(message.createdAt).fromNow()}</span></div>
                                             </div>
                                         </div>
-                                    )
-                                        :
-                                        (<div className="outgoing_msg">
-                                            <div className="sent_msg">
-                                                <p>{message.message}</p>
-                                                <span className="time_date">{moment(message.createdAt).fromNow()}</span> </div>
-                                        </div>)
                                 ))
                             ) : (
                                 <div style={{ textAlign: "center" }}>
