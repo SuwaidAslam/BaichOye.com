@@ -13,10 +13,6 @@ import moment from 'moment'
 const Inbox = () => {
 
     const dispatch = useDispatch()
-    // const { state: { user, ad } } = useLocation()
-    // const { fullName } = user
-    // const { title, price, images } = ad
-    // const initials = fullName.charAt(0)
 
     const [data, setData] = useState({
         receiver: "",
@@ -24,8 +20,6 @@ const Inbox = () => {
         message: ""
     })
 
-
-    const [message_history, setMessage_history] = useState({})
     const [active_chat_data, setActive_chat_data] = useState({})
     const bottomRef = useRef(null)
 
@@ -90,7 +84,7 @@ const Inbox = () => {
         setReloadChat(true)
     }
 
-    const handleChatClick = (messages, chat) => {
+    const handleChatClick = (chat) => {
 
         if (chat.messages[0].sender[0]._id == currentUser.user._id) {
             const receiver = chat.messages[0].receiver[0]._id
@@ -108,7 +102,6 @@ const Inbox = () => {
                 ad: chat._id[0]._id,
             })
         }
-        setMessage_history(messages)
         setActive_chat_data(chat)
         setReloadChat(true)
     }
@@ -149,7 +142,7 @@ const Inbox = () => {
                         <div className="inbox_chat">
                             {chats.length > 0 ? (
                                 chats.map((chat) => <div className="chat_list active_chat"
-                                    key={chat} onClick={() => handleChatClick(chat.messages, chat)}>
+                                    key={chat} onClick={() => handleChatClick(chat)}>
                                     <div className="chat_people">
                                         <div className="chat_img">{chat.messages[0].receiver[0].fullName.charAt(0)}</div>
                                         <div className="chat_ib">
@@ -175,7 +168,7 @@ const Inbox = () => {
                             &&
                             <>
                                 <div className="active_chat_user">
-                                    {(active_chat_data._id[0].user == currentUser.user._id)
+                                    {(active_chat_data.messages[0].sender[0]._id === currentUser.user._id)
                                         ?
                                         <>
                                             <div className="active_chat_img">{active_chat_data.messages[0].receiver[0].fullName.charAt(0)}</div>
@@ -185,10 +178,10 @@ const Inbox = () => {
                                         </>
                                         :
                                         <>
-                                            <div className="active_chat_img">{active_chat_data.messages[0].sender[0].fullName.charAt(0)}</div>
+                                            {/* <div className="active_chat_img">{active_chat_data.messages[0].sender[0].fullName.charAt(0)}</div>
                                             <div className="active_chat_name">
                                                 <h5> {active_chat_data.messages[0].sender[0].fullName}</h5>
-                                            </div>
+                                            </div> */}
                                         </>
                                     }
                                 </div>

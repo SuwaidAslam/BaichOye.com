@@ -66,7 +66,6 @@ export const myChats = asyncHandler(async (req, res) => {
                     _id: "$ad",
                     "messages": {
                         "$push": {
-                            "message": "$message",
                             "sender": "$sender",
                             "receiver": "$receiver",
                             "createdAt": "$createdAt",

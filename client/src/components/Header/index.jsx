@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { filterAds, searchFilter } from '../../redux/ads/adsSlice'
 import { resetUser } from '../../redux/auth/authSlice'
 import profile from '../../images/profile.png'
@@ -14,6 +14,11 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { Avatar } from '@mui/material'
 import logo from '../../assets/default.png';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Logout from '@mui/icons-material/Logout';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import FolderIcon from '@mui/icons-material/Folder';
+
 // import appLogo from '../../assets/logo.svg';
 // import { Button } from 'react-bootstrap'
 
@@ -26,7 +31,6 @@ const Header = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const location = useLocation()
 
   const { user } = useSelector((select) => select.auth)
 
@@ -51,7 +55,7 @@ const Header = () => {
       toast.error('To post Ad, Please login')
     }
   }
-  
+
   const handleInboxBtnClick = () => {
     if (!user) {
       toast.error('To check Inbox, Please login')
@@ -100,13 +104,16 @@ const Header = () => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <NavLink
-              className="nav-link ms-2"
-              to="/inbox"
-              onClick={handleInboxBtnClick}
-            >
-              Inbox
-            </NavLink>
+            {user && (
+              <NavLink
+                className="nav-link ms-2"
+                to="/inbox"
+                onClick={handleInboxBtnClick}
+              >
+                Inbox
+              </NavLink>
+            )}
+
             <NavLink
               className="nav-link ms-2"
               to="/sell"
@@ -136,19 +143,45 @@ const Header = () => {
                 />
 
                 <Menu
-                  id="basic-menu"
+                  id="account-menu"
                   anchorEl={anchorEl}
                   open={open}
                   onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
+                  onClick={handleClose}
+                  // MenuListProps={{
+                  //   'aria-labelledby': 'basic-button',
+                  // }}
+                  PaperProps={{
+                    elevation: 0,
+                    sx: {
+                      overflow: 'visible',
+                      filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                      mt: 1.5,
+                      '& .MuiAvatar-root': {
+                        width: 32,
+                        height: 32,
+                        ml: -0.5,
+                        mr: 1,
+                      },
+                      '&:before': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        right: 14,
+                        width: 10,
+                        height: 10,
+                        bgcolor: 'background.paper',
+                        transform: 'translateY(-50%) rotate(45deg)',
+                        zIndex: 0,
+                      },
+                    },
                   }}
+                  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                   sx={{
                     '.MuiPaper-root': {
-                      width: '20%',
                       padding: '1rem',
-                      left: 'auto !important',
-                      right: '150px',
                     },
                   }}
                 >
@@ -177,6 +210,9 @@ const Header = () => {
                       textDecoration: 'none',
                     }}
                   >
+                    <ListItemIcon>
+                      <ManageAccountsIcon fontSize="small" />
+                    </ListItemIcon>
                     My Account
                   </Link>
                   <Link
@@ -188,9 +224,15 @@ const Header = () => {
                       textDecoration: 'none',
                     }}
                   >
+                    <ListItemIcon>
+                      <FolderIcon fontSize="small" />
+                    </ListItemIcon>
                     My Ads
                   </Link>
-                  <MenuItem to="/" onClick={logout}>
+                  <MenuItem onClick={logout}>
+                    <ListItemIcon>
+                      <Logout fontSize="small" />
+                    </ListItemIcon>
                     Logout
                   </MenuItem>
                 </Menu>
