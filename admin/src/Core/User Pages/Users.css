@@ -53,7 +53,8 @@
     margin:  12px 12px 12px 0 !important;
 }
 
-.user-card img {
+.user-card .chat_img  {
+    font-family: Arial, Helvetica, sans-serif;
     height: 140px;
     width: 140px;
     border-radius: 50%;
@@ -62,6 +63,10 @@
     margin: auto !important;
     border: 1px solid rgba(0, 0, 0, 0.15);
     margin-bottom: 12px !important;
+    line-height: 140px;
+    font-size: 60px;
+    background: #004D3C;
+    color: #fff;
 }
 
 .user-card h5 {

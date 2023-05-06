@@ -9,6 +9,8 @@ import {
   signup,
   signin,
   updateProfile,
+  getAllUsers,
+  getUserById,
 //   currentUser,
 //   activateAccount,
 //   forgotPassword,
@@ -22,6 +24,8 @@ const router = express.Router();
 router.post('/signup', signup)
 router.post('/signin', signin)
 router.put('/update/:id', updateProfile)
+router.get('/allUsers', getAllUsers)
+router.get('/users/:id', getUserById)
 // router.get('/me', authUser, currentUser)
 // router.post('/activate', activateAccount)
 // router.post('/forget', forgotPassword)

@@ -468,10 +468,31 @@ const updateProfile = asynHandler(async (req, res) => {
   res.json({ successMsg: 'Your details updated successfully', user: updatedUser })
 })
 
+// getAllUsers route
+// route      /api/auth/getAllUsers
+// access     private
+// method     get
+const getAllUsers = asynHandler(async (req, res) => {
+  const users = await authModel.find({}).select('-password')
+  res.json(users)
+})
+
+// getUserById route
+// route      /api/auth/getUser/:id
+// access     private
+// method     get
+const getUserById = asynHandler(async (req, res) => {
+  const user = await authModel.findById(req.params.id).select('-password')
+  res.json(user)
+})
+
+
 export {
   signup,
   signin,
   updateProfile,
+  getAllUsers,
+  getUserById,
   //   currentUser,
   //   activateAccount,
   //   forgotPassword,

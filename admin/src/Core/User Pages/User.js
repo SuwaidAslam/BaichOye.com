@@ -7,7 +7,7 @@ import {
   RiMailLine,
   RiPhoneLine,
   RiHome2Line,
-  RiShoppingCartLine,
+  RiMoneyDollarCircleLine,
 } from "react-icons/ri";
 
 import "./User.css";
@@ -24,9 +24,9 @@ function User(props) {
     setUser();
     axios({
       method: "get",
-      url: `https://ecommerceappcj.herokuapp.com/api/users/${userId}`,
+      url: `http://localhost:5000/api/auth/users/${userId}`,
     }).then((response) => {
-      setUser(response.data.user);
+      setUser(response.data);
     });
   };
 
@@ -41,15 +41,11 @@ function User(props) {
             <Card className="single-user-card">
               <Row>
                 <Col className="user-details-col">
-                  <img
-                    src={`https://ecommerceappcj.herokuapp.com/${user.image}`}
-                    alt={user.name}
-                  />
-                  <h4>{user.name}</h4>
+                  <div className="chat_img">{user.fullName.charAt(0)}</div>
+                  <h4>{user.fullName}</h4>
                   <hr />
                   <p>
-                    <RiHome2Line className="icon" /> {user.address}, {user.city}
-                    , {user.state} - {user.pin}
+                    <RiMoneyDollarCircleLine className="user-card-icon" /> {user.ads.length} active ads
                   </p>
                   <p>
                     <RiPhoneLine className="icon" /> {user.phone}
@@ -57,35 +53,35 @@ function User(props) {
                   <p>
                     <RiMailLine className="icon" /> {user.email}
                   </p>
-                  <p>
+                  {/* <p>
                     <RiShoppingCartLine className="icon" />{" "}
                     {user.orders.length.toString()} order(s) placed so far.
-                  </p>
+                  </p> */}
                 </Col>
                 <Col className="user-orders-col">
-                  <h6>Orders</h6>
+                  <h6>Ads</h6>
                   <div className="orders-div">
-                    {user.orders.map((order) => {
+                    {user.ads.map((ad) => {
                       return (
                         <Card className="user-order-card">
                           <Row>
                             <Col>
                               <p>
-                                Order ID :{" "}
-                                <Link to={`/orders/${order._id}`}>
-                                  {order._id}
+                                Ad ID :{" "}
+                                <Link to={`/ads/${ad}`}>
+                                  {ad}
                                 </Link>{" "}
                               </p>
-                              <p>Order Date : {order.orderedAt}</p>
+                              {/* <p>Ad Posted Date : {ad.orderedAt}</p>
                               <p>
                                 Order Amount : Rs.{" "}
                                 {order.orderAmount
                                   .toString()
                                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                 /-
-                              </p>
+                              </p> */}
                             </Col>
-                            <Col>
+                            {/* <Col>
                               <p>
                                 Order Status :{" "}
                                 {order.status === "placed"
@@ -98,7 +94,7 @@ function User(props) {
                               </p>
                               <p>Shipping Status : {order.shippedAt}</p>
                               <p>Delivery Status : {order.deliveredAt}</p>
-                            </Col>
+                            </Col> */}
                           </Row>
                         </Card>
                       );
