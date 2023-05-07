@@ -482,7 +482,7 @@ const getAllUsers = asynHandler(async (req, res) => {
 // access     private
 // method     get
 const getUserById = asynHandler(async (req, res) => {
-  const user = await authModel.findById(req.params.id).select('-password')
+  const user = await authModel.findById(req.params.id).select('-password').populate('ads')
   res.json(user)
 })
 

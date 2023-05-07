@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
 import { Link } from "react-router-dom";
+import { format } from 'date-fns';
 import {
   RiMailLine,
   RiPhoneLine,
@@ -45,18 +46,15 @@ function User(props) {
                   <h4>{user.fullName}</h4>
                   <hr />
                   <p>
-                    <RiMoneyDollarCircleLine className="user-card-icon" /> {user.ads.length} active ads
-                  </p>
-                  <p>
                     <RiPhoneLine className="icon" /> {user.phone}
                   </p>
                   <p>
                     <RiMailLine className="icon" /> {user.email}
                   </p>
-                  {/* <p>
-                    <RiShoppingCartLine className="icon" />{" "}
-                    {user.orders.length.toString()} order(s) placed so far.
-                  </p> */}
+                  <p>
+                    <RiMoneyDollarCircleLine className="icon" />{" "}
+                    {user.ads.length.toString()} active ad(s).
+                  </p>
                 </Col>
                 <Col className="user-orders-col">
                   <h6>Ads</h6>
@@ -64,37 +62,28 @@ function User(props) {
                     {user.ads.map((ad) => {
                       return (
                         <Card className="user-order-card">
-                          <Row>
+                          <Row key={ad._id}>
                             <Col>
                               <p>
                                 Ad ID :{" "}
-                                <Link to={`/ads/${ad}`}>
-                                  {ad}
+                                <Link to={`/ads/${ad._id}`}>
+                                  {ad._id}
                                 </Link>{" "}
                               </p>
-                              {/* <p>Ad Posted Date : {ad.orderedAt}</p>
+                              <p>Ad Posted Date : {format(new Date(ad.createdAt), 'dd/mm/yyyy')}</p>
+                              <p>Ad Updated Date : {format(new Date(ad.updatedAt), 'dd/mm/yyyy')}</p>
+                            </Col>
+                            <Col>
+                              <p>Category : {ad.category}</p>
+                              <p>Location : {ad.location}</p>
                               <p>
-                                Order Amount : Rs.{" "}
-                                {order.orderAmount
+                                Ad Price : Rs.{" "}
+                                {ad.price
                                   .toString()
                                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                 /-
-                              </p> */}
-                            </Col>
-                            {/* <Col>
-                              <p>
-                                Order Status :{" "}
-                                {order.status === "placed"
-                                  ? "Placed"
-                                  : order.status === "shipped"
-                                  ? "Shipped"
-                                  : order.status === "delivered"
-                                  ? "Delivered"
-                                  : "Cancelled"}
                               </p>
-                              <p>Shipping Status : {order.shippedAt}</p>
-                              <p>Delivery Status : {order.deliveredAt}</p>
-                            </Col> */}
+                            </Col>
                           </Row>
                         </Card>
                       );
