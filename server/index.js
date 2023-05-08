@@ -6,7 +6,13 @@ import connectDB from './mongodb/connect.js';
 import adRoutes from './routes/ads.js';
 import authRoutes from './routes/auth.js';
 import chatRoutes from './routes/chat.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
+
+
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
 
@@ -21,10 +27,14 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cors());
 
 
+
 // router
 app.use('/api/auth', authRoutes);
 app.use('/api', adRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/resources',express.static(__dirname + '/public/uploads'));
+
+
 
 
 app.get('/', async (req, res) => {

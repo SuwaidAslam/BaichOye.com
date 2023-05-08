@@ -1,6 +1,7 @@
 import moment from 'moment'
 import { Card, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import { STATIC_FILES_URL } from '../../constants/url'
 
 export const InnerCard = ({ ad }) => {
   const navigate = useNavigate()
@@ -16,7 +17,7 @@ export const InnerCard = ({ ad }) => {
       <Card style={{ width: '100%', cursor: 'pointer' }}>
         <Card.Img
           variant="top"
-          src={`./uploads/${ad.images[0]}`}
+          src={STATIC_FILES_URL + `/${ad.images[0]}`}
           height={300}
           style={{ objectFit: 'cover' }}
         />

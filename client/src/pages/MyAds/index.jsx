@@ -17,7 +17,7 @@ const MyAds = () => {
   }, [dispatch])
 
   return (
-    <Container>
+    <Container className='mb-4'>
       <h1 className="mt-5 mb-3">Your Ads</h1>
       {ads.length > 0 ? (
         ads.map((ad) => <MyAd ad={ad} />)

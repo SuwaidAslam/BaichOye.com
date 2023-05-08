@@ -7,6 +7,7 @@ import 'react-multi-carousel/lib/styles.css'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAds, reset } from '../../redux/ads/adsSlice'
+import { STATIC_FILES_URL } from '../../constants/url'
 
 const ItemSlideShow = () => {
   const { ads } = useSelector((selector) => selector.ads)
@@ -77,7 +78,7 @@ const InnerCard = ({ ad }) => {
       <Card style={{ width: '100%', cursor: 'pointer' }}>
         <Card.Img
           variant="top"
-          src={`../uploads/${ad.images[0]}`}
+          src={STATIC_FILES_URL + `/${ad.images[0]}`}
           height={200}
           style={{ objectFit: 'contain' }}
         />

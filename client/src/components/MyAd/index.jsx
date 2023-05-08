@@ -6,6 +6,7 @@ import { BsThreeDots } from 'react-icons/bs'
 import { useDispatch } from 'react-redux'
 import { deleteAd } from '../../redux/ads/adsSlice'
 import moment from 'moment'
+import { STATIC_FILES_URL } from '../../constants/url'
 
 const MyAd = ({ ad }) => {
   const dispatch = useDispatch()
@@ -60,7 +61,7 @@ const MyAd = ({ ad }) => {
           }}
         >
           <img
-            src={`./uploads/${images[0]}`}
+            src={STATIC_FILES_URL + `/${images[0]}`}
             alt="profile"
             width={50}
             height={50}

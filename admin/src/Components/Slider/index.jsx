@@ -5,7 +5,7 @@ import { STATIC_FILES_URL } from '../../constants/url'
 const Slider = ({ images }) => {
   return (
     <>
-      <Carousel style={{ background: '#000' }} indicators={false}>
+      <Carousel style={{ background: '#000' }} indicators={false} nextLabel={null} prevLabel={null}>
         {images.map((img) => {
           return (
             <Carousel.Item key={img}>

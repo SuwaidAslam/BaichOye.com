@@ -43,6 +43,18 @@ const AdSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
+// Define middleware function to delete child documents when a parent is deleted
+AdSchema.pre('remove', async function (next) {
+  console.log("pre remove");
+  try {
+    const User = mongoose.model('User');
+    // Remove ad reference from all child User documents
+    await User.updateMany({ ads: this._id }, { $pull: { ads: this._id } }).exec();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 const Ads = mongoose.model('Ads', AdSchema);
 
 export default Ads;

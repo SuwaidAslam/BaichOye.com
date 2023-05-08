@@ -107,22 +107,22 @@ export const deleteAd = asyncHandler(async (req, res) => {
 
     const id = req.params.id
 
-    // check if user is authorized to delete this ad
-    const ad = await AdModel.findOne({ _id: id }).select('user')
+    // // check if user is authorized to delete this ad
+    // const ad = await AdModel.findOne({ _id: id }).select('user')
 
-    if (ad.user._id.toString() !== authUser.id) {
-        res.status(401)
-        throw new Error('Not authorized! cant delete this ad')
-    }
+    // if (ad.user._id.toString() !== authUser.id) {
+    //     res.status(401)
+    //     throw new Error('Not authorized! cant delete this ad')
+    // }
 
     // delete
-    const deletedAd = await AdModel.findByIdAndRemove(id)
+    const deletedAd = await AdModel.findById(id)
 
     if (!deletedAd) {
         res.status(404)
         throw new Error('No item found! Cannot delete this item')
     }
-
+    await deletedAd.remove();
     res.json({ successMsg: 'Ad deleted', id: deletedAd._id })
 })
 
@@ -182,6 +182,29 @@ export const myads = asyncHandler(async (req, res) => {
     //     'title price images createdAt'
     // )
     const ads = await AdModel.find({ user: user.id })
+
+    if (!ads) {
+        throw new Error('Something went wrong')
+    }
+
+    res.json(ads)
+})
+
+// get ad by id
+export const getAdById = asyncHandler(async (req, res) => {
+    const id = req.params.id
+    const ad = await AdModel.findOne({ _id: id }).populate('user', '-password')
+
+    if (!ad) {
+        throw new Error('Something went wrong')
+    }
+
+    res.json(ad)
+})
+
+// get all the ads in the db
+export const getAllAds = asyncHandler(async (req, res) => {
+    const ads = await AdModel.find({}).populate('user', '-password')
 
     if (!ads) {
         throw new Error('Something went wrong')

@@ -212,11 +212,11 @@ const signin = asynHandler(async (req, res) => {
     throw new Error("Email does'nt exist! Please sign up first")
   }
 
-  // // if passwords do not match
-  // if (user.password !== password) {
-  //   res.status(400)
-  //   throw new Error('Incorrect password!')
-  // }
+  // if passwords do not match
+  if (user.password !== password) {
+    res.status(400)
+    throw new Error('Incorrect password!')
+  }
 
   // sign in user
   res.json({

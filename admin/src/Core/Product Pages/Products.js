@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
-import { RiDeleteBin3Line, RiEditLine } from "react-icons/ri";
+import { RiDeleteBin3Line, RiEditLine, RiExternalLinkLine } from "react-icons/ri";
 
 import "./Products.css";
 import { Link } from "react-router-dom";
+import { STATIC_FILES_URL } from "../../constants/url";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -20,17 +21,17 @@ function Products() {
     setProducts([]);
     axios({
       method: "get",
-      url: "https://ecommerceappcj.herokuapp.com/api/products/",
+      url: "http://localhost:5000/api/allAds",
     }).then((response) => {
-      setProducts(response.data.products);
-      setFilteredProducts(response.data.products);
+      setProducts(response.data);
+      setFilteredProducts(response.data);
     });
   };
 
   const deleteProduct = (productId) => {
     axios({
       method: "delete",
-      url: `https://ecommerceappcj.herokuapp.com/api/products/delete/${productId}`,
+      url: `http://localhost:5000/api/item/delete/${productId}`,
     }).then((response) => {
       console.log(response.data);
       getProducts();
@@ -72,12 +73,12 @@ function Products() {
         <Col className="products-content" lg={10}>
           <Row>
             <Col lg={8}>
-              <h4>Products</h4>
-              <p>Below are the products currently added to your website.</p>
+              <h4>Ads</h4>
+              <p>Below are the Ads currently added to your website.</p>
             </Col>
             <Col className="product-search-col">
               <div className="product-search-div">
-                <p>Search Product</p>
+                <p>Search Ad</p>
                 <input
                   type="text"
                   name="search"
@@ -97,21 +98,24 @@ function Products() {
                 <Col lg={3}>
                   <Card className="product-card">
                     <img
-                      src={`https://ecommerceappcj.herokuapp.com/${product.image}`}
-                      alt={product.name}
+                      src={`${STATIC_FILES_URL}/${product.images[0]}`}
+                      alt={product.title}
                     />
-                    <h5>{product.name}</h5>
-                    <p>Cost : Rs. {commaCost}/-</p>
-                    <Link to={`/products/edit/${product.id}`}>
+                    <h5>{product.title}</h5>
+                    <p>Price : Rs. {commaCost}/-</p>
+                    <Link to={`/ads/edit/${product._id}`}>
                       <RiEditLine className="product-card-icon edit-icon" />
                     </Link>
                     <RiDeleteBin3Line
                       onClick={(event) => {
                         event.preventDefault();
-                        deleteProduct(product.id);
+                        deleteProduct(product._id);
                       }}
                       className="product-card-icon delete-icon"
                     />
+                    <Link to={`/ads/${product._id}`}>
+                      <RiExternalLinkLine className="ad-link" />
+                    </Link>
                   </Card>
                 </Col>
               );

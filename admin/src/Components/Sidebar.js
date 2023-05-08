@@ -5,6 +5,7 @@ import {
   RiUser3Line,
   RiAddFill,
   RiFileList3Line,
+  RiMoneyDollarCircleLine
 } from "react-icons/ri";
 
 import { IoIosLaptop } from "react-icons/io";
@@ -46,7 +47,7 @@ function Sidebar() {
               }`}
             >
               <RiFileList3Line className="sidebar-icon" />
-              <p>Product Categories</p>
+              <p>Categories</p>
             </div>
           </Link>
           <Link to="/categories/add" className="sidebar-link">
@@ -66,7 +67,7 @@ function Sidebar() {
               }`}
             >
               <IoIosLaptop className="sidebar-icon" />
-              <p>Products</p>
+              <p>Advertisements</p>
             </div>
           </Link>
           <Link to="/products/add" className="sidebar-link">
@@ -85,8 +86,8 @@ function Sidebar() {
                 isActive(history, "/orders") && "active"
               }`}
             >
-              <RiShoppingCart2Line className="sidebar-icon" />
-              <p>Orders</p>
+              <RiMoneyDollarCircleLine className="sidebar-icon" />
+              <p>Payment Approvals</p>
             </div>
           </Link>
           <Link to="/users" className="sidebar-link">
