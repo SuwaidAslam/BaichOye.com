@@ -30,7 +30,7 @@
 
 .category-card img {
     height: 140px;
-    width: auto;
+    width: 100%;
     object-fit: contain;
     margin-bottom: 12px !important;
 }

@@ -51,3 +51,57 @@ export const deleteCategoryById = asyncHandler(async (req, res, next) => {
         next(error);
     }
 });
+
+
+// get Category by ID
+export const getCategoryById = asyncHandler(async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const category = await Category.findById(id);
+        if (!category) {
+            return res.status(404).json({ success: false, message: 'Category not found' });
+        }
+        res.status(200).json({ success: true, message: 'Category fetched', category });
+    } catch (error) {
+        next(error);
+    }
+});
+
+
+// Create a Router method to update Category Image by Id and also delete the old image
+export const updateCategoryImage = asyncHandler(async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const category = await Category.findById(id);
+        if (!category) {
+            return res.status(404).json({ success: false, message: 'Category not found' });
+        }
+        const file = req.files[0];
+        let imageName;
+        if (file) {
+            imageName = file.filename;
+        }
+        category.image = imageName;
+        await category.save();
+        res.status(200).json({ success: true, message: 'Category image updated', category });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Update a category by ID
+export const updateCategoryById = asyncHandler(async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const category = await Category.findById(id);
+        if (!category) {
+            return res.status(404).json({ success: false, message: 'Category not found' });
+        }
+        const { name } = req.body;
+        category.name = name;
+        await category.save();
+        res.status(200).json({ success: true, message: 'Category updated', category });
+    } catch (error) {
+        next(error);
+    }
+});

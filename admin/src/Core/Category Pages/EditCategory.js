@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
 import axios from "axios";
+import { STATIC_FILES_URL } from "../../constants/url";
 
 import "./AddCategory.css";
 import { useHistory } from "react-router";
@@ -26,12 +27,12 @@ function EditCategory(props) {
     const categoryId = props.match.params.categoryId;
     axios({
       method: "get",
-      url: `https://ecommerceappcj.herokuapp.com/api/categories/${categoryId}`,
+      url: `http://localhost:5000/api/categories/getCategory/${categoryId}`,
     }).then((response) => {
       console.log(response.data.category);
       setCategoryData(response.data.category);
       setImagePreview(
-        `https://ecommerceappcj.herokuapp.com/${response.data.category.image}`
+        `${STATIC_FILES_URL}/${response.data.category.image}`
       );
     });
   };
@@ -57,7 +58,7 @@ function EditCategory(props) {
     try {
       axios({
         method: "patch",
-        url: `https://ecommerceappcj.herokuapp.com/api/categories/${props.match.params.categoryId}`,
+        url: `http://localhost:5000/api/categories/updateCategory/${props.match.params.categoryId}`,
         data: { name: categoryData.name },
       }).then((response) => {
         if (image) {
@@ -65,7 +66,7 @@ function EditCategory(props) {
           formData.append("image", image);
           axios({
             method: "patch",
-            url: `https://ecommerceappcj.herokuapp.com/api/categories/image/${props.match.params.categoryId}`,
+            url: `http://localhost:5000/api/categories/image/${props.match.params.categoryId}`,
             data: formData,
           }).then((resp) => {
             setImagePreview();

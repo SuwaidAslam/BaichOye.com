@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
 import { RiAddFill, RiEditLine, RiEyeLine } from "react-icons/ri";
+import { STATIC_FILES_URL } from "../../constants/url";
 
 import "./Categories.css";
 import { Link } from "react-router-dom";
@@ -18,7 +19,7 @@ function Categories() {
     setCategories([]);
     axios({
       method: "get",
-      url: "https://ecommerceappcj.herokuapp.com/api/categories/",
+      url: "http://localhost:5000/api/categories/getAll",
     }).then(function (response) {
       setCategories(response.data.categories);
     });
@@ -60,14 +61,14 @@ function Categories() {
                 <Col lg={3}>
                   <Card className="category-card">
                     <img
-                      src={`https://ecommerceappcj.herokuapp.com/${category.image}`}
+                      src={`${STATIC_FILES_URL}/${category.image}`}
                       alt={category.name}
                     />
                     <h5>{category.name}</h5>
-                    <Link to={`/categories/edit/${category.id}`}>
+                    <Link to={`/categories/edit/${category._id}`}>
                       <RiEditLine className="edit-cat-btn" />
                     </Link>
-                    <Link to={`/categories/products/${category.id}`}>
+                    <Link to={`/categories/ads/${category._id}`}>
                       <RiEyeLine className="view-prod-btn" />
                     </Link>
                   </Card>
