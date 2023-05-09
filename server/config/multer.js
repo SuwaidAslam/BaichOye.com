@@ -23,7 +23,8 @@ const storage = multer.diskStorage({
   },
 })
 
-const upload = multer({ storage }).array('images', 5)
+// const upload = multer({ storage }).array('images', 5)
+const upload = multer({ storage }).any();
 
 function multerMiddleware(req, res, next) {
   next()

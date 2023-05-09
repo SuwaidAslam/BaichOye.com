@@ -103,9 +103,9 @@ function Products() {
                     />
                     <h5>{product.title}</h5>
                     <p>Price : Rs. {commaCost}/-</p>
-                    <Link to={`/ads/edit/${product._id}`}>
+                    {/* <Link to={`/ads/edit/${product._id}`}>
                       <RiEditLine className="product-card-icon edit-icon" />
-                    </Link>
+                    </Link> */}
                     <RiDeleteBin3Line
                       onClick={(event) => {
                         event.preventDefault();

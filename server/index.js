@@ -6,6 +6,7 @@ import connectDB from './mongodb/connect.js';
 import adRoutes from './routes/ads.js';
 import authRoutes from './routes/auth.js';
 import chatRoutes from './routes/chat.js';
+import categoryRoutes from './routes/category.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -32,6 +33,7 @@ app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api', adRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/categories', categoryRoutes);
 app.use('/resources',express.static(__dirname + '/public/uploads'));
 
 

@@ -40,7 +40,7 @@ function AddCategory() {
       formData.append("image", image);
       axios({
         method: "post",
-        url: "https://ecommerceappcj.herokuapp.com/api/categories/",
+        url: "http://localhost:5000/api/categories/add",
         data: formData,
       }).then((response) => {
         setImagePreview();
