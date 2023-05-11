@@ -55,6 +55,7 @@ AdSchema.pre('remove', async function (next) {
     next(err);
   }
 });
+
 const Ads = mongoose.model('Ads', AdSchema);
 
 export default Ads;

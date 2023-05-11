@@ -11,18 +11,18 @@ const CategorySchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-const Category = mongoose.model('Category', CategorySchema);
-
 // Define middleware function to delete child documents when a parent is deleted
 CategorySchema.pre('remove', async function (next) {
   try {
-    const User = mongoose.model('Ads');
+    const Ads = mongoose.model('Ads');
     // Remove ad reference from all child User documents
-    await User.updateMany({ category: this._id }, { $pull: { category: this._id } }).exec();
+    await Ads.deleteMany({category: this._id}).exec();
     next();
   } catch (err) {
     next(err);
   }
 });
+
+const Category = mongoose.model('Category', CategorySchema);
 
 export default Category;

@@ -12,18 +12,13 @@ import { dirname } from 'path';
 
 
 
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
 dotenv.config();
-
 const app = express();
-
 
 // body parser middlewares
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-
 // cors
 app.use(cors());
 
@@ -34,7 +29,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api', adRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/categories', categoryRoutes);
-app.use('/resources',express.static(__dirname + '/public/uploads'));
+app.use('/resources', express.static(__dirname + '/public/uploads'));
 
 
 
@@ -42,7 +37,6 @@ app.use('/resources',express.static(__dirname + '/public/uploads'));
 app.get('/', async (req, res) => {
     res.send('Hello from BaichOye.com!');
 })
-
 
 // //serve static file
 // if (process.env.NODE_ENV === 'production') {
