@@ -8,22 +8,35 @@ import { postAd } from '../../redux/ads/adsSlice';
 import toast from 'react-hot-toast';
 import { ThreeDots } from 'react-loader-spinner'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
+import { getCategories, reset } from '../../redux/category/categorySlice'
 
 const Sell = () => {
-    const [locationValue, setLocationValue] = useState(null)
+    const [locationValue, setLocationValue] = useState(undefined)
     const [allValues, setAllValues] = useState({
         title: '',
         description: '',
         brand: '',
-        condition: 'New',
-        category: 'Mobile Phones',
-        price: null,
+        condition: undefined,
+        category: '',
+        price: undefined,
         images: [],
     })
 
     const dispatch = useDispatch()
     const { errorMessage, successMessage, isError, isSuccess, isLoading } =
         useSelector((selector) => selector.ads)
+
+    const { categories } = useSelector(
+        (selector) => selector.categories
+    )
+
+    useEffect(() => {
+        dispatch(getCategories())
+    }, [dispatch])
+
+    useEffect(() => {
+        return () => dispatch(reset())
+    }, [dispatch])
 
     useEffect(() => {
         if (isError && errorMessage) {
@@ -55,6 +68,7 @@ const Sell = () => {
             toast.error('Location cannot be empty');
             return
         }
+        console.log(allValues.category)
 
         formData.append('title', allValues.title)
         formData.append('brand', allValues.brand)
@@ -66,13 +80,14 @@ const Sell = () => {
 
         dispatch(postAd(formData))
 
+
         setAllValues({
             title: '',
             description: '',
             brand: '',
             condition: '',
-            category: 'Mobile Phones',
-            price: null,
+            category: undefined,
+            price: undefined,
             images: [],
         })
     }
@@ -141,17 +156,14 @@ const Sell = () => {
                             <div>
                                 <p className={styles.input_label}>Categories</p>
 
-                                <Form.Select onChange={categoryDropdownChange} className={styles.dropdowns}>
-                                    <option value="Mobile Phones">Mobile Phones</option>
-                                    <option value="Cars">Cars</option>
-                                    <option value="Motorcycles">Motorcycles</option>
-                                    <option value="Houses">Houses</option>
-                                    <option value="TV">TV</option>
-                                    <option value="Video - Audio">Video - Audio</option>
-                                    <option value="Tablets">Tablets</option>
-                                    <option value="Laptops">Laptops</option>
-                                    <option value="Land & Plots">Land & Plots</option>
-                                    <option value="Others">Others</option>
+                                <Form.Select onChange={categoryDropdownChange}
+                                    className={styles.dropdowns}
+                                >
+                                    {categories.map((category) => (
+                                        <option key={category._id} value={category._id}>
+                                            {category.name}
+                                        </option>
+                                    ))}
                                 </Form.Select>
                             </div>
 
@@ -163,7 +175,7 @@ const Sell = () => {
                                 handleChange={handleChange}
                             />
 
-                            <FileUpload allValues={allValues} setAllValues={setAllValues}/>
+                            <FileUpload allValues={allValues} setAllValues={setAllValues} />
 
                             <div className="input-control">
                                 <label className="mb-2 text-uppercase">

@@ -1,12 +1,42 @@
 import React from 'react'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { filterByCategory } from '../../redux/ads/adsSlice'
+import { getCategories, reset } from '../../redux/category/categorySlice'
 import "./categories.css"
+import { STATIC_FILES_URL } from '../../constants/url'
+import { ThreeDots } from 'react-loader-spinner'
 
 const Categories = () => {
   const [category, setCategory] = useState('')
+  const { categories, isLoading } = useSelector(
+    (selector) => selector.categories
+  )
+
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getCategories())
+  }, [dispatch])
+
+  useEffect(() => {
+    return () => dispatch(reset())
+  }, [dispatch])
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <ThreeDots color="#3a77ff" height={100} width={100} />
+      </div>
+    )
+  }
 
   const handleCategories = (category) => {
     setCategory(category)
@@ -14,60 +44,22 @@ const Categories = () => {
       return
     }
     dispatch(filterByCategory(category))
+    // map over categories
   }
 
   return (
     <ul className="categories_navlinks">
-      <li className="navlink" onClick={() => handleCategories('Mobile Phones')}>
-        <img src="https://cdn-icons-png.flaticon.com/512/644/644458.png" alt="" className='nav_image' />
-        <br />
-        Phones
-      </li>
-      <li className="navlink" onClick={() => handleCategories('Cars')}>
-        <img src="https://cdn-icons-png.flaticon.com/512/2962/2962520.png" alt="" className='nav_image' />
-        <br />
-        Cars
-      </li>
-      <li className="navlink" onClick={() => handleCategories('Motorcycles')}>
-        <img src="https://cdn-icons-png.flaticon.com/512/3148/3148937.png" alt="" className='nav_image' />
-        <br />
-        Motorcycles
-      </li>
-      <li className="navlink" onClick={() => handleCategories('Houses')}>
-        <img src="https://cdn-icons-png.flaticon.com/512/2544/2544056.png" alt="" className='nav_image' />
-        <br />
-        Houses
-      </li>
-      <li className="navlink" onClick={() => handleCategories('Tv')}>
-        <img src="https://cdn-icons-png.flaticon.com/512/3567/3567356.png" alt="" className='nav_image' />
-        <br />
-        TV
-      </li>
-      <li className="navlink" onClick={() => handleCategories('Video-Audio')}>
-        <img src="https://cdn-icons-png.flaticon.com/512/1644/1644133.png" alt="" className='nav_image' />
-        <br />
-        Video-Audio
-      </li>
-      <li className="navlink" onClick={() => handleCategories('Tablets')}>
-        <img src="https://cdn-icons-png.flaticon.com/512/644/644425.png" alt="" className='nav_image' />
-        <br />
-        Tablets
-      </li>
-      <li className="navlink" onClick={() => handleCategories('Laptops')}>
-        <img src="https://cdn-icons-png.flaticon.com/512/2888/2888701.png" alt="" className='nav_image' />
-        <br />
-        Laptops
-      </li>
-      <li className="navlink" onClick={() => handleCategories('Land & Plots')}>
-        <img src="https://cdn-icons-png.flaticon.com/512/7910/7910381.png" alt="" className='nav_image' />
-        <br />
-        Land & Plots
-      </li>
-      <li className="navlink" onClick={() => handleCategories('Others')}>
-        <img src="https://cdn-icons-png.flaticon.com/512/9822/9822895.png" alt="" className='nav_image' />
-        <br />
-        Others
-      </li>
+      {categories.length > 0 ? (
+        categories.map((category) => <li className="navlink" onClick={() => handleCategories(category.name)}>
+          <img src={`${STATIC_FILES_URL}${category.image}`} alt="" className='nav_image' />
+          <br />
+          {category.name}
+        </li>)
+      ) : (
+        <div style={{ height: '35vh' }}>
+          <h1>{categories}</h1>
+        </div>
+      )}
     </ul>
   )
 }

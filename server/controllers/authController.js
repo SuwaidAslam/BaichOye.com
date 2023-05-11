@@ -473,7 +473,7 @@ const updateProfile = asynHandler(async (req, res) => {
 // access     private
 // method     get
 const getAllUsers = asynHandler(async (req, res) => {
-  const users = await authModel.find({}).select('-password')
+  const users = await authModel.find({}).select('-password').populate('ads')
   res.json(users)
 })
 
@@ -482,7 +482,12 @@ const getAllUsers = asynHandler(async (req, res) => {
 // access     private
 // method     get
 const getUserById = asynHandler(async (req, res) => {
-  const user = await authModel.findById(req.params.id).select('-password').populate('ads')
+  const user = await authModel.findById(req.params.id)
+    .select('-password')
+    .populate({
+      path: 'ads',
+      populate: { path: 'category' }
+    })
   res.json(user)
 })
 

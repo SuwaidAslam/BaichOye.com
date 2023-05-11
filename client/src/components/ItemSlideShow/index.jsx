@@ -75,7 +75,7 @@ const InnerCard = ({ ad }) => {
 
   return (
     <div key={ad._id} onClick={() => handleClick(ad._id)}>
-      <Card style={{ width: '100%', cursor: 'pointer' }}>
+      <Card style={{ width: '100%', cursor: 'pointer'}}>
         <Card.Img
           variant="top"
           src={STATIC_FILES_URL + `/${ad.images[0]}`}
@@ -112,7 +112,7 @@ const InnerCard = ({ ad }) => {
           <Card.Text style={{ fontSize: '25px', fontWeight: 'bold' }}>
             {ad.price}
           </Card.Text>
-          <Card.Text style={{ fontSize: '13px' }}>
+          <Card.Text>
             {ad.location} - {time}
           </Card.Text>
         </Card.Body>

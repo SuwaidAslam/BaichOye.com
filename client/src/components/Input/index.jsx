@@ -2,7 +2,7 @@ import React from 'react'
 import { Col } from 'react-bootstrap'
 import styles from "./styles.module.css";
 
-const Input = ({ label, placeholder, type, name, value=null, handleChange }) => {
+const Input = ({ label, placeholder, type, name, value=undefined, handleChange }) => {
   if (label === 'Description') {
     return (
       <Col xs={12}>

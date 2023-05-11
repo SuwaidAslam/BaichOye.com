@@ -5,7 +5,7 @@ import AuthModel from '../mongodb/models/authModel.js';
 // POST ADS
 export const postAd = asyncHandler(async (req, res) => {
     const user = req.user
-    
+
     if (!req.files || req.files.length < 1) {
         throw new Error('Please include at least one image')
     }
@@ -60,7 +60,7 @@ export const postAd = asyncHandler(async (req, res) => {
 
 // GET ADS
 export const getAds = asyncHandler(async (req, res) => {
-    const ads = await AdModel.find({})
+    const ads = await AdModel.find({}).populate('category', 'name')
     if (!ads) {
         res.status(404)
         throw new Error('No ads data to show')
@@ -143,7 +143,7 @@ export const updateAd = asyncHandler(async (req, res) => {
         price,
         category,
     } = req.body
-    
+
 
     // check if user is authorized to delete this ad
     const ad = await AdModel.findOne({ _id: id }).select('user')
@@ -193,7 +193,9 @@ export const myads = asyncHandler(async (req, res) => {
 // get ad by id
 export const getAdById = asyncHandler(async (req, res) => {
     const id = req.params.id
-    const ad = await AdModel.findOne({ _id: id }).populate('user', '-password')
+    const ad = await AdModel.findOne({ _id: id })
+        .populate('user', '-password')
+        .populate('category', 'name')
 
     if (!ad) {
         throw new Error('Something went wrong')

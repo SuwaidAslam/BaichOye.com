@@ -6,7 +6,8 @@ import {
     deleteCategoryById,
     getCategoryById,
     updateCategoryById,
-    updateCategoryImage
+    updateCategoryImage,
+    getAdsByCategory
 } from '../controllers/categoryController.js';
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.post('/delete/:id', deleteCategoryById)
 router.get('/getCategory/:id', getCategoryById)
 router.patch('/updateCategory/:id', updateCategoryById)
 router.patch('/image/:id', upload, multerMiddleware, updateCategoryImage)
+router.get('/getAdsByCategory/:id', getAdsByCategory)
 
 export default router;

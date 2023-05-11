@@ -27,7 +27,7 @@ function App() {
           <Route path="/categories" exact component={Categories} />
           <Route path="/categories/add" exact component={AddCategory} />
           <Route
-            path="/categories/products/:categoryId"
+            path="/categories/ads/:categoryId"
             exact
             component={CategoryProduct}
           />

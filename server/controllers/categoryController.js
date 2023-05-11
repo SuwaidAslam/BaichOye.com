@@ -1,4 +1,5 @@
 import Category from '../mongodb/models/categoryModel.js';
+import Ads from '../mongodb/models/adModel.js';
 import asyncHandler from 'express-async-handler';
 
 // Add a new category
@@ -101,6 +102,22 @@ export const updateCategoryById = asyncHandler(async (req, res, next) => {
         category.name = name;
         await category.save();
         res.status(200).json({ success: true, message: 'Category updated', category });
+    } catch (error) {
+        next(error);
+    }
+});
+
+
+// Create a router function to get Ads by Category Id from Ads model
+export const getAdsByCategory = asyncHandler(async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const category = await Category.findById(id);
+        if (!category) {
+            return res.status(404).json({ success: false, message: 'Category not found' });
+        }
+        const ads = await Ads.find({ category: id }).populate('category', 'name');
+        res.status(200).json({ success: true, message: 'Ads fetched', ads });
     } catch (error) {
         next(error);
     }

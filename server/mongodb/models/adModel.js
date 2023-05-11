@@ -23,7 +23,8 @@ const AdSchema = new mongoose.Schema(
       required: true,
     },
     category: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
       required: true,
     },
     images: {
@@ -45,7 +46,6 @@ const AdSchema = new mongoose.Schema(
 
 // Define middleware function to delete child documents when a parent is deleted
 AdSchema.pre('remove', async function (next) {
-  console.log("pre remove");
   try {
     const User = mongoose.model('User');
     // Remove ad reference from all child User documents

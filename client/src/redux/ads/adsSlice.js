@@ -18,6 +18,7 @@ export const postAd = createAsyncThunk(
   '/api/post',
   async (data, ThunkAPI) => {
     try {
+      console.log(data.get('images'))
       return await adsService.postAd(data)
     } catch (error) {
       const message =
@@ -157,7 +158,7 @@ export const adsSlice = createSlice({
 
     filterByCategory: (state, action) => {
       state.filteredAds = state.ads.filter(
-        (ad) => ad.category === action.payload
+        (ad) => ad.category.name === action.payload
       )
     },
   },

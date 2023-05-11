@@ -74,7 +74,7 @@ function User(props) {
                               <p>Ad Updated Date : {format(new Date(ad.updatedAt), 'dd/mm/yyyy')}</p>
                             </Col>
                             <Col>
-                              <p>Category : {ad.category}</p>
+                              <p>Category : {ad.category.name}</p>
                               <p>Location : {ad.location}</p>
                               <p>
                                 Ad Price : Rs.{" "}

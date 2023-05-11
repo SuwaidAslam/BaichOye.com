@@ -26,6 +26,11 @@ const ItemDetails = ({ ad }) => {
           <p className="attribute">Condition</p>
           <p className="value">{ad.condition}</p>
         </div>
+
+        <div className="item">
+          <p className="attribute">Category</p>
+          <p className="value">{ad.category.name}</p>
+        </div>
       </div>
 
       <hr />

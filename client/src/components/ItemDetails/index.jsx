@@ -3,6 +3,7 @@ import React from 'react'
 const ItemDetails = ({ ad }) => {
   return (
     <div className="details_container">
+      {console.log(ad)}
       <h4 className="title">Details</h4>
       <div className="items">
         <div className="item">
@@ -25,6 +26,11 @@ const ItemDetails = ({ ad }) => {
         <div className="item">
           <p className="attribute">Condition</p>
           <p className="value">{ad.condition}</p>
+        </div>
+
+        <div className="item">
+          <p className="attribute">Category</p>
+          <p className="value">{ad.category.name}</p>
         </div>
       </div>
 
