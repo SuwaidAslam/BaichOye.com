@@ -1,0 +1,6 @@
+.text_overflow {
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}

@@ -2,6 +2,7 @@ import moment from 'moment'
 import { Card, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { STATIC_FILES_URL } from '../../constants/url'
+import "./innerCard.css"
 
 export const InnerCard = ({ ad }) => {
   const navigate = useNavigate()
@@ -30,6 +31,7 @@ export const InnerCard = ({ ad }) => {
               fontWeight: 'normal',
               fontSize: '14px',
             }}
+            className='text_overflow'
           >
             {ad.title}
             {/* <span style={{ userSelect: 'none' }}>
@@ -48,10 +50,10 @@ export const InnerCard = ({ ad }) => {
               </svg>
             </span> */}
           </Card.Title>
-          <Card.Text style={{ fontSize: '25px', fontWeight: 'bold' }}>
+          <Card.Text style={{ fontSize: '25px', fontWeight: 'bold' }} className='text_overflow'>
             Rs {ad.price}
           </Card.Text>
-          <Card.Text style={{ fontSize: '13px' }}>
+          <Card.Text className='text_overflow'>
             {ad.location} - {time}
           </Card.Text>
         </Card.Body>

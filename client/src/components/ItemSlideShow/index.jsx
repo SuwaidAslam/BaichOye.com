@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAds, reset } from '../../redux/ads/adsSlice'
 import { STATIC_FILES_URL } from '../../constants/url'
+import './slideShow.css'
 
 const ItemSlideShow = () => {
   const { ads } = useSelector((selector) => selector.ads)
@@ -91,6 +92,7 @@ const InnerCard = ({ ad }) => {
               fontWeight: 'normal',
               fontSize: '14px',
             }}
+            className='text_overflow'
           >
             {ad.title}
             <span style={{ userSelect: 'none' }}>
@@ -112,7 +114,7 @@ const InnerCard = ({ ad }) => {
           <Card.Text style={{ fontSize: '25px', fontWeight: 'bold' }}>
             {ad.price}
           </Card.Text>
-          <Card.Text>
+          <Card.Text className='text_overflow'>
             {ad.location} - {time}
           </Card.Text>
         </Card.Body>
