@@ -68,7 +68,6 @@ const Sell = () => {
             toast.error('Location cannot be empty');
             return
         }
-        console.log(allValues.category)
 
         formData.append('title', allValues.title)
         formData.append('brand', allValues.brand)
@@ -146,6 +145,7 @@ const Sell = () => {
                             <div>
                                 <p className={styles.input_label}>Condition</p>
                                 <Form.Select onChange={dropDownChange} className={styles.dropdowns}>
+                                    <option value=""></option>
                                     <option value="New">New</option>
                                     <option value="Open">Open</option>
                                     <option value="Used">Used</option>
@@ -155,10 +155,10 @@ const Sell = () => {
 
                             <div>
                                 <p className={styles.input_label}>Categories</p>
-
                                 <Form.Select onChange={categoryDropdownChange}
                                     className={styles.dropdowns}
                                 >
+                                    <option value=""></option>
                                     {categories.map((category) => (
                                         <option key={category._id} value={category._id}>
                                             {category.name}

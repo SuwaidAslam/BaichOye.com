@@ -129,3 +129,14 @@
 .users-row::-webkit-scrollbar-thumb:hover {
     background-color: rgb(150, 150, 150) !important;
 }
+
+.delete-icon {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+}
+
+.user-card-icon:hover {
+    cursor: pointer;
+    color: #2d46b9;
+}

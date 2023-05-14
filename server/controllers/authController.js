@@ -489,7 +489,21 @@ const getUserById = asynHandler(async (req, res) => {
       populate: { path: 'category' }
     })
   res.json(user)
-})
+});
+
+// delete User by Id
+// route      /api/auth/deleteUser/:id
+// access     private
+// method     delete
+const deleteUserById = asynHandler(async (req, res) => {
+  const user = await authModel.findById(req.params.id)
+  if (!user) {
+    res.status(404)
+    throw new Error('User not found')
+  }
+  await user.remove()
+  res.json({ successMsg: 'User removed' })
+});
 
 
 export {
@@ -498,6 +512,7 @@ export {
   updateProfile,
   getAllUsers,
   getUserById,
+  deleteUserById,
   //   currentUser,
   //   activateAccount,
   //   forgotPassword,

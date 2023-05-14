@@ -1,6 +1,13 @@
 import AdModel from '../mongodb/models/adModel.js';
 import asyncHandler from 'express-async-handler';
 import AuthModel from '../mongodb/models/authModel.js';
+import fs from 'fs';
+import path from 'path'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // POST ADS
 export const postAd = asyncHandler(async (req, res) => {
@@ -122,8 +129,22 @@ export const deleteAd = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error('No item found! Cannot delete this item')
     }
+
+        // get the array of file paths from the database or request body
+    const imageFiles = deletedAd.images;
+    // loop through the array and delete each file using fs.unlink()
+    for (const imageName of imageFiles) {
+        const filePath = path.join(__dirname, '../public/uploads/', imageName);
+        fs.unlink(filePath, (err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Failed to delete the image file' });
+        }
+        });
+    }
+    
     await deletedAd.remove();
-    res.json({ successMsg: 'Ad deleted', id: deletedAd._id })
+    res.json({ successMsg: 'Ad and Image deleted', id: deletedAd._id })
 })
 
 // UPDATE INDIVIDUAL AD

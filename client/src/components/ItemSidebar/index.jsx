@@ -82,8 +82,17 @@ const ItemSidebar = ({ ad }) => {
   return (
     <div className="item_sidebar_container">
       <div className="details_container">
-        <h1 className="heading" style={{ fontSize: '2rem', fontWeight: '1000', color: "#0d6efd" }}>
-          Rs {ad.price}
+        <h1 className="text_overflow heading" style={{ fontSize: '2rem', fontWeight: '1000', color: "#0d6efd" }}>
+          {<p>
+            Rs.{" "}
+            {ad.price
+              .toString()
+              .replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ","
+              )}
+            /-
+          </p>}
         </h1>
         <div
           className="description"

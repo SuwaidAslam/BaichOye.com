@@ -8,6 +8,7 @@ import {
   RiPhoneLine,
   RiMoneyDollarCircleLine,
   RiExternalLinkLine,
+  RiDeleteBin3Line,
 } from "react-icons/ri";
 
 import "./Users.css";
@@ -35,6 +36,15 @@ function Users() {
     });
   };
 
+
+  const deleteUser = (userId) => {
+    axios({
+      method: "delete",
+      url: `http://localhost:5000/api/auth/delete/${userId}`,
+    }).then((response) => {
+      getUsers();
+    });
+  };
   const searchQueryChangeHandler = (event) => {
     event.preventDefault();
     const { value } = event.target;
@@ -110,6 +120,13 @@ function Users() {
                     <Link to={`/users/${user._id}`}>
                       <RiExternalLinkLine className="user-link" />
                     </Link>
+                    <RiDeleteBin3Line
+                      onClick={(event) => {
+                        event.preventDefault();
+                        deleteUser(user._id);
+                      }}
+                      className="user-card-icon delete-icon"
+                    />
                   </Card>
                 </Col>
               );

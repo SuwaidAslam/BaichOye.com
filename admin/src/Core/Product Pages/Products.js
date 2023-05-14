@@ -33,7 +33,6 @@ function Products() {
       method: "delete",
       url: `http://localhost:5000/api/item/delete/${productId}`,
     }).then((response) => {
-      console.log(response.data);
       getProducts();
     });
   };

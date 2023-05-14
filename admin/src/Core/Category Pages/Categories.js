@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
-import { RiAddFill, RiEditLine, RiEyeLine } from "react-icons/ri";
+import { RiAddFill, RiEditLine, RiEyeLine, RiDeleteBin3Line } from "react-icons/ri";
 import { STATIC_FILES_URL } from "../../constants/url";
 
 import "./Categories.css";
@@ -22,6 +22,16 @@ function Categories() {
       url: "http://localhost:5000/api/categories/getAll",
     }).then(function (response) {
       setCategories(response.data.categories);
+    });
+  };
+
+  
+  const deleteCategory = (categoryId) => {
+    axios({
+      method: "delete",
+      url: `http://localhost:5000/api/categories/delete/${categoryId}`,
+    }).then((response) => {
+      getCategories();
     });
   };
 
@@ -71,6 +81,13 @@ function Categories() {
                     <Link to={`/categories/ads/${category._id}`}>
                       <RiEyeLine className="view-prod-btn" />
                     </Link>
+                    <RiDeleteBin3Line
+                      onClick={(event) => {
+                        event.preventDefault();
+                        deleteCategory(category._id);
+                      }}
+                      className="category-card-icon delete-icon"
+                    />
                   </Card>
                 </Col>
               );

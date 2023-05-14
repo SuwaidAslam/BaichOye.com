@@ -18,7 +18,6 @@ export const postAd = createAsyncThunk(
   '/api/post',
   async (data, ThunkAPI) => {
     try {
-      console.log(data.get('images'))
       return await adsService.postAd(data)
     } catch (error) {
       const message =

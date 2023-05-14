@@ -11,6 +11,7 @@ import {
   updateProfile,
   getAllUsers,
   getUserById,
+  deleteUserById,
 //   currentUser,
 //   activateAccount,
 //   forgotPassword,
@@ -26,6 +27,7 @@ router.post('/signin', signin)
 router.put('/update/:id', updateProfile)
 router.get('/allUsers', getAllUsers)
 router.get('/users/:id', getUserById)
+router.delete('/delete/:id', deleteUserById)
 // router.get('/me', authUser, currentUser)
 // router.post('/activate', activateAccount)
 // router.post('/forget', forgotPassword)
