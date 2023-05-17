@@ -32,15 +32,15 @@ const Inbox = () => {
 
     const [reloadChat, setReloadChat] = useState(false)
 
-    useEffect(() => {
-        // if (isError && errorMessage) {
-        //     toast.error(errorMessage)
-        // }
+    // useEffect(() => {
+    //     // if (isError && errorMessage) {
+    //     //     toast.error(errorMessage)
+    //     // }
 
-        // if (isSuccess && successMessage) {
-        //     toast.success(successMessage)
-        // }
-    }, [isError, isSuccess, errorMessage, successMessage, dispatch])
+    //     // if (isSuccess && successMessage) {
+    //     //     toast.success(successMessage)
+    //     // }
+    // }, [isError, isSuccess, errorMessage, successMessage, dispatch])
 
     useEffect(() => {
         dispatch(myChats())
@@ -48,7 +48,7 @@ const Inbox = () => {
         return () => dispatch(resetChats())
     }, [dispatch])
 
-    
+
     useEffect(() => {
         const queryData = {
             senderId: data.senderId,
@@ -142,26 +142,27 @@ const Inbox = () => {
                         </div>
                         <div className="inbox_chat">
                             {chats.length > 0 ? (
-                                chats.map((chat) => <div className="chat_list active_chat"
-                                    key={chat} onClick={() => handleChatClick(chat)}>
-                                    <div className="chat_people">
-                                        <div className="chat_ib">
-                                            {(chat.participants[0]._id == currentUser.user._id)
-                                                ?
-                                                <>
-                                                <div className="chat_img">{chat.participants[1].fullName.charAt(0)}</div>
-                                                <h5> {chat.participants[1].fullName} <span className="chat_date">{format(new Date(chat.createdAt), 'dd/mm/yyyy')}</span></h5>
-                                                </>
-                                                :
-                                                <>
-                                                <div className="chat_img">{chat.participants[0].fullName.charAt(0)}</div>
-                                                <h5> {chat.participants[0].fullName} <span className="chat_date">{format(new Date(chat.createdAt), 'dd/mm/yyyy')}</span></h5>
-                                                </>
-                                            }
-                                            <p>{chat.ad.title}</p>
+                                chats.map((chat) =>
+                                    <div className="chat_list active_chat"
+                                        key={chat} onClick={() => handleChatClick(chat)}>
+                                        <div className="chat_people">
+                                            <div className="chat_ib">
+                                                {(chat.participants[0]._id == currentUser.user._id)
+                                                    ?
+                                                    <>
+                                                        <div className="chat_img">{chat.participants[1].fullName.charAt(0)}</div>
+                                                        <h5> {chat.participants[1].fullName} <span className="chat_date">{format(new Date(chat.createdAt), 'dd/mm/yyyy')}</span></h5>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <div className="chat_img">{chat.participants[0].fullName.charAt(0)}</div>
+                                                        <h5> {chat.participants[0].fullName} <span className="chat_date">{format(new Date(chat.createdAt), 'dd/mm/yyyy')}</span></h5>
+                                                    </>
+                                                }
+                                                <p>{chat.ad.title}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>)
+                                    </div>)
                             ) : (
                                 <div style={{ textAlign: "center" }}>
                                     <h5>You have no chats to show</h5>
@@ -209,22 +210,26 @@ const Inbox = () => {
                         <div className="msg_history" ref={bottomRef}>
                             {chatMessages.length > 0 ? (
                                 chatMessages.map((message) => (
-                                    (message.sender == currentUser.user._id)
-                                        ?
-                                        <div className="outgoing_msg">
-                                            <div className="sent_msg">
-                                                <p>{message.content}</p>
-                                                <span className="time_date">{moment(message.timestamp).fromNow()}</span> </div>
-                                        </div>
-                                        :
-                                        <div className="incoming_msg">
-                                            <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                                            <div className="received_msg">
-                                                <div className="received_withd_msg">
+                                    <div key={message._id}>
+                                        {(message.sender == currentUser.user._id)
+                                            ?
+                                            <div className="outgoing_msg">
+                                                <div className="sent_msg">
                                                     <p>{message.content}</p>
-                                                    <span className="time_date">{moment(message.timestamp).fromNow()}</span></div>
+                                                    <span className="time_date">{moment(message.timestamp).fromNow()}</span> </div>
                                             </div>
-                                        </div>
+                                            :
+                                            <div className="incoming_msg">
+                                                <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
+                                                <div className="received_msg">
+                                                    <div className="received_withd_msg">
+                                                        <p>{message.content}</p>
+                                                        <span className="time_date">{moment(message.timestamp).fromNow()}</span></div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
                                 ))
                             ) : (
                                 <div style={{ textAlign: "center" }}>

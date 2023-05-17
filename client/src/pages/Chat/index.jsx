@@ -34,15 +34,15 @@ const Chat = () => {
 
     const [reloadChat, setReloadChat] = useState(false)
 
-    useEffect(() => {
-        // if (isError && errorMessage) {
-        //     toast.error(errorMessage)
-        // }
+    // useEffect(() => {
+    //     // if (isError && errorMessage) {
+    //     //     toast.error(errorMessage)
+    //     // }
 
-        // if (isSuccess && successMessage) {
-        //     toast.success(successMessage)
-        // }
-    }, [isError, isSuccess, errorMessage, successMessage, dispatch])
+    //     // if (isSuccess && successMessage) {
+    //     //     toast.success(successMessage)
+    //     // }
+    // }, [isError, isSuccess, errorMessage, successMessage, dispatch])
 
     useEffect(() => {
         const queryData = {
@@ -85,20 +85,20 @@ const Chat = () => {
     }
 
 
-    // if (isLoading) {
-    //     return (
-    //         <div
-    //             style={{
-    //                 height: '100vh',
-    //                 display: 'flex',
-    //                 justifyContent: 'center',
-    //                 alignItems: 'center',
-    //             }}
-    //         >
-    //             <ThreeDots color="#3a77ff" height={100} width={100} />
-    //         </div>
-    //     )
-    // }
+    if (isLoading) {
+        return (
+            <div
+                style={{
+                    height: '100vh',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <ThreeDots color="#3a77ff" height={100} width={100} />
+            </div>
+        )
+    }
 
     return (
         <div className="container">
@@ -138,14 +138,14 @@ const Chat = () => {
                             </div>
                         </div>
                         <div className='active_ad_user'>
-                            <div className="active_ad_img">
+                            <div className="active_ad_img" key={"ad_image"}>
                                 <img src={`${STATIC_FILES_URL}/${images[0]}`}
                                     alt="image"
                                     width={100}
                                     height={80}
                                 />
                             </div>
-                            <div className="active_ad_info">
+                            <div className="active_ad_info" key={"ad_info"}>
                                 <h5> {title}</h5>
                                 <p> Rs {price}</p>
                             </div>
@@ -153,22 +153,26 @@ const Chat = () => {
                         <div className="msg_history" ref={bottomRef}>
                             {chatMessages.length > 0 ? (
                                 chatMessages.map((message) => (
-                                    (message.sender == user._id) ? (
-                                        <div className="incoming_msg">
-                                            <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                                            <div className="received_msg">
-                                                <div className="received_withd_msg">
-                                                    <p>{message.content}</p>
-                                                    <span className="time_date">{moment(message.timestamp).fromNow()}</span></div>
-                                            </div>
-                                        </div>
-                                    )
-                                        :
-                                        (<div className="outgoing_msg">
-                                            <div className="sent_msg">
-                                                <p>{message.content}</p>
-                                                <span className="time_date">{moment(message.timestamp).fromNow()}</span> </div>
-                                        </div>)
+                                    <div key={message._id}>
+                                        {
+                                            (message.sender == user._id) ? (
+                                                <div className="incoming_msg">
+                                                    <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
+                                                    <div className="received_msg">
+                                                        <div className="received_withd_msg">
+                                                            <p>{message.content}</p>
+                                                            <span className="time_date">{moment(message.timestamp).fromNow()}</span></div>
+                                                    </div>
+                                                </div>
+                                            )
+                                                :
+                                                (<div className="outgoing_msg">
+                                                    <div className="sent_msg">
+                                                        <p>{message.content}</p>
+                                                        <span className="time_date">{moment(message.timestamp).fromNow()}</span> </div>
+                                                </div>)
+                                        }
+                                    </div>
                                 ))
                             ) : (
                                 <div style={{ textAlign: "center" }}>

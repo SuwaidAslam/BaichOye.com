@@ -5,6 +5,7 @@ import Categories from '../../components/Categories'
 import './home.css'
 
 const Home = () => {
+  
   return (
     <div>
       <Container>
