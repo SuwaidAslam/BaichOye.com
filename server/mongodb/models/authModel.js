@@ -30,6 +30,10 @@ const AuthSchema = new mongoose.Schema(
       required: true,
       minLength: 8,
     },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
     ads: [
       {
         type: mongoose.Schema.Types.ObjectId,

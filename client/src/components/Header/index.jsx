@@ -18,6 +18,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Logout from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import FolderIcon from '@mui/icons-material/Folder';
+import VerifiedIcon from '@mui/icons-material/Verified';
 
 // import appLogo from '../../assets/logo.svg';
 // import { Button } from 'react-bootstrap'
@@ -214,6 +215,20 @@ const Header = () => {
                       <ManageAccountsIcon fontSize="small" />
                     </ListItemIcon>
                     My Account
+                  </Link>
+                  <Link
+                    to="/verify-me"
+                    className="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root"
+                    style={{
+                      color: '#333',
+                      padding: '6px 16px',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <ListItemIcon>
+                      <VerifiedIcon fontSize="small" />
+                    </ListItemIcon>
+                    Verify Me
                   </Link>
                   <Link
                     to="/myads"

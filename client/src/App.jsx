@@ -14,6 +14,7 @@ import MyProfile from './pages/MyProfile';
 import Chat from './pages/Chat';
 import Inbox from './pages/Inbox';
 import { PublicRoute, ProtectedRoute } from './utils/ProtectedRoute'
+import VerifyMe from './pages/VerifyMe';
 
 
 
@@ -33,6 +34,7 @@ function App() {
 					<Route path="/inbox" exact element={<ProtectedRoute> <Inbox /> </ProtectedRoute>} />
 					<Route path="/update/item/:id" exact element={<ProtectedRoute> <UpdateAd /> </ProtectedRoute>} />
 					<Route path="/item/:id" element={<ProtectedRoute> <Ad /> </ProtectedRoute>} />
+					<Route path="/verify-me" element={<ProtectedRoute> <VerifyMe /> </ProtectedRoute>} />
 				</Routes>
 				<Footer />
 			</Router>

@@ -83,6 +83,12 @@ const Chat = () => {
         })
         setReloadChat(true)
     }
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            handleSendAction(event);
+        }
+      };
 
 
     if (isLoading) {
@@ -182,7 +188,7 @@ const Chat = () => {
                         </div>
                         <div className="type_msg">
                             <div className="input_msg_write">
-                                <input type="text" className="write_msg" placeholder="Type a message" onChange={handleChatBox} name="content" value={data.content} />
+                                <input type="text" className="write_msg" placeholder="Type a message" onChange={handleChatBox} onKeyDown={handleKeyDown} name="content" value={data.content} />
                                 <button className="msg_send_btn" type="button"><i className="fa fa-paper-plane-o" aria-hidden="true" onClick={handleSendAction}></i></button>
                             </div>
                         </div>
