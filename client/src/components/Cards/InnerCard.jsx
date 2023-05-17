@@ -14,7 +14,7 @@ export const InnerCard = ({ ad }) => {
   }
 
   return (
-    <Col md={3} key={ad._id} onClick={() => handleClick(ad._id)}>
+    <Col md={3} key={ad} onClick={() => handleClick(ad._id)}>
       <Card style={{ width: '100%', cursor: 'pointer' }}>
         <Card.Img
           variant="top"

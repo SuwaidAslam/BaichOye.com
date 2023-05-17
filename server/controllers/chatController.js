@@ -5,112 +5,78 @@ import adModel from '../mongodb/models/adModel.js';
 
 // send chat
 export const sendChat = asyncHandler(async (req, res) => {
-    const user = req.user
+    try {
+        const { senderId, recipientId, adId, content } = req.body;
 
-    const { receiver, ad, message } =
-        req.body
+        // Check if the chat exists between the sender and recipient for the given ad
+        let chat = await chatModel.findOne({
+            participants: { $all: [senderId, recipientId] },
+            ad: adId,
+        });
 
-    const data = {
-        sender: user._id,
-        receiver,
-        ad,
-        message,
-    }
+        if (!chat) {
+            // Create a new chat if it doesn't exist
+            chat = new chatModel({
+                participants: [senderId, recipientId],
+                ad: adId,
+                messages: [],
+            });
+        }
 
-    const chat = new chatModel(data)
+        // Add the new message to the chat
+        const newMessage = {
+            sender: senderId,
+            content: content,
+        };
+        chat.messages.push(newMessage);
 
-    await chat.save()
-    if (chat) {
-        res.json({ successMsg: 'Your chat has been Sent' })
+        // Save the updated chat
+        await chat.save();
 
-    } else {
-        throw new Error('could not send your chat')
+        res.status(200).json({ message: 'Message sent successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Failed to send message' });
     }
 })
 
 
 // my chats
 export const myChats = asyncHandler(async (req, res) => {
-    const user = req.user
-    const chats = await chatModel.aggregate(
-        [
-            {
-                $match: { $or: [{ sender: user._id }, { receiver: user._id }] }
-            },
-            {
-                $lookup: {
-                    from: "users",
-                    localField: "sender",
-                    foreignField: "_id",
-                    as: "sender"
-                }
-            },
-            {
-                $lookup: {
-                    from: "users",
-                    localField: "receiver",
-                    foreignField: "_id",
-                    as: "receiver"
-                }
-            },
-            {
-                $lookup: {
-                    from: "ads",
-                    localField: "ad",
-                    foreignField: "_id",
-                    as: "ad"
-                }
-            },
-            {
-                $group: {
-                    _id: "$ad",
-                    "messages": {
-                        "$push": {
-                            "sender": "$sender",
-                            "receiver": "$receiver",
-                            "createdAt": "$createdAt",
-                            "updatedAt": "$updatedAt"
-                        },
-                    }
-                },
+    try {
+        const currentUser = req.user; // Assuming you have implemented user authentication and can access the current user
 
-            }
-        ]
-    )
+        // Find all chats where the current user is a participant
+        const chats = await chatModel.find({ participants: currentUser._id })
+        .populate('participants', '-password')
+        .populate('ad', 'title images');
 
-    if (!chats) {
-        throw new Error('Something went wrong')
+        res.status(200).json({ chats });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Failed to retrieve chats' });
     }
-    res.json(chats)
 })
 
 
 // particular chats
 export const chatMessages = asyncHandler(async (req, res) => {
-    const { receiver, sender, ad } = req.body
-    const chats = await chatModel.find(
-        {
-            $or: [
-                {
-                    $and: [
-                        { sender: sender },
-                        { receiver: receiver },
-                        { ad: ad }
-                    ]
-                },
-                {
-                    $and: [
-                        { sender: receiver },
-                        { receiver: sender },
-                        { ad: ad }
-                    ]
-                }
-            ]
-        }
-    )
+    try {
+        const { senderId, recipientId, adId } = req.query;
 
-    if (!chats) {
-        throw new Error('Something went wrong')
+        // Check if the chat exists between the sender and recipient for the given ad
+        const chat = await chatModel.findOne({
+            participants: { $all: [senderId, recipientId] },
+            ad: adId,
+        })
+        // .populate('messages.sender', '-password');
+
+        if (!chat) {
+            return res.status(404).json({ message: 'Chat not found' });
+        }
+        res.status(200).json({ messages: chat.messages });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Failed to retrieve messages' });
     }
-    res.json(chats)
 })

@@ -12,7 +12,7 @@ const ItemDetails = ({ ad }) => {
         </div>
         <div className="item">
           <p className="attribute">Price</p>
-          <p className="value">{<p>
+          {<p className="value">
             Rs.{" "}
             {ad.price
               .toString()
@@ -21,7 +21,8 @@ const ItemDetails = ({ ad }) => {
                 ","
               )}
             /-
-          </p>}</p>
+          </p>
+          }
         </div>
         <div className="item">
           <p className="attribute">Condition</p>

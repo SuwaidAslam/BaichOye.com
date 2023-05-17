@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
 import { sendChat, getChatMessages, resetChatMessages } from '../../redux/chat/chatSlice';
 import moment from 'moment'
+import { STATIC_FILES_URL } from '../../constants/url'
 
 const Chat = () => {
 
@@ -18,18 +19,18 @@ const Chat = () => {
     const { title, price, images } = ad
     const initials = fullName.charAt(0)
 
+    const currentUser = useSelector((selector) => selector.auth)
     const [data, setData] = useState({
-        receiver: user._id,
-        ad: ad._id,
-        message: ""
+        senderId: currentUser.user._id,
+        recipientId: user._id,
+        adId: ad._id,
+        content: "",
     })
 
     const { chatMessages, errorMessage, successMessage, isError, isSuccess, isLoading } =
         useSelector((selector) => selector.chats)
 
     const bottomRef = useRef(null);
-
-    const currentUser = useSelector((selector) => selector.auth)
 
     const [reloadChat, setReloadChat] = useState(false)
 
@@ -45,9 +46,9 @@ const Chat = () => {
 
     useEffect(() => {
         const queryData = {
-            receiver: data.receiver,
-            sender: currentUser.user._id,
-            ad: data.ad,
+            senderId: data.senderId,
+            recipientId: data.recipientId,
+            adId: data.adId,
         }
         dispatch(getChatMessages(queryData))
         setReloadChat(false)
@@ -75,9 +76,10 @@ const Chat = () => {
         dispatch(sendChat(data))
 
         setData({
-            receiver: user._id,
-            ad: ad._id,
-            message: ""
+            senderId: currentUser.user._id,
+            recipientId: user._id,
+            adId: ad._id,
+            content: "",
         })
         setReloadChat(true)
     }
@@ -137,7 +139,7 @@ const Chat = () => {
                         </div>
                         <div className='active_ad_user'>
                             <div className="active_ad_img">
-                                <img src={`/uploads/${images[0]}`}
+                                <img src={`${STATIC_FILES_URL}/${images[0]}`}
                                     alt="image"
                                     width={100}
                                     height={80}
@@ -156,16 +158,16 @@ const Chat = () => {
                                             <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
                                             <div className="received_msg">
                                                 <div className="received_withd_msg">
-                                                    <p>{message.message}</p>
-                                                    <span className="time_date">{moment(message.createdAt).fromNow()}</span></div>
+                                                    <p>{message.content}</p>
+                                                    <span className="time_date">{moment(message.timestamp).fromNow()}</span></div>
                                             </div>
                                         </div>
                                     )
                                         :
                                         (<div className="outgoing_msg">
                                             <div className="sent_msg">
-                                                <p>{message.message}</p>
-                                                <span className="time_date">{moment(message.createdAt).fromNow()}</span> </div>
+                                                <p>{message.content}</p>
+                                                <span className="time_date">{moment(message.timestamp).fromNow()}</span> </div>
                                         </div>)
                                 ))
                             ) : (
@@ -176,7 +178,7 @@ const Chat = () => {
                         </div>
                         <div className="type_msg">
                             <div className="input_msg_write">
-                                <input type="text" className="write_msg" placeholder="Type a message" onChange={handleChatBox} name="message" value={data.message} />
+                                <input type="text" className="write_msg" placeholder="Type a message" onChange={handleChatBox} name="content" value={data.content} />
                                 <button className="msg_send_btn" type="button"><i className="fa fa-paper-plane-o" aria-hidden="true" onClick={handleSendAction}></i></button>
                             </div>
                         </div>

@@ -31,7 +31,7 @@ export const sendChat = createAsyncThunk(
 )
 
 // Get My Chats
-export const myChats = createAsyncThunk('/api/chat/myChats', async (data, ThunkAPI) => {
+export const myChats = createAsyncThunk('/api/chat/myChats', async (ThunkAPI) => {
   try {
     return await chatService.myChats()
   } catch (error) {

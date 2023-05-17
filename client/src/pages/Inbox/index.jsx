@@ -9,15 +9,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
 import { sendChat, myChats, resetChats, getChatMessages, resetChatMessages } from '../../redux/chat/chatSlice';
 import moment from 'moment'
+import { format } from 'date-fns';
+import { STATIC_FILES_URL } from '../../constants/url'
 
 const Inbox = () => {
 
     const dispatch = useDispatch()
+    const currentUser = useSelector((selector) => selector.auth)
 
     const [data, setData] = useState({
-        receiver: "",
-        ad: "",
-        message: ""
+        senderId: currentUser.user._id,
+        recipientId: undefined,
+        adId: undefined,
+        content: "",
     })
 
     const [active_chat_data, setActive_chat_data] = useState({})
@@ -26,7 +30,6 @@ const Inbox = () => {
     const { chats, chatMessages, errorMessage, successMessage, isError, isSuccess, isLoading } =
         useSelector((selector) => selector.chats)
 
-    const currentUser = useSelector((selector) => selector.auth)
     const [reloadChat, setReloadChat] = useState(false)
 
     useEffect(() => {
@@ -48,11 +51,10 @@ const Inbox = () => {
     
     useEffect(() => {
         const queryData = {
-            receiver: data.receiver,
-            sender: currentUser.user._id,
-            ad: data.ad,
+            senderId: data.senderId,
+            recipientId: data.recipientId,
+            adId: data.adId,
         }
-        console.log(queryData)
         dispatch(getChatMessages(queryData))
         setReloadChat(false)
         return () => dispatch(resetChatMessages())
@@ -79,27 +81,26 @@ const Inbox = () => {
 
         setData({
             ...data,
-            message: ""
+            content: "",
         })
         setReloadChat(true)
     }
 
     const handleChatClick = (chat) => {
-
-        if (chat.messages[0].sender[0]._id == currentUser.user._id) {
-            const receiver = chat.messages[0].receiver[0]._id
+        if (chat.participants[0]._id == currentUser.user._id) {
+            const receiver = chat.participants[1]._id
             setData({
                 ...data,
-                receiver: receiver,
-                ad: chat._id[0]._id,
+                recipientId: receiver,
+                adId: chat.ad._id,
             })
         }
         else {
-            const receiver = chat.messages[0].sender[0]._id
+            const receiver = chat.participants[1]._id
             setData({
                 ...data,
-                receiver: receiver,
-                ad: chat._id[0]._id,
+                recipientId: receiver,
+                adId: chat.ad._id,
             })
         }
         setActive_chat_data(chat)
@@ -144,15 +145,20 @@ const Inbox = () => {
                                 chats.map((chat) => <div className="chat_list active_chat"
                                     key={chat} onClick={() => handleChatClick(chat)}>
                                     <div className="chat_people">
-                                        <div className="chat_img">{chat.messages[0].receiver[0].fullName.charAt(0)}</div>
                                         <div className="chat_ib">
-                                            {(chat.messages[0].sender[0]._id == currentUser.user._id)
+                                            {(chat.participants[0]._id == currentUser.user._id)
                                                 ?
-                                                <h5> {chat.messages[0].receiver[0].fullName} <span className="chat_date">{moment(chat.messages[0].createdAt).fromNow()}</span></h5>
+                                                <>
+                                                <div className="chat_img">{chat.participants[1].fullName.charAt(0)}</div>
+                                                <h5> {chat.participants[1].fullName} <span className="chat_date">{format(new Date(chat.createdAt), 'dd/mm/yyyy')}</span></h5>
+                                                </>
                                                 :
-                                                <h5> {chat.messages[0].sender[0].fullName} <span className="chat_date">{moment(chat.messages[0].createdAt).fromNow()}</span></h5>
+                                                <>
+                                                <div className="chat_img">{chat.participants[0].fullName.charAt(0)}</div>
+                                                <h5> {chat.participants[0].fullName} <span className="chat_date">{format(new Date(chat.createdAt), 'dd/mm/yyyy')}</span></h5>
+                                                </>
                                             }
-                                            <p>{chat._id[0].title}</p>
+                                            <p>{chat.ad.title}</p>
                                         </div>
                                     </div>
                                 </div>)
@@ -168,34 +174,34 @@ const Inbox = () => {
                             &&
                             <>
                                 <div className="active_chat_user">
-                                    {(active_chat_data.messages[0].sender[0]._id === currentUser.user._id)
+                                    {(active_chat_data.participants[0]._id === currentUser.user._id)
                                         ?
                                         <>
-                                            <div className="active_chat_img">{active_chat_data.messages[0].receiver[0].fullName.charAt(0)}</div>
+                                            <div className="active_chat_img">{active_chat_data.participants[1].fullName.charAt(0)}</div>
                                             <div className="active_chat_name">
-                                                <h5> {active_chat_data.messages[0].receiver[0].fullName}</h5>
+                                                <h5> {active_chat_data.participants[1].fullName}</h5>
                                             </div>
                                         </>
                                         :
                                         <>
-                                            {/* <div className="active_chat_img">{active_chat_data.messages[0].sender[0].fullName.charAt(0)}</div>
+                                            <div className="active_chat_img">{active_chat_data.participants[0].fullName.charAt(0)}</div>
                                             <div className="active_chat_name">
-                                                <h5> {active_chat_data.messages[0].sender[0].fullName}</h5>
-                                            </div> */}
+                                                <h5> {active_chat_data.participants[0].fullName}</h5>
+                                            </div>
                                         </>
                                     }
                                 </div>
                                 <div className='active_ad_user'>
                                     <div className="active_ad_img">
-                                        <img src={`/uploads/${active_chat_data._id[0].images[0]}`}
+                                        <img src={`${STATIC_FILES_URL}/${active_chat_data.ad.images[0]}`}
                                             alt="image"
                                             width={100}
                                             height={80}
                                         />
                                     </div>
                                     <div className="active_ad_info">
-                                        <h5> {active_chat_data._id[0].title}</h5>
-                                        <p> Rs {active_chat_data._id[0].price}</p>
+                                        <h5> {active_chat_data.ad.title}</h5>
+                                        <p> Rs {active_chat_data.ad.price}</p>
                                     </div>
                                 </div>
                             </>
@@ -207,16 +213,16 @@ const Inbox = () => {
                                         ?
                                         <div className="outgoing_msg">
                                             <div className="sent_msg">
-                                                <p>{message.message}</p>
-                                                <span className="time_date">{moment(message.createdAt).fromNow()}</span> </div>
+                                                <p>{message.content}</p>
+                                                <span className="time_date">{moment(message.timestamp).fromNow()}</span> </div>
                                         </div>
                                         :
                                         <div className="incoming_msg">
                                             <div className="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
                                             <div className="received_msg">
                                                 <div className="received_withd_msg">
-                                                    <p>{message.message}</p>
-                                                    <span className="time_date">{moment(message.createdAt).fromNow()}</span></div>
+                                                    <p>{message.content}</p>
+                                                    <span className="time_date">{moment(message.timestamp).fromNow()}</span></div>
                                             </div>
                                         </div>
                                 ))
@@ -229,7 +235,7 @@ const Inbox = () => {
                         </div>
                         <div className="type_msg">
                             <div className="input_msg_write">
-                                <input type="text" className="write_msg" placeholder="Type a message" onChange={handleChatBox} name="message" value={data.message} />
+                                <input type="text" className="write_msg" placeholder="Type a message" onChange={handleChatBox} name="content" value={data.content} />
                                 <button className="msg_send_btn" type="button"><i className="fa fa-paper-plane-o" aria-hidden="true" onClick={handleSendAction}></i></button>
                             </div>
                         </div>

@@ -31,8 +31,7 @@ const myChats = async () => {
     url: `${url}/myChats`,
     headers: header,
   })
-
-  return user.data
+  return user.data.chats
 }
 
 // Particular chat messages
@@ -44,13 +43,12 @@ const chatMessages = async (data) => {
   }
 
   const user = await axios({
-    method: 'post',
+    method: 'get',
     url: `${url}/chatMessages`,
     headers: header,
-    data,
+    params: data,
   })
-
-  return user.data
+  return user.data.messages
 }
 
 const chatService = {

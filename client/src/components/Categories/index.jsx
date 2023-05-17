@@ -23,20 +23,20 @@ const Categories = () => {
     return () => dispatch(reset())
   }, [dispatch])
 
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <ThreeDots color="#3a77ff" height={100} width={100} />
-      </div>
-    )
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div
+  //       style={{
+  //         height: '100vh',
+  //         display: 'flex',
+  //         justifyContent: 'center',
+  //         alignItems: 'center',
+  //       }}
+  //     >
+  //       <ThreeDots color="#3a77ff" height={100} width={100} />
+  //     </div>
+  //   )
+  // }
 
   const handleCategories = (category) => {
     setCategory(category)
@@ -50,7 +50,7 @@ const Categories = () => {
   return (
     <ul className="categories_navlinks">
       {categories.length > 0 ? (
-        categories.map((category) => <li className="navlink" onClick={() => handleCategories(category.name)}>
+        categories.map((category) => <li className="navlink"  key={category} onClick={() => handleCategories(category.name)}>
           <img src={`${STATIC_FILES_URL}${category.image}`} alt="" className='nav_image' />
           <br />
           {category.name}
