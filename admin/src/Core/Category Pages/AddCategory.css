@@ -81,3 +81,30 @@
     width: 100% !important;
     object-fit: contain;
 }
+
+.add-category-input-div {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 8px !important;
+    border-radius: 12px;
+    margin: 12px 12px 12px 0 !important;
+}
+
+.add-category-input-div p {
+    font-size: 14px;
+}
+
+.add-category-input-div input,
+.add-category-input-div textarea {
+    outline: none !important;
+    border: none !important;
+    width: 100% !important;
+    resize: none !important;
+}
+
+.add-category-form-card {
+    margin: 16px 16px 16px 0 !important;
+    border: none !important;
+    background-color: white;
+    border-radius: 12px;
+    padding: 16px !important;
+}

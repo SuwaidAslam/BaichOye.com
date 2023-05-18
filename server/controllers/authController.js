@@ -529,15 +529,58 @@ const submitVerificationData = asynHandler(async (req, res) => {
         imageName = file.filename;
     }
 
+    // Check if required fields are not empty
+    if (!imageName || !issuingCountry || !idType) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
     // Update the verification details
     user.IDCardImage = imageName;
     user.issuingCountry = issuingCountry;
     user.IDType = idType;
+    user.verificationStatus = 'Pending';
     
     // Save the updated user
     await user.save();
 
     res.json({ message: 'Verification data saved successfully', user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// checkVerificationDataSubmission route
+// route      /api/auth/checkVerificationDataSubmission/:id
+// access     private
+// method     get
+const checkVerificationStatus = asynHandler(async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Find the user by ID
+    const user = await authModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const { verificationStatus } = user;
+
+    res.json({ verificationStatus });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// getVerificationRequests route
+// route      /api/auth/getVerificationRequests
+// access     private
+// method     get
+const getVerificationRequests = asynHandler(async (req, res) => {
+  try {
+    const users = await authModel.find({ verificationStatus: "Pending", IDCardImage: { $ne: null } }).select('-password');
+    res.json(users);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -553,6 +596,8 @@ export {
   getUserById,
   deleteUserById,
   submitVerificationData,
+  checkVerificationStatus,
+  getVerificationRequests,
   //   currentUser,
   //   activateAccount,
   //   forgotPassword,

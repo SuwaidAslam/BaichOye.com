@@ -5,7 +5,8 @@ import {
   RiUser3Line,
   RiAddFill,
   RiFileList3Line,
-  RiMoneyDollarCircleLine
+  RiMoneyDollarCircleLine,
+  RiShieldCheckLine  
 } from "react-icons/ri";
 
 import { IoIosLaptop } from "react-icons/io";
@@ -60,24 +61,14 @@ function Sidebar() {
               <p>Add Category</p>
             </div>
           </Link>
-          <Link to="/products" className="sidebar-link">
+          <Link to="/ads" className="sidebar-link">
             <div
               className={`sidebar-item ${
-                isActive(history, "/products") && "active"
+                isActive(history, "/ads") && "active"
               }`}
             >
               <IoIosLaptop className="sidebar-icon" />
               <p>Advertisements</p>
-            </div>
-          </Link>
-          <Link to="/products/add" className="sidebar-link">
-            <div
-              className={`sidebar-item ${
-                isActive(history, "/products/add") && "active"
-              }`}
-            >
-              <RiAddFill className="sidebar-icon" />
-              <p>Add Product</p>
             </div>
           </Link>
           <Link to="/orders" className="sidebar-link">
@@ -98,6 +89,16 @@ function Sidebar() {
             >
               <RiUser3Line className="sidebar-icon" />
               <p>Users</p>
+            </div>
+          </Link>
+          <Link to="/user-verification" className="sidebar-link">
+            <div
+              className={`sidebar-item ${
+                isActive(history, "/user-verification") && "active"
+              }`}
+            >
+              <RiShieldCheckLine className="sidebar-icon" />
+              <p>User Verification</p>
             </div>
           </Link>
           {/* <Link to="/complaints" className="sidebar-link">

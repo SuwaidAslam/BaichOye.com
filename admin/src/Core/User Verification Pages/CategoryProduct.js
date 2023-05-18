@@ -2,16 +2,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
-import { RiDeleteBin3Line, RiEditLine, RiExternalLinkLine } from "react-icons/ri";
-
-import "./Products.css";
-import { Link } from "react-router-dom";
+import { RiDeleteBin3Line, RiEditLine } from "react-icons/ri";
 import { STATIC_FILES_URL } from "../../constants/url";
 
-function Products() {
+import "./CategoryProduct.css";
+import { Link } from "react-router-dom";
+
+function CategoryProduct(props) {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const category = props.match.params.categoryId;
 
   useEffect(() => {
     getProducts();
@@ -21,10 +22,10 @@ function Products() {
     setProducts([]);
     axios({
       method: "get",
-      url: "http://localhost:5000/api/allAds",
+      url: `http://localhost:5000/api/categories/getAdsByCategory/${category}`,
     }).then((response) => {
-      setProducts(response.data);
-      setFilteredProducts(response.data);
+      setProducts(response.data.ads);
+      setFilteredProducts(response.data.ads);
     });
   };
 
@@ -33,6 +34,7 @@ function Products() {
       method: "delete",
       url: `http://localhost:5000/api/item/delete/${productId}`,
     }).then((response) => {
+      console.log(response.data);
       getProducts();
     });
   };
@@ -53,7 +55,6 @@ function Products() {
         const name = product.name.toLowerCase();
         const substring = name.substring(0, length);
 
-        let res = substring.localeCompare(query);
         if (name.includes(query)) {
           setFilteredProducts((prev) => {
             return [...prev, product];
@@ -69,15 +70,15 @@ function Products() {
         <Col lg={2}>
           <Sidebar />
         </Col>
-        <Col className="products-content" lg={10}>
+        <Col className="category-products-content" lg={10}>
           <Row>
             <Col lg={8}>
               <h4>Ads</h4>
-              <p>Below are the Ads currently added to your website.</p>
+              <p>Below are the ads currently added to your website.</p>
             </Col>
-            <Col className="product-search-col">
-              <div className="product-search-div">
-                <p>Search Ad</p>
+            <Col className="category-product-search-col">
+              <div className="category-product-search-div">
+                <p>Search Ads</p>
                 <input
                   type="text"
                   name="search"
@@ -88,33 +89,30 @@ function Products() {
             </Col>
           </Row>
           <hr />
-          <Row className="products-row">
+          <Row className="category-products-row">
             {filteredProducts.map((product) => {
               const commaCost = product.price
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
               return (
                 <Col lg={3}>
-                  <Card className="product-card">
+                  <Card className="category-product-card">
                     <img
-                      src={`${STATIC_FILES_URL}/${product.images[0]}`}
+                      src={`${STATIC_FILES_URL}${product.images[0]}`}
                       alt={product.title}
                     />
-                    <h5>{product.title}</h5>
-                    <p>Price : Rs. {commaCost}/-</p>
-                    {/* <Link to={`/ads/edit/${product._id}`}>
-                      <RiEditLine className="product-card-icon edit-icon" />
+                    <h5>{product.name}</h5>
+                    <p>Cost : Rs. {commaCost}/-</p>
+                    {/* <Link to={`/products/edit/${product._id}`}>
+                      <RiEditLine className="category-product-card-icon category-edit-icon" />
                     </Link> */}
                     <RiDeleteBin3Line
                       onClick={(event) => {
                         event.preventDefault();
                         deleteProduct(product._id);
                       }}
-                      className="product-card-icon delete-icon"
+                      className="category-product-card-icon category-delete-icon"
                     />
-                    <Link to={`/ads/${product._id}`}>
-                      <RiExternalLinkLine className="ad-link" />
-                    </Link>
                   </Card>
                 </Col>
               );
@@ -126,4 +124,4 @@ function Products() {
   );
 }
 
-export default Products;
+export default CategoryProduct;

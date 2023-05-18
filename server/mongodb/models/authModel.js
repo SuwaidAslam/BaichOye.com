@@ -32,19 +32,20 @@ const AuthSchema = new mongoose.Schema(
     },
     IDCardImage: {
       type: String,
-      required: true,
+      required: false,
     },
     issuingCountry: {
       type: String,
-      required: true,
+      required: false,
     },
     IDType: {
       type: String,
-      required: true,
+      required: false,
     },
-    isVerified: {
-      type: Boolean,
-      default: false,
+    verificationStatus: {
+      type: String,
+      enum: ['NotSubmitted', 'Pending', 'Approved', 'Rejected'],
+      default: 'NotSubmitted',
     },
     ads: [
       {

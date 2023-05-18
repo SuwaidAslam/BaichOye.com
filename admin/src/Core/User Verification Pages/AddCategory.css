@@ -1,20 +1,20 @@
-.edit-product-content {
+.add-category-content {
     padding: 20px !important;
     text-align: left;
 }
 
-.edit-product-content h4 {
+.add-category-content h4 {
     font-weight: 600;
     font-size: 32px;
     color: rgba(0, 0, 0, 0.7);
     margin: 12px 0 12px 0 !important;
 }
 
-.edit-product-content p {
+.add-category-content p {
     color: rgba(0, 0, 0, 0.6);
 }
 
-.edit-product-form-card {
+.add-category-form-card {
     margin: 16px 16px 16px 0 !important;
     border: none !important;
     background-color: white;
@@ -22,14 +22,14 @@
     padding: 16px !important;
 }
 
-.edit-product-input-div {
+.add-category-input-div {
     border: 1px solid rgba(0, 0, 0, 0.15);
     padding: 8px !important;
     border-radius: 12px;
     margin: 12px 12px 12px 0 !important;
 }
 
-.edit-product-image-div {
+.add-category-image-div {
     border: 1px dashed rgba(0, 0, 0, 0.35) !important;
     padding: 0px !important;
     border-radius: 12px;
@@ -37,31 +37,31 @@
     transition: 0.2s ease-in-out;
 }
 
-.edit-product-image-div:hover {
+.add-category-image-div:hover {
     background-color: rgba(0, 0, 0, 0.05);
     cursor: pointer;
 }
 
-.edit-product-input-div p {
+.add-category-input-div p {
     font-size: 14px;
 }
 
-.edit-product-input-div input,
-.edit-product-input-div textarea {
+.add-category-input-div input,
+.add-category-input-div textarea {
     outline: none !important;
     border: none !important;
     width: 100% !important;
     resize: none !important;
 }
 
-.product-image-div {
+.category-image-div {
     height: 236px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.edit-product-btn {
+.add-category-btn {
     padding: 12px !important;
     border-radius: 12px;
     margin-right: 12px !important;
@@ -71,22 +71,40 @@
     transition: 0.2s ease-in-out;
 }
 
-.edit-product-btn:hover {
+.add-category-btn:hover {
     background-color: #2D46B9;
     color: #fff;
 }
 
-.product-image-div img {
+.category-image-div img {
     height: 236px !important;
     width: 100% !important;
     object-fit: contain;
 }
 
-.edit-product-dropdown {
+.add-category-input-div {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 8px !important;
+    border-radius: 12px;
+    margin: 12px 12px 12px 0 !important;
+}
+
+.add-category-input-div p {
+    font-size: 14px;
+}
+
+.add-category-input-div input,
+.add-category-input-div textarea {
+    outline: none !important;
     border: none !important;
     width: 100% !important;
-    color: rgba(0, 0, 0, 0.6);
-    padding: 0 !important;
-    margin: 0 !important;
-    margin-left: -4px !important;
+    resize: none !important;
+}
+
+.add-category-form-card {
+    margin: 16px 16px 16px 0 !important;
+    border: none !important;
+    background-color: white;
+    border-radius: 12px;
+    padding: 16px !important;
 }

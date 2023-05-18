@@ -10,6 +10,7 @@ const initialState = {
   isLoading: false,
   successMessage: '',
   errorMessage: '',
+  verificationStatus: "NotSubmitted",
 }
 
 // register
@@ -136,6 +137,19 @@ export const submitVerificationData = createAsyncThunk(
   async (data, ThunkAPI) => {
     try {
       return await authService.submitVerificationData(data)
+    } catch (error) {
+      const message = error.message || error.toString()
+      return ThunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+// isVerficationDataSubmitted to the server
+export const checkVerificationDataSubmission = createAsyncThunk(
+  'auth/is-verification-submitted',
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.checkVerificationDataSubmission(data)
     } catch (error) {
       const message = error.message || error.toString()
       return ThunkAPI.rejectWithValue(message)
@@ -351,6 +365,30 @@ export const authSlice = createSlice({
         state.errorMessage = ''
       })
       .addCase(submitVerificationData.rejected, (state, actions) => {
+        console.log(actions)
+        state.isSuccess = false
+        state.isLoading = false
+        state.isError = true
+        state.successMessage = ''
+        state.errorMessage = actions.payload
+      })
+      // checkVerificationDataSubmission
+      .addCase(checkVerificationDataSubmission.pending, (state) => {
+        state.isLoading = true
+        state.isSuccess = false
+        state.isError = false
+        state.successMessage = ''
+        state.errorMessage = ''
+      })
+      .addCase(checkVerificationDataSubmission.fulfilled, (state, actions) => {
+        state.verificationStatus = actions.payload.verificationStatus
+        state.isSuccess = true
+        state.isLoading = false
+        state.isError = false
+        state.successMessage = actions.payload.successMsg
+        state.errorMessage = ''
+      })
+      .addCase(checkVerificationDataSubmission.rejected, (state, actions) => {
         console.log(actions)
         state.isSuccess = false
         state.isLoading = false

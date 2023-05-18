@@ -1,73 +1,67 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
-import { DataGrid } from "@mui/x-data-grid";
+import { RiDeleteBin3Line, RiEditLine, RiExternalLinkLine } from "react-icons/ri";
 
 import "./Ads.css";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { STATIC_FILES_URL } from "../../constants/url";
 
-function Orders() {
-  const [orders, setOrders] = useState([]);
-  const [pages, setPages] = useState(5);
+function Ads() {
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    getOrders();
+    getProducts();
   }, []);
 
-  const getOrders = () => {
-    setOrders();
+  const getProducts = () => {
+    setProducts([]);
     axios({
       method: "get",
-      url: "https://ecommerceappcj.herokuapp.com/api/orders/",
+      url: "http://localhost:5000/api/allAds",
     }).then((response) => {
-      setOrders(response.data.allOrders);
+      setProducts(response.data);
+      setFilteredProducts(response.data);
     });
   };
 
-  const columns = [
-    {
-      field: "id",
-      headerName: "Order ID",
-      width: 200,
-      renderCell: (params) => {
-        return <Link to={`/orders/${params.value}`}>{params.value}</Link>;
-      },
-    },
-    {
-      field: "userId",
-      headerName: "Customer ID",
-      width: 200,
-      renderCell: (params) => {
-        return <Link to={`/users/${params.value}`}>{params.value}</Link>;
-      },
-    },
-    {
-      field: "userName",
-      headerName: "Customer name",
-      width: 240,
-    },
-    {
-      field: "userPhone",
-      headerName: "Customer Phone",
-      width: 200,
-    },
-    {
-      field: "status",
-      headerName: "Order Status",
-      width: 160,
-    },
-    {
-      field: "orderAmount",
-      headerName: "Order Amount",
-      width: 160,
-    },
-    {
-      field: "orderedAt",
-      headerName: "Order Date",
-      width: 160,
-    },
-  ];
+  const deleteProduct = (productId) => {
+    axios({
+      method: "delete",
+      url: `http://localhost:5000/api/item/delete/${productId}`,
+    }).then((response) => {
+      getProducts();
+    });
+  };
+
+  const searchQueryChangeHandler = (event) => {
+    event.preventDefault();
+    const { value } = event.target;
+    setSearchQuery(value);
+
+    if (value === "") {
+      setFilteredProducts(products);
+    } else {
+      setFilteredProducts([]);
+      const query = value.toLowerCase();
+      const length = query.length;
+
+      products.forEach((product) => {
+        const name = product.name.toLowerCase();
+        const substring = name.substring(0, length);
+
+        let res = substring.localeCompare(query);
+        if (name.includes(query)) {
+          setFilteredProducts((prev) => {
+            return [...prev, product];
+          });
+        }
+      });
+    }
+  };
 
   return (
     <div className="dashboard-parent-div">
@@ -75,47 +69,61 @@ function Orders() {
         <Col lg={2}>
           <Sidebar />
         </Col>
-        <Col className="orders-content" lg={10}>
-          <h4>Orders</h4>
-          <p>Here is the list of all the orders placed on your website</p>
+        <Col className="products-content" lg={10}>
+          <Row>
+            <Col lg={8}>
+              <h4>Ads</h4>
+              <p>Below are the Ads currently added to your website.</p>
+            </Col>
+            <Col className="product-search-col">
+              <div className="product-search-div">
+                <p>Search Ad</p>
+                <input
+                  type="text"
+                  name="search"
+                  value={searchQuery}
+                  onChange={searchQueryChangeHandler}
+                />
+              </div>
+            </Col>
+          </Row>
           <hr />
-          {orders && (
-            <div style={{ height: 600, width: "100%" }}>
-              <DataGrid
-                rows={orders.map((order) => {
-                  return {
-                    id: order.id,
-                    userId: order.userId.id,
-                    userName: order.userId.name,
-                    userPhone: order.userId.phone,
-                    status:
-                      order.status == "placed"
-                        ? "Placed"
-                        : order.status == "shipped"
-                        ? "Shipped"
-                        : order.status == "delivered"
-                        ? "Delivered"
-                        : "Cancelled",
-                    orderAmount: `Rs. ${order.orderAmount
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}/-`,
-                    orderedAt: order.orderedAt,
-                  };
-                })}
-                columns={columns}
-                pageSize={pages}
-                className="orders-data-grid"
-                rowsPerPageOptions={[5, 10, 15, 20, 25]}
-                onPageSizeChange={(pageSize) => {
-                  setPages(pageSize);
-                }}
-              />
-            </div>
-          )}
+          <Row className="products-row">
+            {filteredProducts.map((product) => {
+              const commaCost = product.price
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              return (
+                <Col lg={3}>
+                  <Card className="product-card">
+                    <img
+                      src={`${STATIC_FILES_URL}/${product.images[0]}`}
+                      alt={product.title}
+                    />
+                    <h5>{product.title}</h5>
+                    <p>Price : Rs. {commaCost}/-</p>
+                    {/* <Link to={`/ads/edit/${product._id}`}>
+                      <RiEditLine className="product-card-icon edit-icon" />
+                    </Link> */}
+                    <RiDeleteBin3Line
+                      onClick={(event) => {
+                        event.preventDefault();
+                        deleteProduct(product._id);
+                      }}
+                      className="product-card-icon delete-icon"
+                    />
+                    <Link to={`/ads/${product._id}`}>
+                      <RiExternalLinkLine className="ad-link" />
+                    </Link>
+                  </Card>
+                </Col>
+              );
+            })}
+          </Row>
         </Col>
       </Row>
     </div>
   );
 }
 
-export default Orders;
+export default Ads;

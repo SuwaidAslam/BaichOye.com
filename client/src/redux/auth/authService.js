@@ -124,6 +124,22 @@ const submitVerificationData = async (data) => {
   return user.data
 }
 
+// verify method to verify user
+const checkVerificationDataSubmission = async () => {
+  const token = JSON.parse(localStorage.getItem('token'))
+  const current_user = JSON.parse(localStorage.getItem('user'))
+  const id = current_user._id
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  }
+  const user = await axios({
+    method: 'get',
+    url: `${url}/is-verification-submitted/${id}`,
+    headers,
+  })
+  return user.data
+}
+
 const authService = {
   register,
   // activateAccount,
@@ -132,7 +148,8 @@ const authService = {
   // changePassword,
   // googleLogin,
   update,
-  submitVerificationData
+  submitVerificationData,
+  checkVerificationDataSubmission
 }
 
 export default authService

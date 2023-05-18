@@ -1,17 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FiUpload } from 'react-icons/fi';
 import './VerifyMe.css';
 import { useDispatch, useSelector } from 'react-redux'
-import { submitVerificationData, reset } from '../../redux/auth/authSlice'
+import { submitVerificationData, reset, checkVerificationDataSubmission } from '../../redux/auth/authSlice'
+import { tr } from 'date-fns/locale';
+import toast from 'react-hot-toast';
 
 const VerifyMe = () => {
     const dispatch = useDispatch()
     const [issuingCountry, setIssuingCountry] = useState('');
     const [idType, setIdType] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+
+    const { verificationStatus, isError, isSuccess, errorMessage, successMessage } =
+        useSelector((selector) => selector.auth)
+        
+    
+
+    useEffect(() => {
+        dispatch(checkVerificationDataSubmission())
+    }, [dispatch])
+
+    useEffect(() => {
+        if (verificationStatus === 'Rejected') {
+            setNotificationMessage('Your ID has been rejected. Please try again')
+            setIsButtonDisabled(false)
+        }
+        else if (verificationStatus === 'NotSubmitted') {
+            setNotificationMessage('Start Verification')
+            setIsButtonDisabled(false)
+        }
+        else if (verificationStatus === 'Approved') {
+            setNotificationMessage('Congratulations! Your ID has been verified')
+            setIsButtonDisabled(true)
+        }
+        else if (verificationStatus === 'Pending') {
+            setNotificationMessage('Verification Pending')
+            setIsButtonDisabled(true)
+        }
+        dispatch(reset())
+        setIssuingCountry('')
+        setIdType('')
+        setSelectedFile(null)
+    }, [isSuccess, verificationStatus, dispatch])
+
+
 
     const handleCountryChange = (e) => {
         setIssuingCountry(e.target.value);
@@ -27,12 +65,12 @@ const VerifyMe = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-          // Create form data object
-          const formData = new FormData();
-          formData.append('issuingCountry', issuingCountry);
-          formData.append('idType', idType);
-          formData.append('idImage', selectedFile);
-          dispatch(submitVerificationData(formData))
+        // Create form data object
+        const formData = new FormData();
+        formData.append('issuingCountry', issuingCountry);
+        formData.append('idType', idType);
+        formData.append('idImage', selectedFile);
+        dispatch(submitVerificationData(formData))
     };
 
     return (
@@ -102,8 +140,8 @@ const VerifyMe = () => {
                         )}
 
                         <div className="text-center submit-button">
-                            <Button variant="primary" type="submit">
-                                Start Verification
+                            <Button variant="primary" type="submit" disabled={isButtonDisabled}>
+                                {notificationMessage}
                             </Button>
                         </div>
                     </Form>

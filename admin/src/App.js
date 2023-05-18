@@ -2,17 +2,18 @@ import "./App.css";
 import Dashboard from "./Core/Dashboard";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Users from "./Core/User Pages/Users";
-import Ads from "./Core/Ads Pages/Ads";
 import Categories from "./Core/Category Pages/Categories";
-import Products from "./Core/Product Pages/Products";
+// import Products from "./Core/Product Pages/Products";
+import Ads from "./Core/Ads Pages/Ads";
 import Complaints from "./Core/Complaints/Complaints";
-import AddProduct from "./Core/Product Pages/AddProduct";
+// import AddProduct from "./Core/Product Pages/AddProduct";
 import AddCategory from "./Core/Category Pages/AddCategory";
 import EditCategory from "./Core/Category Pages/EditCategory";
-import EditProduct from "./Core/Product Pages/EditProduct";
+// import EditProduct from "./Core/Product Pages/EditProduct";
 import User from "./Core/User Pages/User";
 import Ad from "./Core/Ads Pages/Ad";
 import CategoryProduct from "./Core/Category Pages/CategoryProduct";
+import VerificationRequests from "./Core/User Verification Pages/VerificationRequests";
 
 function App() {
   return (
@@ -36,14 +37,9 @@ function App() {
             exact
             component={EditCategory}
           />
-          <Route path="/products" exact component={Products} />
+          <Route path="/ads" exact component={Ads} />
           <Route path="/complaints" exact component={Complaints} />
-          <Route path="/products/add" exact component={AddProduct} />
-          <Route
-            path="/products/edit/:productId"
-            exact
-            component={EditProduct}
-          />
+          <Route path="/user-verification" exact component={VerificationRequests} />
         </Switch>
       </Router>
     </div>
