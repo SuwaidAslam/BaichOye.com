@@ -505,6 +505,45 @@ const deleteUserById = asynHandler(async (req, res) => {
   res.json({ successMsg: 'User removed' })
 });
 
+// verify user by id
+// route      /api/auth/verify/:id
+// access     private
+// method     put
+const submitVerificationData = asynHandler(async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { issuingCountry, idType } = req.body;
+
+
+    // Find the user by ID
+    const user = await authModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Handle image upload
+    const file = req.files[0];
+    let imageName;
+    if (file) {
+        imageName = file.filename;
+    }
+
+    // Update the verification details
+    user.IDCardImage = imageName;
+    user.issuingCountry = issuingCountry;
+    user.IDType = idType;
+    
+    // Save the updated user
+    await user.save();
+
+    res.json({ message: 'Verification data saved successfully', user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 export {
   signup,
@@ -513,6 +552,7 @@ export {
   getAllUsers,
   getUserById,
   deleteUserById,
+  submitVerificationData,
   //   currentUser,
   //   activateAccount,
   //   forgotPassword,

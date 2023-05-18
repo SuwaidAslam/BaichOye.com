@@ -55,6 +55,9 @@ const Header = () => {
     if (!user) {
       toast.error('To post Ad, Please login')
     }
+    if (user && !user.isVerified) {
+      toast.error('To post Ad, Please verify your account')
+    }
   }
 
   const handleInboxBtnClick = () => {

@@ -30,7 +30,19 @@ const AuthSchema = new mongoose.Schema(
       required: true,
       minLength: 8,
     },
-    verified: {
+    IDCardImage: {
+      type: String,
+      required: true,
+    },
+    issuingCountry: {
+      type: String,
+      required: true,
+    },
+    IDType: {
+      type: String,
+      required: true,
+    },
+    isVerified: {
       type: Boolean,
       default: false,
     },
@@ -61,7 +73,7 @@ AuthSchema.pre('remove', async function (next) {
       });
     });
     // Remove ad reference from all child User documents
-    await Ads.deleteMany({user: this._id}).exec();
+    await Ads.deleteMany({ user: this._id }).exec();
     next();
   } catch (err) {
     next(err);

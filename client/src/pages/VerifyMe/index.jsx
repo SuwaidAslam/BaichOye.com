@@ -4,8 +4,11 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FiUpload } from 'react-icons/fi';
 import './VerifyMe.css';
+import { useDispatch, useSelector } from 'react-redux'
+import { submitVerificationData, reset } from '../../redux/auth/authSlice'
 
 const VerifyMe = () => {
+    const dispatch = useDispatch()
     const [issuingCountry, setIssuingCountry] = useState('');
     const [idType, setIdType] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
@@ -24,7 +27,12 @@ const VerifyMe = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Verification process started');
+          // Create form data object
+          const formData = new FormData();
+          formData.append('issuingCountry', issuingCountry);
+          formData.append('idType', idType);
+          formData.append('idImage', selectedFile);
+          dispatch(submitVerificationData(formData))
     };
 
     return (
@@ -34,32 +42,35 @@ const VerifyMe = () => {
                     <Card.Title className="text-center">ID Card Verification</Card.Title>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="issuingCountry">
-                            <Form.Label>Issuing Country:</Form.Label>
+                            <Form.Label className='form-label'>Issuing Country</Form.Label>
                             <Form.Control
                                 as="select"
                                 value={issuingCountry}
                                 onChange={handleCountryChange}
                             >
                                 <option value="">Select Country</option>
-                                <option value="USA">USA</option>
-                                <option value="UK">UK</option>
-                                <option value="Canada">Canada</option>
+                                <option value="Pakistan">Pakistan</option>
+                                {/* <option value="UK">UK</option>
+                                <option value="UK">USA</option>
+                                <option value="UK">Australia</option>
+                                <option value="Canada">Canada</option> */}
                             </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="idType">
-                            <Form.Label>ID Type:</Form.Label>
+                            <Form.Label className='form-label'>ID Type</Form.Label>
                             <Form.Control
                                 as="select"
                                 value={idType}
                                 onChange={handleIdTypeChange}
                             >
                                 <option value="">Select ID Type</option>
+                                <option value="CNIC">CNIC</option>
                                 <option value="DriverLicense">Driver's License</option>
                                 <option value="Passport">Passport</option>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="idImage">
-                            <Form.Label>Upload ID Image:</Form.Label>
+                            <Form.Label className='form-label'>Upload ID Image</Form.Label>
                             <div className="upload-input-wrapper">
                                 <Form.Control
                                     type="file"
@@ -72,7 +83,6 @@ const VerifyMe = () => {
                         </Form.Group>
                         {selectedFile && (
                             <div className="uploaded-image-wrapper">
-                                <p>Uploaded Image:</p>
                                 <img
                                     src={URL.createObjectURL(selectedFile)}
                                     alt="Uploaded ID"
@@ -80,6 +90,17 @@ const VerifyMe = () => {
                                 />
                             </div>
                         )}
+
+                        {!selectedFile && (
+                            <div className="instructions">
+                                <ul>
+                                    <li>Upload a color image of the ID card</li>
+                                    <li>Upload a clear image of the ID card</li>
+                                    <li>Maximum file size: 5 MB</li>
+                                </ul>
+                            </div>
+                        )}
+
                         <div className="text-center submit-button">
                             <Button variant="primary" type="submit">
                                 Start Verification

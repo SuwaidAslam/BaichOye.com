@@ -130,6 +130,19 @@ export const update = createAsyncThunk(
   }
 )
 
+// post the verification data to the server
+export const submitVerificationData = createAsyncThunk(
+  'auth/verify-id',
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.submitVerificationData(data)
+    } catch (error) {
+      const message = error.message || error.toString()
+      return ThunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -315,6 +328,29 @@ export const authSlice = createSlice({
         state.errorMessage = ''
       })
       .addCase(update.rejected, (state, actions) => {
+        console.log(actions)
+        state.isSuccess = false
+        state.isLoading = false
+        state.isError = true
+        state.successMessage = ''
+        state.errorMessage = actions.payload
+      })
+      // submitVerificationData
+      .addCase(submitVerificationData.pending, (state) => {
+        state.isLoading = true
+        state.isSuccess = false
+        state.isError = false
+        state.successMessage = ''
+        state.errorMessage = ''
+      })
+      .addCase(submitVerificationData.fulfilled, (state, actions) => {
+        state.isSuccess = true
+        state.isLoading = false
+        state.isError = false
+        state.successMessage = actions.payload.successMsg
+        state.errorMessage = ''
+      })
+      .addCase(submitVerificationData.rejected, (state, actions) => {
         console.log(actions)
         state.isSuccess = false
         state.isLoading = false

@@ -13,9 +13,8 @@ import UpdateAd from './pages/UpdateAd';
 import MyProfile from './pages/MyProfile';
 import Chat from './pages/Chat';
 import Inbox from './pages/Inbox';
-import { PublicRoute, ProtectedRoute } from './utils/ProtectedRoute'
+import { PublicRoute, ProtectedRoute, ProtectedSellRoute } from './utils/ProtectedRoute'
 import VerifyMe from './pages/VerifyMe';
-
 
 
 function App() {
@@ -27,7 +26,7 @@ function App() {
 					<Route path="/" exact element={<Home />} />
 					<Route path="/signup" exact element={<PublicRoute> <Signup /> </PublicRoute>} />
 					<Route path="/login" exact element={<PublicRoute> <Login /> </PublicRoute>} />
-					<Route path="/sell" exact element={<ProtectedRoute> <Sell /> </ProtectedRoute>} />
+					<Route path="/sell" exact element={<ProtectedSellRoute> <Sell /> </ProtectedSellRoute>} />
 					<Route path="/myads" exact element={<ProtectedRoute> <MyAds /> </ProtectedRoute>} />
 					<Route path="/profile" exact element={<ProtectedRoute> <MyProfile /> </ProtectedRoute>} />
 					<Route path="/chat/:user/:item" exact element={<ProtectedRoute> <Chat /> </ProtectedRoute>} />

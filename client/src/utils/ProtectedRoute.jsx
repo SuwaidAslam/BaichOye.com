@@ -8,6 +8,15 @@ export const ProtectedRoute = ({ children }) => {
   return children
 }
 
+export const ProtectedSellRoute = ({ children }) => {
+  const user = JSON.parse(localStorage.getItem('user'))
+  if (!user || (user && !user.isVerified)) {
+    return <Navigate replace to="/" />
+  }
+  return children
+}
+
+
 export const PublicRoute = ({ children }) => {
   const user = JSON.parse(localStorage.getItem('user'))
   if (!user) {

@@ -1,4 +1,5 @@
 import express from "express";
+import { multerMiddleware, upload } from '../config/multer.js';
 // import {login} from '../controllers/auth.js';
 
 // router.post("/", login);
@@ -12,6 +13,7 @@ import {
   getAllUsers,
   getUserById,
   deleteUserById,
+  submitVerificationData,
 //   currentUser,
 //   activateAccount,
 //   forgotPassword,
@@ -28,6 +30,7 @@ router.put('/update/:id', updateProfile)
 router.get('/allUsers', getAllUsers)
 router.get('/users/:id', getUserById)
 router.delete('/delete/:id', deleteUserById)
+router.post('/verify-id/:id', upload, multerMiddleware, submitVerificationData)
 // router.get('/me', authUser, currentUser)
 // router.post('/activate', activateAccount)
 // router.post('/forget', forgotPassword)
