@@ -48,6 +48,7 @@ const chatMessages = async (data) => {
     headers: header,
     params: data,
   })
+  console.log(user.data.messages)
   return user.data.messages
 }
 

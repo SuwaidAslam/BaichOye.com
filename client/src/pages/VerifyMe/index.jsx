@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { submitVerificationData, reset, checkVerificationDataSubmission } from '../../redux/auth/authSlice'
 import { tr } from 'date-fns/locale';
 import toast from 'react-hot-toast';
+import { set } from 'date-fns';
 
 const VerifyMe = () => {
     const dispatch = useDispatch()
@@ -16,17 +17,22 @@ const VerifyMe = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
+    const [reload, setReload] = useState(false)
 
-    const { verificationStatus, isError, isSuccess, errorMessage, successMessage } =
+    const { verificationStatus } =
         useSelector((selector) => selector.auth)
         
     
 
     useEffect(() => {
         dispatch(checkVerificationDataSubmission())
-    }, [dispatch])
+        setReload(false)
+        return () => dispatch(reset())
+    }, [reload, dispatch])
+
 
     useEffect(() => {
+        // console.log(verificationStatus)
         if (verificationStatus === 'Rejected') {
             setNotificationMessage('Your ID has been rejected. Please try again')
             setIsButtonDisabled(false)
@@ -43,11 +49,7 @@ const VerifyMe = () => {
             setNotificationMessage('Verification Pending')
             setIsButtonDisabled(true)
         }
-        dispatch(reset())
-        setIssuingCountry('')
-        setIdType('')
-        setSelectedFile(null)
-    }, [isSuccess, verificationStatus, dispatch])
+    }, [verificationStatus, dispatch])
 
 
 
@@ -71,6 +73,10 @@ const VerifyMe = () => {
         formData.append('idType', idType);
         formData.append('idImage', selectedFile);
         dispatch(submitVerificationData(formData))
+        setIssuingCountry('')
+        setIdType('')
+        setSelectedFile(null)
+        setReload(true)
     };
 
     return (

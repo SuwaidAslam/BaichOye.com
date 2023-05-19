@@ -10,7 +10,7 @@ export const ProtectedRoute = ({ children }) => {
 
 export const ProtectedSellRoute = ({ children }) => {
   const user = JSON.parse(localStorage.getItem('user'))
-  if (!user || (user && !user.isVerified)) {
+  if (!user || (user && user.verificationStatus !== 'Approved')) {
     return <Navigate replace to="/" />
   }
   return children

@@ -46,7 +46,7 @@ const Header = () => {
   }, [dispatch, input])
 
   const logout = () => {
-    localStorage.clear()
+    localStorage.clear()  
     dispatch(resetUser())
     navigate('/')
   }
@@ -55,8 +55,8 @@ const Header = () => {
     if (!user) {
       toast.error('To post Ad, Please login')
     }
-    if (user && !user.isVerified) {
-      toast.error('To post Ad, Please verify your account')
+    if (user && (user.verificationStatus !== 'Approved')) {
+      toast.error('To post an Ad, your account must be verified')
     }
   }
 

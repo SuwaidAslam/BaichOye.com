@@ -25,6 +25,30 @@ function VerificationRequests() {
     });
   };
 
+  const rejectRequest = (id) => {
+    axios({
+      method: "post",
+      url: "http://localhost:5000/api/auth/rejectVerificationRequest",
+      data: {
+        id: id,
+      },
+    }).then(function (response) {
+      getRequests();
+    });
+  };
+
+  const approveRequest = (id) => {
+    axios({
+      method: "post",
+      url: "http://localhost:5000/api/auth/approveVerificationRequest",
+      data: {
+        id: id,
+      },
+    }).then(function (response) {
+      getRequests();
+    });
+  };
+  
   const handleZoomClick = (image) => {
     setSelectedImage(image);
   };
@@ -73,13 +97,16 @@ function VerificationRequests() {
                   <div className="zoom-icon-wrapper" onClick={() => handleZoomClick(request.IDCardImage)}>
                     <RiZoomInLine className="zoom-cat-btn" />
                   </div>
-                  <Link to={`/categories/ads/${request._id}`}>
-                    <RiCheckboxCircleLine className="view-prod-btn" />
-                  </Link>
+                  <RiCheckboxCircleLine
+                    onClick={(event) => {
+                      event.preventDefault();
+                      approveRequest(request._id);
+                    }}
+                    className="view-prod-btn" />
                   <RiCloseCircleLine
                     onClick={(event) => {
                       event.preventDefault();
-                      // deleteCategory(request._id);
+                      rejectRequest(request._id);
                     }}
                     className="category-card-icon delete-icon "
                   />

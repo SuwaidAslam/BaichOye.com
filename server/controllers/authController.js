@@ -587,6 +587,66 @@ const getVerificationRequests = asynHandler(async (req, res) => {
   }
 });
 
+// rejectVerificationRequest route
+// route      /api/auth/rejectVerificationRequest/:id
+// access     private
+// method     put
+const rejectVerificationRequest = asynHandler(async (req, res) => {
+  try {
+    const userId = req.body.id;
+
+    // Find the user by ID
+    const user = await authModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update the verification details
+    user.IDCardImage = null;
+    user.issuingCountry = null;
+    user.IDType = null;
+    user.verificationStatus = 'Rejected';
+
+    // Save the updated user
+    await user.save();
+
+    res.json({ message: 'Verification request rejected successfully', user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// approveVerificationRequest route
+// route      /api/auth/approveVerificationRequest/:id
+// access     private
+// method     put
+const approveVerificationRequest = asynHandler(async (req, res) => {
+  try {
+    const userId = req.body.id;
+    
+    // Find the user by ID
+    const user = await authModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update the verification details
+    user.verificationStatus = 'Approved';
+
+    // Save the updated user
+    await user.save();
+
+    res.json({ message: 'Verification request approved successfully', user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 
 export {
   signup,
@@ -598,6 +658,8 @@ export {
   submitVerificationData,
   checkVerificationStatus,
   getVerificationRequests,
+  rejectVerificationRequest,
+  approveVerificationRequest,
   //   currentUser,
   //   activateAccount,
   //   forgotPassword,

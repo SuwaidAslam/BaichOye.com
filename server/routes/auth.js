@@ -16,6 +16,8 @@ import {
   submitVerificationData,
   checkVerificationStatus,
   getVerificationRequests,
+  rejectVerificationRequest,
+  approveVerificationRequest,
 //   currentUser,
 //   activateAccount,
 //   forgotPassword,
@@ -35,6 +37,8 @@ router.delete('/delete/:id', deleteUserById)
 router.post('/verify-id/:id', upload, multerMiddleware, submitVerificationData)
 router.get('/is-verification-submitted/:id', checkVerificationStatus)
 router.get('/getVerificationRequests', getVerificationRequests)
+router.post('/rejectVerificationRequest', rejectVerificationRequest)
+router.post('/approveVerificationRequest', approveVerificationRequest)
 
 // router.get('/me', authUser, currentUser)
 // router.post('/activate', activateAccount)

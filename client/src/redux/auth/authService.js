@@ -137,6 +137,7 @@ const checkVerificationDataSubmission = async () => {
     url: `${url}/is-verification-submitted/${id}`,
     headers,
   })
+  console.log(user.data)
   return user.data
 }
 
