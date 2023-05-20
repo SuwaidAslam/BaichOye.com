@@ -5,8 +5,14 @@ import Joi from "joi";
 import authModel from '../mongodb/models/authModel.js'
 import bcrypt from "bcrypt";
 import passwordComplexity from "joi-password-complexity";
+import fs from 'fs';
+import path from 'path'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 // const { OAuth2Client } = require('google-auth-library')
 
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export const validate = (data) => {
   const schema = Joi.object({
@@ -594,9 +600,19 @@ const getVerificationRequests = asynHandler(async (req, res) => {
 const rejectVerificationRequest = asynHandler(async (req, res) => {
   try {
     const userId = req.body.id;
-
+    
     // Find the user by ID
     const user = await authModel.findById(userId);
+    
+    const IDCardImage = user.IDCardImage;
+
+    const filePath = path.join(__dirname, '../public/uploads/', IDCardImage);
+    fs.unlink(filePath, (err) => {
+    if (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Failed to delete the image file' });
+    }
+    });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
