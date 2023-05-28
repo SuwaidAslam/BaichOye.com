@@ -7,6 +7,7 @@ import adRoutes from './routes/ads.js';
 import authRoutes from './routes/auth.js';
 import chatRoutes from './routes/chat.js';
 import categoryRoutes from './routes/category.js';
+import walletRoutes from './routes/wallet.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -28,6 +29,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api', adRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/wallet', walletRoutes);
 app.use('/resources', express.static(__dirname + '/public/uploads'));
 
 

@@ -25,7 +25,12 @@ const ItemSidebar = ({ ad }) => {
   const navigate = useNavigate()
 
   const handleBuy = () => {
-    console.log("buy module")
+    if (!user) {
+      toast.error('To Buy Item, Please login')
+    }
+    else{
+      navigate(`/payment`, { state: { ad } })
+    }
   }
 
   const handleChat = (userId, adId) => {

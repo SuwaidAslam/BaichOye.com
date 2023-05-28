@@ -1,0 +1,41 @@
+.container {
+    margin-top: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  h4 {
+    font-size: 18px;
+  }
+  
+  p {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .row {
+    margin-bottom: 20px;
+  }
+  
+  /* Custom styles for the donut chart */
+  .col-md-6 .PieChart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .chart-container {
+    max-height: 250px;
+    max-width: fit-content;
+    object-fit: cover;
+  }
+
+  .transaction-container {
+    max-height: 200px; /* Adjust the height as per your requirement */
+    overflow-y: scroll;
+  }
+  
+  

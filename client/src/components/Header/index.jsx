@@ -126,6 +126,16 @@ const Header = () => {
               Sell
             </NavLink>
 
+            {user && (
+              <NavLink
+                className="nav-link ms-2"
+                to="/wallet"
+                // onClick={handleInboxBtnClick}
+              >
+                Wallet
+              </NavLink>
+            )}
+
             {!user && (
               <>
                 <NavLink className="nav-link" to="/login">
