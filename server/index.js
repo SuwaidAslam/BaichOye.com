@@ -29,7 +29,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api', adRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/categories', categoryRoutes);
-app.use('/wallet', walletRoutes);
+app.use('/api/wallet', walletRoutes);
 app.use('/resources', express.static(__dirname + '/public/uploads'));
 
 

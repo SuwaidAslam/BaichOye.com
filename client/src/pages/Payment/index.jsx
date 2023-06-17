@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom'
 import './PaymentPage.css';
+import toast from 'react-hot-toast'
+import { makeTransaction } from '../../redux/wallet/walletSlice';
+import { useDispatch } from 'react-redux'
 
 const PaymentPage = () => {
+  const dispatch = useDispatch()
+  const { state: { userId, ad } } = useLocation()
   const [paymentMethod, setPaymentMethod] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCVV] = useState('');
 
-  const handlePaymentMethodChange = (event) => {    
+  const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
   };
 
@@ -23,9 +29,36 @@ const PaymentPage = () => {
     setCVV(event.target.value);
   };
 
+
+
   const handlePaymentSubmit = (event) => {
     event.preventDefault();
-    // Handle payment submission logic here
+    const current_user = JSON.parse(localStorage.getItem('user'))
+    const current_user_id = current_user._id
+    const data = {
+      sellerId: userId,
+      buyerId: current_user_id,
+      adId: ad._id,
+      amount: ad.price
+    }
+    //check if the payment method is selected
+    if (paymentMethod !== '') {
+      // if the payment method is not wallet, check if the card number is entered
+      if (paymentMethod !== 'wallet') {
+        // if card number is entered, check if the expiry date is entered
+        if (cardNumber !== '' && expiryDate !== '' && cvv !== '') {
+          dispatch(makeTransaction(data))
+          toast.success('Payment Successful');
+        }
+      }
+      else {
+        // if the payment method is wallet, check if the user has enough balance
+        console.log('payment method is wallet')
+      }
+    }
+    else {
+      toast.error('Please select a payment method');
+    }
   };
 
   return (

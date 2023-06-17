@@ -24,13 +24,8 @@ const ItemSidebar = ({ ad }) => {
   const date = moment(ad.createdAt).format('ll')
   const navigate = useNavigate()
 
-  const handleBuy = () => {
-    if (!user) {
-      toast.error('To Buy Item, Please login')
-    }
-    else{
-      navigate(`/payment`, { state: { ad } })
-    }
+  const handleBuy = (userId, ad) => {
+    (userId == currentUser.user._id) ? toast.error("Cannot buy your own product") : navigate(`/payment`, { state: { userId, ad } })
   }
 
   const handleChat = (userId, adId) => {
@@ -141,7 +136,7 @@ const ItemSidebar = ({ ad }) => {
           </p>
         )}
         <div className="d-grid gap-2 mt-2">
-          <Button variant="primary" size="lg" onClick={handleBuy}>
+          <Button variant="primary" size="lg" onClick={() => handleBuy(ad.user, ad)}>
             Buy
           </Button>
           <Button variant="secondary" size="lg" onClick={() => handleChat(ad.user, ad._id)}>

@@ -8,24 +8,6 @@ const register = async (data) => {
   return user.data
 }
 
-// const activateAccount = async (token) => {
-//   const header = {
-//     authorization: `Bearer ${token}`,
-//   }
-
-//   const user = await axios({
-//     method: 'post',
-//     url: `${url}/activate`,
-//     headers: header,
-//   })
-
-//   if (user) {
-//     localStorage.setItem('token', JSON.stringify(user.data.token))
-//   }
-
-//   return user.data
-// }
-
 // login
 const login = async (data) => {
   const user = await axios({
@@ -41,53 +23,6 @@ const login = async (data) => {
 
   return user.data
 }
-
-// // google login
-// const googleLogin = async (response) => {
-//   const user = await axios({
-//     method: 'POST',
-//     url: `${url}/googlelogin`,
-//     headers: {
-//       Authorization: `Bearer ${response.credential}`,
-//     },
-//   })
-
-//   if (user) {
-//     localStorage.setItem('token', JSON.stringify(user.data.token))
-//     localStorage.setItem('user', JSON.stringify(user.data.user))
-//   }
-
-//   return user.data
-// }
-
-// const findAccount = async (email) => {
-//   const user = await axios({
-//     method: 'post',
-//     url: `${url}/forget`,
-//     data: email,
-//   })
-
-//   return user.data
-// }
-
-// const changePassword = async (data) => {
-//   const { password, password2, token } = data
-
-//   const headers = {
-//     Authorization: `Bearer ${token}`,
-//   }
-//   const user = await axios({
-//     method: 'put',
-//     url: `${url}/change-password`,
-//     data: {
-//       password,
-//       password2,
-//     },
-//     headers,
-//   })
-
-//   return user.data
-// }
 
 const update = async (data) => {
   const token = JSON.parse(localStorage.getItem('token'))
@@ -137,17 +72,13 @@ const checkVerificationDataSubmission = async () => {
     url: `${url}/is-verification-submitted/${id}`,
     headers,
   })
-  console.log(user.data)
-  return user.data
+  localStorage.setItem('user', JSON.stringify(user.data.user))
+  return  user.data.user.verificationStatus
 }
 
 const authService = {
   register,
-  // activateAccount,
   login,
-  // findAccount,
-  // changePassword,
-  // googleLogin,
   update,
   submitVerificationData,
   checkVerificationDataSubmission

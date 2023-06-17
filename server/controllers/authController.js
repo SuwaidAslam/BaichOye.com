@@ -9,6 +9,7 @@ import fs from 'fs';
 import path from 'path'
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import WalletModel from '../mongodb/models/walletModel.js'
 // const { OAuth2Client } = require('google-auth-library')
 
 
@@ -50,11 +51,11 @@ const signup = asynHandler(async (req, res) => {
   // if (error)
   //   return res.status(400).send({ message: error.details[0].message });
 
-  const { fullName, phone, email, password, password2 } = req.body
+  const { fullName, phone, email, password, password2 } = req.body;
 
   if (!fullName || !phone || !email || !password || !password2) {
-    res.status(400)
-    throw new Error('Please include all fields')
+    res.status(400);
+    throw new Error('Please include all fields');
   }
 
   const data = {
@@ -62,133 +63,52 @@ const signup = asynHandler(async (req, res) => {
     phone,
     email,
     password,
-  }
+  };
   const { error } = validate(data);
-  if (error)
+  if (error) {
     return res.status(400).send({ message: error.details[0].message });
+  }
 
-  // check both passwords
+  // Check both passwords
   if (password !== password2) {
     res.status(400).send({ message: 'Passwords do not match' });
-    throw new Error('Passwords do not match')
+    throw new Error('Passwords do not match');
   }
 
-  const emailExist = await authModel.findOne({ email })
+  const emailExist = await authModel.findOne({ email });
 
-  // check if email already exists
+  // Check if email already exists
   if (emailExist) {
     res.status(400).send({ message: 'Email already exists' });
-    throw new Error('Email already exists')
+    throw new Error('Email already exists');
   }
 
-  // save user
-  const user = new authModel(data)
+  // Save user
+  const user = new authModel(data);
 
-  await user.save()
+  await user.save();
 
   if (!user) {
-    throw new Error('Something went wrong')
+    throw new Error('Something went wrong');
   }
-  // generate new token
+
+  // Create a wallet for the user
+  const wallet = new WalletModel({
+    userId: user._id,
+    balance: 0, // Set initial balance to 0 or any other default value
+    transactions: [], // Initialize with an empty transactions array
+  });
+
+  await wallet.save();
+
+  // Generate a new token
   const newToken = jwt.sign({ id: user._id }, process.env.JWTPRIVATEKEY, {
     expiresIn: '1d',
-  })
-  res
-    .status(201)
-    .json({ successMsg: 'Registered Successfully!', token: newToken })
+  });
 
-  // const salt = await bcrypt.genSalt(Number(process.env.SALT));
-  // const hashPassword = await bcrypt.hash(req.body.password, salt);
+  res.status(201).json({ successMsg: 'Registered Successfully!', token: newToken });
 
-  // await new authModel({ ...req.body, password: hashPassword }).save();
-  // res.status(201).send({ message: "User created successfully" });
-
-  //   userSchema.methods.generateAuthToken = function () {
-  // 	const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
-  // 		expiresIn: "7d",
-  // 	});
-  // 	return token;
-  // };
-
-  // remove this after testing
-  // res.json({
-  //   token,
-  // })
-
-  //   try {
-  //     await transporter.sendMail({
-  //       from: 'noreply@yahoo.com',
-  //       to: email,
-  //       subject: 'Email Activation Link',
-  //       html: `
-  //       <h1>Please verify your account by clicking below link</h1>
-  //       <a href='${process.env.CLIENT_URI}/activate/${token}'>${process.env.CLIENT_URI}/activate/${token}</a>
-  //       `,
-  //     })
-
-  //     res.json({
-  //       successMsg: 'Activation link sent to your email! please check.',
-  //     })
-  //   } catch (e) {
-  //     throw new Error(e)
-  //   }
 })
-
-// // @route     /api/auth/activate
-// // @access    private
-// const activateAccount = asynHandler(async (req, res) => {
-//   // get token
-//   const token = req.headers.authorization
-//     ? req.headers.authorization.split(' ')[1]
-//     : null
-
-//   // no token
-//   if (!token) {
-//     res.status(401)
-//     throw new Error('Not authorized! no token')
-//   }
-
-//   // token exists
-//   const tokenVerified = jwt.verify(token, process.env.JWT_SECRET_KEY)
-
-//   // tempered token
-//   if (!tokenVerified) {
-//     res.status(403)
-//     throw new Error('Invalid or expired token')
-//   }
-
-//   const { fullname, phoneno, email, password } = tokenVerified
-
-//   // check if user alread exists
-//   const existUser = await AuthModel.findOne({ email })
-//   if (existUser) {
-//     res.status(401)
-//     throw new Error('User already exists with that email')
-//   }
-
-//   // save user
-//   const user = new AuthModel({
-//     fullname,
-//     phoneno,
-//     email,
-//     password,
-//   })
-
-//   await user.save()
-
-//   if (!user) {
-//     throw new Error('Something went wrong')
-//   }
-
-//   // generate new token
-//   const newToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
-//     expiresIn: '1d',
-//   })
-
-//   res
-//     .status(201)
-//     .json({ successMsg: 'Registered Successfully!', token: newToken })
-// })
 
 // SIGNIN
 const signin = asynHandler(async (req, res) => {
@@ -237,186 +157,6 @@ const signin = asynHandler(async (req, res) => {
     },
   })
 })
-
-// // route      /api/auth/forget
-// // access     public
-// // method     post
-// const forgotPassword = asynHandler(async (req, res) => {
-//   const { email } = req.body
-//   if (!email) {
-//     throw new Error('Please enter your email')
-//   }
-
-//   // check if user exist
-//   const user = await AuthModel.findOne({ email })
-//   if (!user) {
-//     res.status(400)
-//     throw new Error('No user exist with that email')
-//   }
-
-//   // generate token
-//   const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, {
-//     expiresIn: '20m',
-//   })
-
-//   try {
-//     await transporter.sendMail({
-//       from: 'noreply@yahoo.com',
-//       to: email,
-//       subject: 'Password Change Link',
-//       html: `
-//       <h1>Please change your account password by clicking below link</h1>
-//       <a href='${process.env.CLIENT_URI}/change-password/${token}'>${process.env.CLIENT_URI}/change-password/${token}</a>
-//       `,
-//     })
-
-//     res.json({
-//       successMsg: 'Please check your email.',
-//     })
-//   } catch (e) {
-//     res.status(500)
-//     throw new Error('Something went wrong')
-//   }
-// })
-
-// // route      /api/auth/change-password
-// // access     private
-// // method     put
-// const changePassword = asynHandler(async (req, res) => {
-//   const { password, password2 } = req.body
-//   if (!password || !password2) {
-//     res.status(400)
-//     throw new Error('Please include all fields')
-//   }
-
-//   // check both passwords
-//   if (password !== password2) {
-//     res.status(400)
-//     throw new Error('Passwords do not match')
-//   }
-//   // check passwords length
-//   if (password.length < 8 || password2.length < 8) {
-//     res.status(400)
-//     throw new Error('Minimum length should be 8 characters')
-//   }
-
-//   // get token
-//   const token = req.headers.authorization
-//     ? req.headers.authorization.split(' ')[1]
-//     : null
-
-//   // no token
-//   if (!token) {
-//     res.status(401)
-//     throw new Error('Not authorized! no token')
-//   }
-
-//   // token exists
-//   const tokenVerified = jwt.verify(token, process.env.JWT_SECRET_KEY)
-
-//   // tempered token
-//   if (!tokenVerified) {
-//     res.status(403)
-//     throw new Error('Invalid or expired token')
-//   }
-
-//   const { email } = tokenVerified
-
-//   // check if user alread exists and update
-//   const findUser = await AuthModel.findOne({ email })
-//   const updatedUser = await AuthModel.updateOne(
-//     { _id: findUser._id },
-//     {
-//       password,
-//     }
-//   )
-
-//   if (!updatedUser) {
-//     throw new Error('Something went wrong')
-//   }
-
-//   res.json({ successMsg: 'Your password has been updated' })
-// })
-
-// // LOGIN WITH GOOGLE
-// // route      /api/auth/googlelogin
-// // access     public
-// // method     post
-// const googleLogin = asyncHandler(async (req, res) => {
-//   // get token
-//   const token = req.headers.authorization
-//     ? req.headers.authorization.split(' ')[1]
-//     : null
-
-//   const verifiedToken = await client.verifyIdToken({
-//     idToken: token,
-//     audience:
-//       '755428588274-5nl45or7hrlck14neughadquor3bjaph.apps.googleusercontent.com',
-//   })
-
-//   const { name, email, picture, email_verified } = verifiedToken.payload
-
-//   // check invalid token
-//   if (!verifiedToken) {
-//     res.status(403)
-//     throw new Error('Not authorized! token invalid')
-//   }
-
-//   if (!email_verified) {
-//     res.status(400)
-//     throw new Error('Email not verified')
-//   }
-
-//   // find user in db
-//   const user = await AuthModel.findOne({ email }).select('-password')
-//   // if user already exists
-//   if (user) {
-//     const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, {
-//       expiresIn: '7d',
-//     })
-
-//     res.json({ token, successMsg: 'Logged in successfully', user })
-//   }
-
-//   if (!user) {
-//     // if user doesnot exist create new user
-//     const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, {
-//       expiresIn: '7d',
-//     })
-
-//     const data = {
-//       fullname: name,
-//       email,
-//       picture,
-//       password: `${email}.${token}`,
-//     }
-
-//     const user = new AuthModel(data)
-//     await user.save()
-
-//     if (user) {
-//       res.json({ token, successMsg: 'Logged in successfully', user })
-//     }
-//   }
-// })
-
-// // CURRENT USER
-// // route      /api/auth/me
-// // access     private
-// // method     get
-// const currentUser = asyncHandler(async (req, res) => {
-//   const { _id, fullname, email, phoneno, picture } = await authModel.findById(
-//     req.user._id
-//   )
-
-//   res.json({
-//     id: _id,
-//     fullname,
-//     email,
-//     phoneno,
-//     picture,
-//   })
-// })
 
 
 
@@ -532,7 +272,7 @@ const submitVerificationData = asynHandler(async (req, res) => {
     const file = req.files[0];
     let imageName;
     if (file) {
-        imageName = file.filename;
+      imageName = file.filename;
     }
 
     // Check if required fields are not empty
@@ -544,7 +284,7 @@ const submitVerificationData = asynHandler(async (req, res) => {
     user.issuingCountry = issuingCountry;
     user.IDType = idType;
     user.verificationStatus = 'Pending';
-    
+
     // Save the updated user
     await user.save();
 
@@ -569,9 +309,9 @@ const checkVerificationStatus = asynHandler(async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    const { verificationStatus } = user;
+    // const {  } = user;
 
-    res.json({ verificationStatus });
+    res.json({ user});
 
   } catch (error) {
     console.error(error);
@@ -600,18 +340,18 @@ const getVerificationRequests = asynHandler(async (req, res) => {
 const rejectVerificationRequest = asynHandler(async (req, res) => {
   try {
     const userId = req.body.id;
-    
+
     // Find the user by ID
     const user = await authModel.findById(userId);
-    
+
     const IDCardImage = user.IDCardImage;
 
     const filePath = path.join(__dirname, '../public/uploads/', IDCardImage);
     fs.unlink(filePath, (err) => {
-    if (err) {
+      if (err) {
         console.error(err);
         return res.status(500).json({ message: 'Failed to delete the image file' });
-    }
+      }
     });
 
     if (!user) {
@@ -641,7 +381,7 @@ const rejectVerificationRequest = asynHandler(async (req, res) => {
 const approveVerificationRequest = asynHandler(async (req, res) => {
   try {
     const userId = req.body.id;
-    
+
     // Find the user by ID
     const user = await authModel.findById(userId);
 

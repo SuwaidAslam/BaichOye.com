@@ -203,58 +203,6 @@ export const authSlice = createSlice({
         state.successMessage = ''
         state.errorMessage = actions.payload
       })
-
-      // // ACITVATE ACCOUNT
-      // .addCase(activateAccount.pending, (state) => {
-      //   state.isLoading = true
-      //   state.user = null
-      //   state.isSuccess = false
-      //   state.isError = false
-      //   state.successMessage = ''
-      //   state.errorMessage = ''
-      // })
-      // .addCase(activateAccount.fulfilled, (state, actions) => {
-      //   state.user = null
-      //   state.isSuccess = true
-      //   state.isLoading = false
-      //   state.isError = false
-      //   state.successMessage = actions.payload.successMsg
-      //   state.errorMessage = ''
-      // })
-      // .addCase(activateAccount.rejected, (state, actions) => {
-      //   state.user = null
-      //   state.isSuccess = false
-      //   state.isLoading = false
-      //   state.isError = true
-      //   state.successMessage = ''
-      //   state.errorMessage = actions.payload
-      // })
-
-      // GOOGLE SIGNIN
-      // .addCase(googleLogin.pending, (state) => {
-      //   state.isLoading = true
-      //   state.user = null
-      //   state.isSuccess = false
-      //   state.isError = false
-      //   state.successMessage = ''
-      //   state.errorMessage = ''
-      // })
-      // .addCase(googleLogin.fulfilled, (state, actions) => {
-      //   state.user = actions.payload.user
-      //   state.isSuccess = true
-      //   state.isLoading = false
-      //   state.isError = false
-      //   state.successMessage = actions.payload.successMsg
-      //   state.errorMessage = ''
-      // })
-      // .addCase(googleLogin.rejected, (state, actions) => {
-      //   state.user = null
-      //   state.isSuccess = false
-      //   state.isLoading = false
-      //   state.isError = true
-      //   state.successMessage = ''
-      //   state.errorMessage = actions.payload
-      // })
       // // SIGNIN
       .addCase(login.pending, (state) => {
         state.isLoading = true
@@ -280,52 +228,6 @@ export const authSlice = createSlice({
         state.successMessage = ''
         state.errorMessage = actions.payload
       })
-      // FIND ACCOUNT
-      // .addCase(findAccount.pending, (state) => {
-      //   state.isLoading = true
-      //   state.isSuccess = false
-      //   state.isError = false
-      //   state.successMessage = ''
-      //   state.errorMessage = ''
-      // })
-      // .addCase(findAccount.fulfilled, (state, actions) => {
-      //   state.isSuccess = true
-      //   state.isLoading = false
-      //   state.isError = false
-      //   state.successMessage = actions.payload.successMsg
-      //   state.errorMessage = ''
-      // })
-      // .addCase(findAccount.rejected, (state, actions) => {
-      //   console.log(actions)
-      //   state.isSuccess = false
-      //   state.isLoading = false
-      //   state.isError = true
-      //   state.successMessage = ''
-      //   state.errorMessage = actions.payload
-      // })
-      // // CHANGE PASSWORD
-      // .addCase(changePassword.pending, (state) => {
-      //   state.isLoading = true
-      //   state.isSuccess = false
-      //   state.isError = false
-      //   state.successMessage = ''
-      //   state.errorMessage = ''
-      // })
-      // .addCase(changePassword.fulfilled, (state, actions) => {
-      //   state.isSuccess = true
-      //   state.isLoading = false
-      //   state.isError = false
-      //   state.successMessage = actions.payload.successMsg
-      //   state.errorMessage = ''
-      // })
-      // .addCase(changePassword.rejected, (state, actions) => {
-      //   console.log(actions)
-      //   state.isSuccess = false
-      //   state.isLoading = false
-      //   state.isError = true
-      //   state.successMessage = ''
-      //   state.errorMessage = actions.payload
-      // })
       // Update
       .addCase(update.pending, (state) => {
         state.isLoading = true
@@ -383,7 +285,7 @@ export const authSlice = createSlice({
         state.errorMessage = ''
       })
       .addCase(checkVerificationDataSubmission.fulfilled, (state, actions) => {
-        state.verificationStatus = actions.payload.verificationStatus
+        state.verificationStatus = actions.payload
         state.isSuccess = true
         state.isLoading = false
         state.isError = false

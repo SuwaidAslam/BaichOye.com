@@ -19,7 +19,7 @@ const VerifyMe = () => {
     const [notificationMessage, setNotificationMessage] = useState('');
     const [reload, setReload] = useState(false)
 
-    const { verificationStatus } =
+    const  {verificationStatus} =
         useSelector((selector) => selector.auth)
         
     
@@ -32,7 +32,6 @@ const VerifyMe = () => {
 
 
     useEffect(() => {
-        // console.log(verificationStatus)
         if (verificationStatus === 'Rejected') {
             setNotificationMessage('Your ID has been rejected. Please try again')
             setIsButtonDisabled(false)

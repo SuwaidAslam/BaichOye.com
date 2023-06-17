@@ -3,10 +3,10 @@ import asyncHandler from 'express-async-handler';
 
 
 // Create a transaction
+// Create a transaction
 export const makeTransaction = asyncHandler(async (req, res) => {
     try {
         const { buyerId, sellerId, adId, amount } = req.body;
-
         // Create a new transaction object
         const transaction = {
             buyerId,
@@ -14,6 +14,7 @@ export const makeTransaction = asyncHandler(async (req, res) => {
             adId,
             amount,
             status: 'Pending', // Assuming the transaction starts as pending
+            type: 'Debit', // Assign the type field to 'Debit'
         };
 
         // Add the transaction to the buyer's wallet
@@ -23,24 +24,12 @@ export const makeTransaction = asyncHandler(async (req, res) => {
             { new: true }
         );
 
-        // Update the wallet balance
-        buyerWallet.balance -= amount;
-
-        // Save the updated wallet document
-        await buyerWallet.save();
-
         // Update the seller's wallet
         const sellerWallet = await WalletModel.findOneAndUpdate(
             { userId: sellerId },
-            { $push: { transactions: transaction } },
+            { $push: { transactions: { ...transaction, type: 'Credit' } } },
             { new: true }
         );
-
-        // Update the seller's wallet balance
-        sellerWallet.balance += amount;
-
-        // Save the updated seller's wallet document
-        await sellerWallet.save();
 
         res.status(200).json({ message: 'Transaction created successfully' });
     } catch (error) {
@@ -48,6 +37,7 @@ export const makeTransaction = asyncHandler(async (req, res) => {
         res.status(500).json({ error: 'An error occurred while creating the transaction' });
     }
 });
+
 
 // get the total amoung where the transaction is of type credit
 export const getCreditAmount = asyncHandler(async (req, res) => {
