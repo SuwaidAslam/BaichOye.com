@@ -30,23 +30,6 @@ export const register = createAsyncThunk(
     }
   }
 )
-// // activate account
-// export const activateAccount = createAsyncThunk(
-//   'auth/activate-account',
-//   async (token, ThunkAPI) => {
-//     try {
-//       return await authService.activateAccount(token)
-//     } catch (error) {
-//       const message =
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message ||
-//         error.toString()
-//       return ThunkAPI.rejectWithValue(message)
-//     }
-//   }
-// )
 
 // LOGIN
 export const login = createAsyncThunk('auth/signin', async (data, ThunkAPI) => {
@@ -60,58 +43,6 @@ export const login = createAsyncThunk('auth/signin', async (data, ThunkAPI) => {
     return ThunkAPI.rejectWithValue(message)
   }
 })
-
-// // GOOGLE LOGIN
-// export const googleLogin = createAsyncThunk(
-//   'auth/googlelogin',
-//   async (response, ThunkAPI) => {
-//     try {
-//       return await authService.googleLogin(response)
-//     } catch (error) {
-//       const message =
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message ||
-//         error.toString()
-//       return ThunkAPI.rejectWithValue(message)
-//     }
-//   }
-// )
-// // FIND ACCOUNT
-// export const findAccount = createAsyncThunk(
-//   'auth/find-account',
-//   async (email, ThunkAPI) => {
-//     try {
-//       return await authService.findAccount(email)
-//     } catch (error) {
-//       const message =
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message ||
-//         error.toString()
-//       return ThunkAPI.rejectWithValue(message)
-//     }
-//   }
-// )
-// // CHANGE PASSWORD
-// export const changePassword = createAsyncThunk(
-//   'auth/change-password',
-//   async (data, ThunkAPI) => {
-//     try {
-//       return await authService.changePassword(data)
-//     } catch (error) {
-//       const message =
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message ||
-//         error.toString()
-//       return ThunkAPI.rejectWithValue(message)
-//     }
-//   }
-// )
 
 // Update Profile
 export const update = createAsyncThunk(

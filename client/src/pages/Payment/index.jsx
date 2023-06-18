@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
 import './PaymentPage.css';
 import toast from 'react-hot-toast'
-import { makeTransaction } from '../../redux/wallet/walletSlice';
-import { useDispatch } from 'react-redux'
+import { makeTransaction, makeTransactionFromWallet } from '../../redux/wallet/walletSlice';
+import { useDispatch, useSelector } from 'react-redux'
 
 const PaymentPage = () => {
   const dispatch = useDispatch()
@@ -12,6 +12,19 @@ const PaymentPage = () => {
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCVV] = useState('');
+
+
+  const { balance, errorMessage, successMessage, isError, isSuccess, isLoading } =
+    useSelector((selector) => selector.wallet); 
+
+  useEffect(() => {
+    if (isError && errorMessage) {
+      toast.error(errorMessage)
+    }
+    if (isSuccess && successMessage) {
+      toast.success(successMessage)
+    }
+  }, [isError, isSuccess, errorMessage, successMessage, dispatch])
 
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
@@ -52,8 +65,7 @@ const PaymentPage = () => {
         }
       }
       else {
-        // if the payment method is wallet, check if the user has enough balance
-        console.log('payment method is wallet')
+        dispatch(makeTransactionFromWallet(data))
       }
     }
     else {
@@ -86,7 +98,7 @@ const PaymentPage = () => {
                 </div>
                 {paymentMethod === 'wallet' && (
                   <div className="mb-3">
-                    <p className="payment-wallet-balance">Wallet Balance: $500</p>
+                    <p className="payment-wallet-balance">Wallet Balance: Pkr {balance}</p>
                   </div>
                 )}
                 {paymentMethod === 'card' && (

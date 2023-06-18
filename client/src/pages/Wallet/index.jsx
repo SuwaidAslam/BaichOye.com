@@ -1,62 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
 import { Pagination } from 'react-bootstrap';
 import './wallet.css'; // Import the custom CSS file
+import { getTransactions, getWalletBalance, depositMoney, withdrawMoney } from '../../redux/wallet/walletSlice';
+import { useDispatch, useSelector } from 'react-redux'
+import { format } from 'date-fns';
+import { Button, Modal, Form } from 'react-bootstrap';
+
+
 
 const Wallet = () => {
+    const dispatch = useDispatch();
+    const [showModal, setShowModal] = useState(false);
+    const [amount, setAmount] = useState('');
+    const [transactionType, setTransactionType] = useState('');
+    const { transactions, balance, depositedAmount, withdrawnAmount } = useSelector((selector) => selector.wallet);
+    const currectUser = useSelector((selector) => selector.auth.user);
     const chartData = [
-        { title: 'Refund Amount', value: 50, color: '#ff6384' },
-        { title: 'Deposit Amount', value: 200, color: '#36a2eb' },
-        { title: 'Withdrawal Amount', value: 100, color: '#ffce56' },
+        { title: 'Deposit Amount', value: depositedAmount, color: '#0d6efd' },
+        { title: 'Withdrawal Amount', value: withdrawnAmount, color: '#dc3545' },
     ];
+    const handleOpenModal = (type) => {
+        setShowModal(true);
+        setTransactionType(type);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setAmount('');
+        setTransactionType('');
+    };
+
+    const handleAmountChange = (event) => {
+        setAmount(event.target.value);
+    };
+
+    const handleDeposit = () => {
+        handleOpenModal('deposit');
+    };
+
+    const handleWithdraw = () => {
+        handleOpenModal('withdraw');
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Perform deposit or withdrawal logic here
+        if (transactionType === 'deposit') {
+            dispatch(depositMoney(amount));
+        }
+        else {
+            dispatch(withdrawMoney(amount));
+        }
+        handleCloseModal();
+    };
 
     const [currentPage, setCurrentPage] = useState(1);
     const transactionsPerPage = 5;
-    const transactions = [
-        {
-            id: 1,
-            date: '2023-05-01',
-            adId: 'Transaction 1',
-            status: 'Pending',
-            amount: 100,
-        },
-        {
-            id: 2,
-            date: '2023-05-02',
-            adId: 'Transaction 2',
-            status: 'Pending',
-            amount: -50,
-        },
-        {
-            id: 3,
-            date: '2023-05-02',
-            adId: 'Transaction 111',
-            status: 'Pending',
-            amount: -50,
-        },
-        {
-            id: 4,
-            date: '2023-05-02',
-            adId: 'Transaction 111',
-            status: 'Pending',
-            amount: -50,
-        },
-        {
-            id: 5,
-            date: '2023-05-02',
-            adId: 'Transaction 111',
-            status: 'Approved',
-            amount: -50,
-        },
-        {
-            id: 6,
-            date: '2023-05-02',
-            adId: 'Transaction 111',
-            status: 'Approved',
-            amount: -50,
-        },
-        // Add more dummy transactions here...
-    ];
+    useEffect(() => {
+        dispatch(getTransactions());
+        dispatch(getWalletBalance())
+    }, [dispatch]);
 
     // Logic to calculate pagination
     const indexOfLastTransaction = currentPage * transactionsPerPage;
@@ -68,14 +72,16 @@ const Wallet = () => {
     };
 
     const renderTransactions = () => {
-        return currentTransactions.map((transaction) => (
-            <tr key={transaction.id}>
-                <td>{transaction.date}</td>
-                <td>{transaction.status}</td>
-                <td>{transaction.adId}</td>
-                <td>{transaction.amount}</td>
-            </tr>
-        ));
+        if (transactions) {
+            return currentTransactions.map((transaction) => (
+                <tr key={transaction._id} style={{ backgroundColor: transaction.buyerId._id === currectUser._id ? '#ffa6a6' : '#a6ffbf' }}>
+                    <td>{format(new Date(transaction.createdAt), 'yyyy-MM-dd')}</td>
+                    <td>{transaction.status}</td>
+                    <td>{transaction.adId ? transaction.adId.title : ''}</td>
+                    <td>Rs-{transaction.amount}</td>
+                </tr>
+            ));
+        }
     };
 
     return (
@@ -89,22 +95,18 @@ const Wallet = () => {
                                 <div className="col-md-8">
                                     <div className="row">
                                         <div className="col-md-12 mb-4">
-                                            <h4>Total Balance: $500</h4>
+                                            <h4>Total Balance: Rs {balance}</h4>
                                             <hr />
                                         </div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-md-4">
-                                            <p className="refund-amount">Refunds</p>
-                                            <h4>$50</h4>
-                                        </div>
-                                        <div className="col-md-4">
+                                        <div className="col-md-6">
                                             <p className="deposit-amount">Deposits</p>
-                                            <h4>$200</h4>
+                                            <h4>Rs {depositedAmount}</h4>
                                         </div>
-                                        <div className="col-md-4">
+                                        <div className="col-md-6">
                                             <p className="withdrawal-amount">Withdrawals</p>
-                                            <h4>$100</h4>
+                                            <h4>Rs {withdrawnAmount}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -126,12 +128,30 @@ const Wallet = () => {
                             <div className="row mt-4">
                                 <div className="col-md-12">
                                     <div className="d-grid gap-2 d-md-flex justify-content-start">
-                                        <button className="btn btn-primary me-md-2" type="button">
+                                        <button className="btn btn-primary me-md-2" type="button" onClick={handleDeposit}>
                                             Deposit
                                         </button>
-                                        <button className="btn btn-danger" type="button">
+                                        <button className="btn btn-danger" type="button" onClick={handleWithdraw}>
                                             Withdraw
                                         </button>
+                                        <Modal show={showModal} onHide={handleCloseModal} centered>
+                                            <Modal.Header closeButton>
+                                                <Modal.Title>{transactionType === 'deposit' ? 'Deposit' : 'Withdraw'}</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>
+                                                <Form onSubmit={handleSubmit}>
+                                                    <Form.Group controlId="amount">
+                                                        <Form.Label>Amount</Form.Label>
+                                                        <Form.Control type="number" placeholder="Enter amount" value={amount} onChange={handleAmountChange} />
+                                                    </Form.Group>
+                                                    <div className="text-center mt-3">
+                                                        <Button variant="primary" type="submit">
+                                                            Submit
+                                                        </Button>
+                                                    </div>
+                                                </Form>
+                                            </Modal.Body>
+                                        </Modal>
                                     </div>
                                 </div>
                             </div>

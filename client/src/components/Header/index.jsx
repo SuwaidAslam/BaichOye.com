@@ -55,6 +55,7 @@ const Header = () => {
     if (!user) {
       toast.error('To post Ad, Please login')
     }
+    console.log(user)
     if (user && (user.verificationStatus !== 'Approved')) {
       toast.error('To post an Ad, your account must be verified')
     }

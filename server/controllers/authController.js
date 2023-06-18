@@ -154,6 +154,7 @@ const signin = asynHandler(async (req, res) => {
       phone: user.phone,
       fullName: user.fullName,
       ads: user.ads,
+      verificationStatus: user.verificationStatus,
     },
   })
 })

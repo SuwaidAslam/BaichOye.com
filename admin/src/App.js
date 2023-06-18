@@ -14,6 +14,7 @@ import User from "./Core/User Pages/User";
 import Ad from "./Core/Ads Pages/Ad";
 import CategoryProduct from "./Core/Category Pages/CategoryProduct";
 import VerificationRequests from "./Core/User Verification Pages/VerificationRequests";
+import PaymentApproval from "./Core/Payment Approval Pages/PaymentApproval";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path="/ads" exact component={Ads} />
           <Route path="/complaints" exact component={Complaints} />
           <Route path="/user-verification" exact component={VerificationRequests} />
+          <Route path="/payment-approval" exact component={PaymentApproval} />
         </Switch>
       </Router>
     </div>

@@ -1,23 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../Components/Sidebar";
-import {
-  RiShoppingCart2Line,
-  RiUser3Line,
-  RiFeedbackLine,
-} from "react-icons/ri";
+// import {
+//   RiShoppingCart2Line,
+//   RiUser3Line,
+//   RiFeedbackLine,
+// } from "react-icons/ri";
 import { IoIosLaptop } from "react-icons/io";
 import { BiRupee } from "react-icons/bi";
 import { BsViewList } from "react-icons/bs";
 import { FaLaptopMedical } from "react-icons/fa";
 
+import {
+  RiDashboardLine,
+  RiShoppingCart2Line,
+  RiUser3Line,
+  RiAddFill,
+  RiFileList3Line,
+  RiMoneyDollarCircleLine,
+  RiShieldCheckLine  
+} from "react-icons/ri";
+
 import "./Dashboard.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { SERVER_URL } from '../constants/url'
 
 function Dashboard() {
   const [orders, setOrders] = useState();
-  const [totalRevenue, setTotalRevenue] = useState();
+  const [totalRevenue, setTotalRevenue] = useState(22);
   const [products, setProducts] = useState();
   const [users, setUsers] = useState();
 
@@ -31,9 +42,9 @@ function Dashboard() {
     setProducts();
     axios({
       method: "get",
-      url: "https://ecommerceappcj.herokuapp.com/api/products/",
+      url: `${SERVER_URL}api/allAds`,
     }).then((response) => {
-      setProducts(response.data.products);
+      setProducts(response.data);
     });
   };
 
@@ -41,9 +52,9 @@ function Dashboard() {
     setUsers();
     axios({
       method: "get",
-      url: "https://ecommerceappcj.herokuapp.com/api/users/",
+      url: `${SERVER_URL}api/auth/allUsers`,
     }).then((response) => {
-      setUsers(response.data.allUsers);
+      setUsers(response.data);
     });
   };
 
@@ -51,7 +62,7 @@ function Dashboard() {
     setOrders();
     axios({
       method: "get",
-      url: "https://ecommerceappcj.herokuapp.com/api/orders/",
+      url: `${SERVER_URL}api/wallet/allUsers`,
     }).then((response) => {
       setOrders(response.data.allOrders);
       let rev = 0;
@@ -104,8 +115,8 @@ function Dashboard() {
               {products && (
                 <Card className="dashboard-card">
                   <IoIosLaptop className="card-icon" />
-                  <h4>{products.length} Products</h4>
-                  <p>{products.length} products added</p>
+                  <h4>{products.length} Advertisements</h4>
+                  <p>{products.length} Items added</p>
                 </Card>
               )}
             </Col>
@@ -113,8 +124,8 @@ function Dashboard() {
               {users && (
                 <Card className="dashboard-card">
                   <RiUser3Line className="card-icon" />
-                  <h4>{users.length} Customers</h4>
-                  <p>{users.length} registered customers</p>
+                  <h4>{users.length} Users</h4>
+                  <p>{users.length} registered Users</p>
                 </Card>
               )}
             </Col>
@@ -123,8 +134,8 @@ function Dashboard() {
           <Row>
             <Col>
               <Card className="dashboard-action-card">
-                <BsViewList className="action-icon" />
-                <h4>Product Categories</h4>
+                <RiFileList3Line className="action-icon" />
+                <h4>Item Categories</h4>
                 <p>
                   <Link to="/categories">Click here</Link> to add, remove or
                   edit categories
@@ -134,19 +145,19 @@ function Dashboard() {
             <Col>
               <Card className="dashboard-action-card">
                 <IoIosLaptop className="action-icon" />
-                <h4>All products</h4>
+                <h4>All Advertisements</h4>
                 <p>
-                  <Link to="/products">Click here</Link> to view, remove or edit
-                  products
+                  <Link to="/ads">Click here</Link> to view or remove
+                  ads
                 </p>
               </Card>
             </Col>
             <Col>
               <Card className="dashboard-action-card">
-                <FaLaptopMedical className="action-icon" />
-                <h4>Add Products</h4>
+                <RiUser3Line className="action-icon" />
+                <h4>All Users</h4>
                 <p>
-                  <Link to="/products/add">Click here</Link> to add new products
+                  <Link to="/users">Click here</Link> to view or delete users
                 </p>
               </Card>
             </Col>
@@ -154,21 +165,20 @@ function Dashboard() {
           <Row>
             <Col lg={4}>
               <Card className="dashboard-action-card">
-                <RiShoppingCart2Line className="action-icon" />
-                <h4>All Orders</h4>
+                <RiShieldCheckLine className="action-icon" />
+                <h4>User Verification</h4>
                 <p>
-                  <Link to="/orders">Click here</Link> to view, remove or edit
+                  <Link to="/user-verification">Click here</Link> to view, approve or reject user verification requests
                   orders
                 </p>
               </Card>
             </Col>
             <Col lg={4}>
               <Card className="dashboard-action-card">
-                <RiUser3Line className="action-icon" />
-                <h4>All Customers</h4>
+                <RiMoneyDollarCircleLine className="action-icon" />
+                <h4>Payment Approvals</h4>
                 <p>
-                  <Link to="/users">Click here</Link> to view registered
-                  customer details
+                  <Link to="/payment-approval">Click here</Link> to view, approve or reject payment requests
                 </p>
               </Card>
             </Col>

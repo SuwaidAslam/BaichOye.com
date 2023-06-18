@@ -71,16 +71,6 @@ function Sidebar() {
               <p>Advertisements</p>
             </div>
           </Link>
-          <Link to="/orders" className="sidebar-link">
-            <div
-              className={`sidebar-item ${
-                isActive(history, "/orders") && "active"
-              }`}
-            >
-              <RiMoneyDollarCircleLine className="sidebar-icon" />
-              <p>Payment Approvals</p>
-            </div>
-          </Link>
           <Link to="/users" className="sidebar-link">
             <div
               className={`sidebar-item ${
@@ -99,6 +89,16 @@ function Sidebar() {
             >
               <RiShieldCheckLine className="sidebar-icon" />
               <p>User Verification</p>
+            </div>
+          </Link>
+          <Link to="/payment-approval" className="sidebar-link">
+            <div
+              className={`sidebar-item ${
+                isActive(history, "/payment-approval") && "active"
+              }`}
+            >
+              <RiMoneyDollarCircleLine className="sidebar-icon" />
+              <p>Payment Approvals</p>
             </div>
           </Link>
           {/* <Link to="/complaints" className="sidebar-link">
