@@ -83,7 +83,7 @@ function Dashboard() {
           <h4>Dashboard</h4>
           <p>Here's an overview of your online business.</p>
           <Row>
-            <Col>
+            {/* <Col>
               {orders && (
                 <Card className="dashboard-card">
                   <RiShoppingCart2Line className="card-icon" />
@@ -91,7 +91,7 @@ function Dashboard() {
                   <p>{orders.length} orders placed</p>
                 </Card>
               )}
-            </Col>
+            </Col> */}
             <Col>
               {totalRevenue && (
                 <Card className="dashboard-card">
