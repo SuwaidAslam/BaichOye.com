@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { SERVER_URL } from '../../constants/url'
 
-const url = 'http://localhost:5000/api/auth'
+const url = `${SERVER_URL}api/auth`
 
 const register = async (data) => {
   const user = await axios.post(`${url}/signup`, data)

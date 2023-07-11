@@ -20,6 +20,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import FolderIcon from '@mui/icons-material/Folder';
 import VerifiedIcon from '@mui/icons-material/Verified';
 
+
 // import appLogo from '../../assets/logo.svg';
 // import { Button } from 'react-bootstrap'
 
@@ -46,7 +47,7 @@ const Header = () => {
   }, [dispatch, input])
 
   const logout = () => {
-    localStorage.clear()  
+    localStorage.clear()
     dispatch(resetUser())
     navigate('/')
   }

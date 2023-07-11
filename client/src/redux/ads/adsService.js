@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { SERVER_URL } from '../../constants/url'
 
-const url = 'http://localhost:5000/api'
+const url = `${SERVER_URL}api`
 
 // POST ADS
 const postAd = async (data) => {

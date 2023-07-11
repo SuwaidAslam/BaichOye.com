@@ -7,7 +7,6 @@ import { login, reset } from '../../redux/auth/authSlice'
 import { ThreeDots } from 'react-loader-spinner'
 import toast from 'react-hot-toast';
 
-
 const Login = () => {
 	const [data, setData] = useState({ email: "", password: "" });
 	// const [error, setError] = useState("");
