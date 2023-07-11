@@ -4,10 +4,11 @@ import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
 import { Link } from "react-router-dom";
 import { format } from 'date-fns';
+import { SERVER_URL } from "../../constants/url";
+
 import {
   RiMailLine,
   RiPhoneLine,
-  RiHome2Line,
   RiMoneyDollarCircleLine,
 } from "react-icons/ri";
 
@@ -25,7 +26,7 @@ function User(props) {
     setUser();
     axios({
       method: "get",
-      url: `http://localhost:5000/api/auth/users/${userId}`,
+      url: `${SERVER_URL}api/auth/users/${userId}`,
     }).then((response) => {
       setUser(response.data);
     });

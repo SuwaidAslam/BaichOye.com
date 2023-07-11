@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
-import { RiAddFill, RiEditLine, RiEyeLine, RiDeleteBin3Line, RiZoomInLine, RiCheckboxCircleLine, RiCloseCircleLine } from "react-icons/ri";
+import { RiZoomInLine, RiCheckboxCircleLine, RiCloseCircleLine } from "react-icons/ri";
 import { STATIC_FILES_URL } from "../../constants/url";
 import "./VerificationRequests.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../constants/url";
 
 function VerificationRequests() {
   const [requests, setRequests] = useState([]);
@@ -19,7 +20,7 @@ function VerificationRequests() {
     setRequests([]);
     axios({
       method: "get",
-      url: "http://localhost:5000/api/auth/getVerificationRequests",
+      url: `${SERVER_URL}api/auth/getVerificationRequests`,
     }).then(function (response) {
       setRequests(response.data);
     });
@@ -28,7 +29,7 @@ function VerificationRequests() {
   const rejectRequest = (id) => {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/auth/rejectVerificationRequest",
+      url: `${SERVER_URL}api/auth/rejectVerificationRequest`,
       data: {
         id: id,
       },
@@ -40,7 +41,7 @@ function VerificationRequests() {
   const approveRequest = (id) => {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/auth/approveVerificationRequest",
+      url: `${SERVER_URL}api/auth/approveVerificationRequest`,
       data: {
         id: id,
       },
@@ -48,7 +49,7 @@ function VerificationRequests() {
       getRequests();
     });
   };
-  
+
   const handleZoomClick = (image) => {
     setSelectedImage(image);
   };

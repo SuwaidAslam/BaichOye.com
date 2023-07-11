@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
 import axios from "axios";
+import { SERVER_URL } from "../../constants/url";
 import { STATIC_FILES_URL } from "../../constants/url";
 
 import "./AddCategory.css";
@@ -27,7 +28,7 @@ function EditCategory(props) {
     const categoryId = props.match.params.categoryId;
     axios({
       method: "get",
-      url: `http://localhost:5000/api/categories/getCategory/${categoryId}`,
+      url: `${SERVER_URL}api/categories/getCategory/${categoryId}`,
     }).then((response) => {
       console.log(response.data.category);
       setCategoryData(response.data.category);
@@ -58,7 +59,7 @@ function EditCategory(props) {
     try {
       axios({
         method: "patch",
-        url: `http://localhost:5000/api/categories/updateCategory/${props.match.params.categoryId}`,
+        url: `${SERVER_URL}api/categories/updateCategory/${props.match.params.categoryId}`,
         data: { name: categoryData.name },
       }).then((response) => {
         if (image) {
@@ -66,7 +67,7 @@ function EditCategory(props) {
           formData.append("image", image);
           axios({
             method: "patch",
-            url: `http://localhost:5000/api/categories/image/${props.match.params.categoryId}`,
+            url: `${SERVER_URL}api/categories/image/${props.match.params.categoryId}`,
             data: formData,
           }).then((resp) => {
             setImagePreview();

@@ -2,10 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
-import { RiAddFill, RiEditLine, RiEyeLine, RiDeleteBin3Line, RiZoomInLine, RiCheckboxCircleLine, RiCloseCircleLine } from "react-icons/ri";
+import { RiZoomInLine, RiCheckboxCircleLine, RiCloseCircleLine } from "react-icons/ri";
 import { STATIC_FILES_URL } from "../../constants/url";
 import "./PaymentApproval.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { SERVER_URL } from "../../constants/url";
 
 function PaymentApproval() {
@@ -50,7 +50,7 @@ function PaymentApproval() {
       getRequests();
     });
   };
-  
+
   const handleZoomClick = (image) => {
     setSelectedImage(image);
   };

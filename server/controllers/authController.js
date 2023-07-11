@@ -166,7 +166,6 @@ const signin = asynHandler(async (req, res) => {
 // method     put
 const updateProfile = asynHandler(async (req, res) => {
   const { fullName, email, phone } = req.body
-  console.log("Hello world")
   const id = req.params.id
 
   if (

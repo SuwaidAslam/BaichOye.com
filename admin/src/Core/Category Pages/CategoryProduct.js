@@ -2,11 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
-import { RiDeleteBin3Line, RiEditLine } from "react-icons/ri";
+import { RiDeleteBin3Line } from "react-icons/ri";
+import { SERVER_URL } from "../../constants/url";
 import { STATIC_FILES_URL } from "../../constants/url";
 
 import "./CategoryProduct.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 function CategoryProduct(props) {
   const [products, setProducts] = useState([]);
@@ -22,7 +23,7 @@ function CategoryProduct(props) {
     setProducts([]);
     axios({
       method: "get",
-      url: `http://localhost:5000/api/categories/getAdsByCategory/${category}`,
+      url: `${SERVER_URL}api/categories/getAdsByCategory/${category}`,
     }).then((response) => {
       setProducts(response.data.ads);
       setFilteredProducts(response.data.ads);
@@ -32,7 +33,7 @@ function CategoryProduct(props) {
   const deleteProduct = (productId) => {
     axios({
       method: "delete",
-      url: `http://localhost:5000/api/item/delete/${productId}`,
+      url: `${SERVER_URL}api/item/delete/${productId}`,
     }).then((response) => {
       console.log(response.data);
       getProducts();

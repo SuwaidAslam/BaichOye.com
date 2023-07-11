@@ -68,7 +68,6 @@ export const getTransactions = asyncHandler(async (req, res) => {
 export const getBalance = asyncHandler(async (req, res) => {
   try {
     const currentUser = req.user;
-    console.log(currentUser)
     const { _id } = currentUser;
 
     const wallet = await WalletModel.findOne({ userId: _id });

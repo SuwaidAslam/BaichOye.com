@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
+import { SERVER_URL } from "../../constants/url";
 
 import {
   RiMailLine,
@@ -28,7 +29,7 @@ function Users() {
     setFilteredUsers([]);
     axios({
       method: "get",
-      url: "http://localhost:5000/api/auth/allUsers",
+      url: `${SERVER_URL}api/auth/allUsers`,
     }).then((response) => {
       console.log(response.data);
       setFilteredUsers(response.data);
@@ -40,7 +41,7 @@ function Users() {
   const deleteUser = (userId) => {
     axios({
       method: "delete",
-      url: `http://localhost:5000/api/auth/delete/${userId}`,
+      url: `${SERVER_URL}api/auth/delete/${userId}`,
     }).then((response) => {
       getUsers();
     });

@@ -5,7 +5,7 @@ import Users from "./Core/User Pages/Users";
 import Categories from "./Core/Category Pages/Categories";
 // import Products from "./Core/Product Pages/Products";
 import Ads from "./Core/Ads Pages/Ads";
-import Complaints from "./Core/Complaints/Complaints";
+// import Complaints from "./Core/Complaints/Complaints";
 // import AddProduct from "./Core/Product Pages/AddProduct";
 import AddCategory from "./Core/Category Pages/AddCategory";
 import EditCategory from "./Core/Category Pages/EditCategory";
@@ -39,7 +39,7 @@ function App() {
             component={EditCategory}
           />
           <Route path="/ads" exact component={Ads} />
-          <Route path="/complaints" exact component={Complaints} />
+          {/* <Route path="/complaints" exact component={Complaints} /> */}
           <Route path="/user-verification" exact component={VerificationRequests} />
           <Route path="/payment-approval" exact component={PaymentApproval} />
         </Switch>

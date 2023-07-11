@@ -8,14 +8,11 @@ import Sidebar from "../Components/Sidebar";
 // } from "react-icons/ri";
 import { IoIosLaptop } from "react-icons/io";
 import { BiRupee } from "react-icons/bi";
-import { BsViewList } from "react-icons/bs";
-import { FaLaptopMedical } from "react-icons/fa";
+// import { BsViewList } from "react-icons/bs";
+// import { FaLaptopMedical } from "react-icons/fa";
 
 import {
-  RiDashboardLine,
-  RiShoppingCart2Line,
   RiUser3Line,
-  RiAddFill,
   RiFileList3Line,
   RiMoneyDollarCircleLine,
   RiShieldCheckLine  
@@ -27,13 +24,13 @@ import axios from "axios";
 import { SERVER_URL } from '../constants/url'
 
 function Dashboard() {
-  const [orders, setOrders] = useState();
+  // const [orders, setOrders] = useState();
   const [totalRevenue, setTotalRevenue] = useState(22);
   const [products, setProducts] = useState();
   const [users, setUsers] = useState();
 
   useEffect(() => {
-    getOrders();
+    getRevenue();
     getUsers();
     getProducts();
   }, []);
@@ -58,13 +55,13 @@ function Dashboard() {
     });
   };
 
-  const getOrders = () => {
-    setOrders();
+  const getRevenue = () => {
+    // setOrders();
     axios({
       method: "get",
       url: `${SERVER_URL}api/wallet/allUsers`,
     }).then((response) => {
-      setOrders(response.data.allOrders);
+      // setOrders(response.data.allOrders);
       let rev = 0;
       response.data.allOrders.forEach((order) => {
         rev += order.orderAmount;

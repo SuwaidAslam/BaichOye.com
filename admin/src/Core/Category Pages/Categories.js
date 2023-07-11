@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
 import { RiAddFill, RiEditLine, RiEyeLine, RiDeleteBin3Line } from "react-icons/ri";
+import { SERVER_URL } from "../../constants/url";
 import { STATIC_FILES_URL } from "../../constants/url";
 
 import "./Categories.css";
@@ -19,7 +20,7 @@ function Categories() {
     setCategories([]);
     axios({
       method: "get",
-      url: "http://localhost:5000/api/categories/getAll",
+      url: `${SERVER_URL}api/categories/getAll`,
     }).then(function (response) {
       setCategories(response.data.categories);
     });
@@ -29,7 +30,7 @@ function Categories() {
   const deleteCategory = (categoryId) => {
     axios({
       method: "delete",
-      url: `http://localhost:5000/api/categories/delete/${categoryId}`,
+      url: `${SERVER_URL}api/categories/delete/${categoryId}`,
     }).then((response) => {
       getCategories();
     });

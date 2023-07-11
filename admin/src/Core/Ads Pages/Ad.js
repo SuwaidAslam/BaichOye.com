@@ -3,19 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
 import ItemDetails from "../../Components/ItemDetails";
+import { SERVER_URL } from "../../constants/url";
+// import { STATIC_FILES_URL } from "../../constants/url";
+
 import {
   RiMailLine,
   RiPhoneLine,
-  RiHome2Line,
   RiUser3Line,
-  RiUserLocationLine,
-  RiCalendarEventLine,
-  RiCalendarTodoLine,
-  RiCalendarCheckLine,
-  RiMoneyDollarCircleLine,
-  RiQuestionLine,
 } from "react-icons/ri";
-import { STATIC_FILES_URL } from "../../constants/url";
 
 import "./Ad.css";
 import { useHistory } from "react-router";
@@ -23,22 +18,22 @@ import Slider from '../../Components/Slider'
 
 function Order(props) {
   const [ad, setAd] = useState({});
-  const weekday = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
-  const month = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const history = useHistory();
+  // const weekday = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+  // const month = [
+  //   "Jan",
+  //   "Feb",
+  //   "Mar",
+  //   "Apr",
+  //   "May",
+  //   "Jun",
+  //   "Jul",
+  //   "Aug",
+  //   "Sep",
+  //   "Oct",
+  //   "Nov",
+  //   "Dec",
+  // ];
+  // const history = useHistory();
   const adId = props.match.params.adId;
   useEffect(() => {
     getAd();
@@ -48,7 +43,7 @@ function Order(props) {
     setAd();
     axios({
       method: "get",
-      url: `http://localhost:5000/api/ads/${adId}`,
+      url: `${SERVER_URL}api/ads/${adId}`,
     }).then((response) => {
       setAd(response.data);
     });

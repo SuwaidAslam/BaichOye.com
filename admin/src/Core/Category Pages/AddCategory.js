@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
 import axios from "axios";
-
 import "./AddCategory.css";
+import { SERVER_URL } from "../../constants/url";
 
 function AddCategory() {
   const [newCategory, setNewCategory] = useState({
@@ -40,7 +40,7 @@ function AddCategory() {
       formData.append("image", image);
       axios({
         method: "post",
-        url: "http://localhost:5000/api/categories/add",
+        url: `${SERVER_URL}api/categories/add`,
         data: formData,
       }).then((response) => {
         setImagePreview();

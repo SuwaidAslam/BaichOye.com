@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
-import { RiDeleteBin3Line, RiEditLine, RiExternalLinkLine } from "react-icons/ri";
+import { RiDeleteBin3Line, RiExternalLinkLine } from "react-icons/ri";
 
 import "./Ads.css";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../constants/url";
 import { STATIC_FILES_URL } from "../../constants/url";
 
 function Ads() {
@@ -21,7 +22,7 @@ function Ads() {
     setProducts([]);
     axios({
       method: "get",
-      url: "http://localhost:5000/api/allAds",
+      url: `${SERVER_URL}api/allAds`,
     }).then((response) => {
       setProducts(response.data);
       setFilteredProducts(response.data);
@@ -31,7 +32,7 @@ function Ads() {
   const deleteProduct = (productId) => {
     axios({
       method: "delete",
-      url: `http://localhost:5000/api/item/delete/${productId}`,
+      url: `${SERVER_URL}api/item/delete/${productId}`,
     }).then((response) => {
       getProducts();
     });
