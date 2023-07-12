@@ -40,56 +40,7 @@ export default function Footer() {
                 BaichOye
               </h6>
               <p>
-                Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit
-                amet, consectetur adipisicing elit.
-              </p>
-            </MDBCol>
-
-            <MDBCol md='2' lg='2' xl='2' className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Angular
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  React
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Vue
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Laravel
-                </a>
-              </p>
-            </MDBCol>
-
-            <MDBCol md='3' lg='2' xl='2' className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Pricing
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Settings
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Orders
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Help
-                </a>
+                "Discover a C2C Store, where your items soar, selling your stuff without hassle galore."
               </p>
             </MDBCol>
 
@@ -97,17 +48,17 @@ export default function Footer() {
               <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
               <p>
                 <MDBIcon color='secondary' icon='home' className='me-2' />
-                New York, NY 10012, US
+                Lahore, Punjab, Pakistan
               </p>
               <p>
                 <MDBIcon color='secondary' icon='envelope' className='me-3' />
-                info@example.com
+                baichoye@gmail.com
               </p>
               <p>
-                <MDBIcon color='secondary' icon='phone' className='me-3' /> + 01 234 567 88
+                <MDBIcon color='secondary' icon='phone' className='me-3' /> + 3037816101
               </p>
               <p>
-                <MDBIcon color='secondary' icon='print' className='me-3' /> + 01 234 567 89
+                <MDBIcon color='secondary' icon='print' className='me-3' /> + 3037816101
               </p>
             </MDBCol>
           </MDBRow>

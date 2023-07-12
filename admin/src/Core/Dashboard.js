@@ -30,7 +30,7 @@ function Dashboard() {
   const [users, setUsers] = useState();
 
   useEffect(() => {
-    getRevenue();
+    // getRevenue();
     getUsers();
     getProducts();
   }, []);
@@ -55,20 +55,20 @@ function Dashboard() {
     });
   };
 
-  const getRevenue = () => {
-    // setOrders();
-    axios({
-      method: "get",
-      url: `${SERVER_URL}api/wallet/allUsers`,
-    }).then((response) => {
-      // setOrders(response.data.allOrders);
-      let rev = 0;
-      response.data.allOrders.forEach((order) => {
-        rev += order.orderAmount;
-      });
-      setTotalRevenue(rev);
-    });
-  };
+  // const getRevenue = () => {
+  //   // setOrders();
+  //   axios({
+  //     method: "get",
+  //     url: `${SERVER_URL}api/wallet/allUsers`,
+  //   }).then((response) => {
+  //     // setOrders(response.data.allOrders);
+  //     let rev = 0;
+  //     response.data.allOrders.forEach((order) => {
+  //       rev += order.orderAmount;
+  //     });
+  //     setTotalRevenue(rev);
+  //   });
+  // };
 
   return (
     <div className="dashboard-parent-div">
@@ -90,7 +90,7 @@ function Dashboard() {
               )}
             </Col> */}
             <Col>
-              {totalRevenue && (
+              {/* {totalRevenue && (
                 <Card className="dashboard-card">
                   <BiRupee className="card-icon" />
                   <h4>
@@ -106,7 +106,7 @@ function Dashboard() {
                     revenue generated
                   </p>
                 </Card>
-              )}
+              )} */}
             </Col>
             <Col>
               {products && (
