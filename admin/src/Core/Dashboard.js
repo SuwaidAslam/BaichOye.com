@@ -89,8 +89,8 @@ function Dashboard() {
                 </Card>
               )}
             </Col> */}
-            <Col>
-              {/* {totalRevenue && (
+            {/* <Col>
+              {totalRevenue && (
                 <Card className="dashboard-card">
                   <BiRupee className="card-icon" />
                   <h4>
@@ -106,8 +106,8 @@ function Dashboard() {
                     revenue generated
                   </p>
                 </Card>
-              )} */}
-            </Col>
+              )}
+            </Col> */}
             <Col>
               {products && (
                 <Card className="dashboard-card">
