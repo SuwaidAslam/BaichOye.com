@@ -40,7 +40,7 @@ const ItemSlideShow = () => {
 
   return (
     <div className="details_container">
-      <h4 className="title">Related ads</h4>
+      <h4 className="title">Recent Ads</h4>
       <Carousel
         swipeable={false}
         draggable={false}

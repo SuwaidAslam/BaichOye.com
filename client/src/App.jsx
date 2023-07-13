@@ -36,7 +36,7 @@ function App() {
 					<Route path="/update/item/:id" exact element={<ProtectedRoute> <UpdateAd /> </ProtectedRoute>} />
 					<Route path="/wallet" exact element={<ProtectedRoute> <Wallet /> </ProtectedRoute>} />
 					<Route path="/payment" exact element={<ProtectedRoute> <Payment /> </ProtectedRoute>} />
-					<Route path="/item/:id" element={<ProtectedRoute> <Ad /> </ProtectedRoute>} />
+					<Route path="/item/:id" element={<PublicRoute> <Ad /> </PublicRoute>} />
 					<Route path="/verify-me" element={<ProtectedRoute> <VerifyMe /> </ProtectedRoute>} />
 				</Routes>
 				<Footer />

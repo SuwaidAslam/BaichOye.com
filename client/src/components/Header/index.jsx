@@ -55,10 +55,11 @@ const Header = () => {
   const handleSellBtnClick = () => {
     if (!user) {
       toast.error('To post Ad, Please login')
+      navigate('/login')
     }
-    console.log(user)
     if (user && (user.verificationStatus !== 'Approved')) {
       toast.error('To post an Ad, your account must be verified')
+      // navigate('/verify-me')
     }
   }
 

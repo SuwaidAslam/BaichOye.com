@@ -25,10 +25,18 @@ const ItemSidebar = ({ ad }) => {
   const navigate = useNavigate()
 
   const handleBuy = (userId, ad) => {
+    if (!currentUser.user) {
+      toast.error('To buy, Please login')
+      navigate('/login')
+    }
     (userId == currentUser.user._id) ? toast.error("Cannot buy your own product") : navigate(`/payment`, { state: { userId, ad } })
   }
 
   const handleChat = (userId, adId) => {
+    if (!currentUser.user) {
+      toast.error('To Chat, Please login')
+      navigate('/login')
+    }
     (userId == currentUser.user._id) ? toast.error("Cannot send message to Yourself") : navigate(`/chat/${userId}/${adId}`, { state: { user, ad } })
   }
 

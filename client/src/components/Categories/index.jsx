@@ -33,7 +33,7 @@ const Categories = () => {
   return (
     <ul className="categories_navlinks">
       {categories && categories.length > 0 ? (
-        categories.map((category) => <li className="navlink"  key={category} onClick={() => handleCategories(category.name)}>
+        categories.map((category, index) => <li className="navlink"  key={index} onClick={() => handleCategories(category.name)}>
           <img src={`${STATIC_FILES_URL}${category.image}`} alt="" className='nav_image' />
           <br />
           {category.name}
