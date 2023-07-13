@@ -64,6 +64,11 @@ const Header = () => {
     }
   }
 
+  const handleLogoClick = () => {
+    navigate('/')
+    window.location.reload()
+  }
+
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -75,7 +80,7 @@ const Header = () => {
   return (
     <Navbar bg="light" expand="lg" style={{ height: '6rem' }}>
       <Container fluid>
-        <NavLink to="/">
+        <NavLink to="/" onClick={handleLogoClick}>
           <img src={logo} alt="BaichOye logo" width={300} />
         </NavLink>
         <Navbar.Toggle aria-controls="navbarScroll" />
