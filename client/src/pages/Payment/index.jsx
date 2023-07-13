@@ -15,7 +15,7 @@ const PaymentPage = () => {
 
 
   const { balance, errorMessage, successMessage, isError, isSuccess, isLoading } =
-    useSelector((selector) => selector.wallet); 
+    useSelector((selector) => selector.wallet);
 
   useEffect(() => {
     if (isError && errorMessage) {
@@ -41,6 +41,27 @@ const PaymentPage = () => {
   const handleCVVChange = (event) => {
     setCVV(event.target.value);
   };
+  // Function to validate the card number
+  const validateCardNumber = (cardNumber) => {
+    // Regular expression to check if the card number consists of 16 digits
+    const cardNumberPattern = /^\d{16}$/;
+    return cardNumberPattern.test(cardNumber);
+  };
+
+  // Function to validate the expiry date
+  const validateExpiryDate = (expiryDate) => {
+    // Regular expression to check if the expiry date is in the format "MM/YY"
+    const expiryDatePattern =  /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/;
+    return expiryDatePattern.test(expiryDate);
+  };
+
+  // Function to validate the CVV
+  const validateCVV = (cvv) => {
+    // Regular expression to check if the CVV consists of 3 digits
+    const cvvPattern = /^\d{3}$/;
+    return cvvPattern.test(cvv);
+  };
+
 
 
 
@@ -59,12 +80,38 @@ const PaymentPage = () => {
       // if the payment method is not wallet, check if the card number is entered
       if (paymentMethod !== 'wallet') {
         // if card number is entered, check if the expiry date is entered
+        // if card number is entered, check if the expiry date and CVV are entered
         if (cardNumber !== '' && expiryDate !== '' && cvv !== '') {
-          dispatch(makeTransaction(data))
+          // Validate card number
+          if (!validateCardNumber(cardNumber)) {
+            toast.error('Please enter a valid card number.');
+            return;
+          }
+
+          // Validate expiry date
+          if (!validateExpiryDate(expiryDate)) {
+            toast.error('Please enter a valid expiry date.');
+            return;
+          }
+
+          // Validate CVV
+          if (!validateCVV(cvv)) {
+            toast.error('Please enter a valid CVV.');
+            return;
+          }
+
+          dispatch(makeTransaction(data));
           toast.success('Payment Successful');
+        } else {
+          toast.error('Please enter all payment details.');
         }
+
       }
       else {
+        if (balance < ad.price) {
+          toast.error('Insufficient Balance');
+          return;
+        }
         dispatch(makeTransactionFromWallet(data))
       }
     }

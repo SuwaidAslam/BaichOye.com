@@ -23,7 +23,7 @@ export const ProtectedSellRoute = ({ children }) => {
 export const PublicRoute = ({ children }) => {
   const user = JSON.parse(localStorage.getItem('user'))
   if (!user) {
-    return children
+    return <Navigate replace to="/login" />
   }
-  return <Navigate replace to="/" />
+  return children
 }

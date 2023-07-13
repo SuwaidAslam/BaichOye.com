@@ -82,43 +82,50 @@ function PaymentApproval() {
           <hr />
           <Row className="categories-row">
             {requests.map((request) => (
-              <Col lg={3} key={request._id}>
-                <Card className="category-card">
-                  <img src={`${STATIC_FILES_URL}/${request.adId.images[0]}`} alt={request.name} />
-                  <div className="card-details">
-                    <div className="card-info">
-                      <h5 className="card-title">Rs-{request.amount}</h5>
-                      {/* <h6 className="card-text"></h6> */}
-                    </div>
-                    <div className="card-info">
-                      <h5 className="card-title">From:</h5>
-                      <h6 className="card-text">{request.buyerId.fullName}</h6>
-                    </div>
-                    <div className="card-info">
-                      <h5 className="card-title">To:</h5>
-                      <h6 className="card-text">{request.sellerId.fullName}</h6>
-                    </div>
-                  </div>
-                  <div className="zoom-icon-wrapper" onClick={() => handleZoomClick(request.adId.images[0])}>
-                    <RiZoomInLine className="zoom-cat-btn" />
-                  </div>
-                  <RiCheckboxCircleLine
-                    onClick={(event) => {
-                      event.preventDefault();
-                      approveRequest(request);
-                    }}
-                    className="view-prod-btn" />
-                  <RiCloseCircleLine
-                    onClick={(event) => {
-                      event.preventDefault();
-                      rejectRequest(request._id);
-                    }}
-                    className="category-card-icon delete-icon "
-                  />
-                </Card>
-              </Col>
+              request.adId && (
+                <Col lg={3} key={request._id}>
+                  <Card className="category-card">
+                    {request.adId && (
+                      <>
+                        <img src={`${STATIC_FILES_URL}/${request.adId.images[0]}`} alt={request.name} />
+                        <div className="card-details">
+                          <div className="card-info">
+                            <h5 className="card-title">Rs-{request.amount}</h5>
+                          </div>
+                          <div className="card-info">
+                            <h5 className="card-title">From:</h5>
+                            <h6 className="card-text">{request.buyerId.fullName}</h6>
+                          </div>
+                          <div className="card-info">
+                            <h5 className="card-title">To:</h5>
+                            <h6 className="card-text">{request.sellerId.fullName}</h6>
+                          </div>
+                        </div>
+                        <div className="zoom-icon-wrapper" onClick={() => handleZoomClick(request.adId.images[0])}>
+                          <RiZoomInLine className="zoom-cat-btn" />
+                        </div>
+                      </>
+                    )}
+                    <RiCheckboxCircleLine
+                      onClick={(event) => {
+                        event.preventDefault();
+                        approveRequest(request);
+                      }}
+                      className="view-prod-btn"
+                    />
+                    <RiCloseCircleLine
+                      onClick={(event) => {
+                        event.preventDefault();
+                        rejectRequest(request._id);
+                      }}
+                      className="category-card-icon delete-icon "
+                    />
+                  </Card>
+                </Col>
+              )
             ))}
           </Row>
+
         </Col>
       </Row>
       {selectedImage && (
