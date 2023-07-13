@@ -36,7 +36,12 @@ export const InnerCard = ({ ad }) => {
             {ad.title}
           </Card.Title>
           <Card.Text style={{ fontSize: '25px', fontWeight: 'bold' }} className='text_overflow'>
-            Rs {ad.price}
+            Rs {ad.price
+              .toString()
+              .replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ","
+              )}
           </Card.Text>
           <Card.Text className='text_overflow'>
             {ad.location} - {time}

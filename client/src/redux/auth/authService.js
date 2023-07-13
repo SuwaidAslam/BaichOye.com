@@ -73,7 +73,8 @@ const checkVerificationDataSubmission = async () => {
     url: `${url}/is-verification-submitted/${id}`,
     headers,
   })
-  localStorage.setItem('user', JSON.stringify(user.data.user))
+  current_user.verificationStatus = user.data.user.verificationStatus
+  localStorage.setItem('user', JSON.stringify(current_user))
   return  user.data.user.verificationStatus
 }
 

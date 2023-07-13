@@ -55,11 +55,6 @@ const Header = () => {
   const handleSellBtnClick = () => {
     if (!user) {
       toast.error('To post Ad, Please login')
-      navigate('/login')
-    }
-    if (user && (user.verificationStatus !== 'Approved')) {
-      toast.error('To post an Ad, your account must be verified')
-      // navigate('/verify-me')
     }
   }
 
@@ -200,6 +195,13 @@ const Header = () => {
                       padding: '1rem',
                     },
                   }}
+                  style={
+                    {
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'left',
+                    }
+                  }
                 >
                   <div className="d-flex">
                     <img
@@ -217,48 +219,57 @@ const Header = () => {
                     </div>
                   </div>
                   <hr />
-                  <Link
-                    to="/profile"
-                    className="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root"
-                    style={{
-                      color: '#333',
-                      padding: '6px 16px',
-                      textDecoration: 'none',
-                    }}
-                  >
-                    <ListItemIcon>
-                      <ManageAccountsIcon fontSize="small" />
-                    </ListItemIcon>
-                    My Account
-                  </Link>
-                  <Link
-                    to="/verify-me"
-                    className="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root"
-                    style={{
-                      color: '#333',
-                      padding: '6px 16px',
-                      textDecoration: 'none',
-                    }}
-                  >
-                    <ListItemIcon>
-                      <VerifiedIcon fontSize="small" />
-                    </ListItemIcon>
-                    Verify Me
-                  </Link>
-                  <Link
-                    to="/myads"
-                    className="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root"
-                    style={{
-                      color: '#333',
-                      padding: '6px 16px',
-                      textDecoration: 'none',
-                    }}
-                  >
-                    <ListItemIcon>
-                      <FolderIcon fontSize="small" />
-                    </ListItemIcon>
-                    My Ads
-                  </Link>
+                  <MenuItem>
+                    <Link
+                      to="/profile"
+                      className="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root"
+                      style={{
+                        color: '#333',
+                        padding: '6px 0px',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <ListItemIcon>
+                        <ManageAccountsIcon fontSize="small" />
+                      </ListItemIcon>
+                      My Account
+                    </Link>
+                  </MenuItem>
+
+                  <MenuItem>
+                    <Link
+                      to="/verify-me"
+                      className="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root"
+                      style={{
+                        color: '#333',
+                        padding: '6px 0px',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <ListItemIcon>
+                        <VerifiedIcon fontSize="small" />
+                      </ListItemIcon>
+                      Verify Me
+                    </Link>
+                  </MenuItem>
+
+                  <MenuItem>
+                    <Link
+                      to="/myads"
+                      className="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root"
+                      style={{
+                        color: '#333',
+                        padding: '6px 0px',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <ListItemIcon>
+                        <FolderIcon fontSize="small" />
+                      </ListItemIcon>
+                      My Ads
+                    </Link>
+                  </MenuItem>
+
                   <MenuItem onClick={logout}>
                     <ListItemIcon>
                       <Logout fontSize="small" />
@@ -272,7 +283,7 @@ const Header = () => {
           </Nav>
         </Navbar.Collapse>
       </Container>
-    </Navbar>
+    </Navbar >
   )
 }
 

@@ -20,7 +20,6 @@ const ItemDetails = ({ ad }) => {
                 /\B(?=(\d{3})+(?!\d))/g,
                 ","
               )}
-            /-
           </p>
           }
         </div>

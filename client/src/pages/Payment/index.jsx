@@ -51,7 +51,7 @@ const PaymentPage = () => {
   // Function to validate the expiry date
   const validateExpiryDate = (expiryDate) => {
     // Regular expression to check if the expiry date is in the format "MM/YY"
-    const expiryDatePattern =  /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/;
+    const expiryDatePattern = /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/;
     return expiryDatePattern.test(expiryDate);
   };
 

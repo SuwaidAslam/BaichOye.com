@@ -99,7 +99,6 @@ const ItemSidebar = ({ ad }) => {
                 /\B(?=(\d{3})+(?!\d))/g,
                 ","
               )}
-            /-
           </p>}
         </h1>
         <div

@@ -6,9 +6,9 @@ import { FiUpload } from 'react-icons/fi';
 import './VerifyMe.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { submitVerificationData, reset, checkVerificationDataSubmission } from '../../redux/auth/authSlice'
-import { tr } from 'date-fns/locale';
-import toast from 'react-hot-toast';
-import { set } from 'date-fns';
+// import { tr } from 'date-fns/locale';
+// import toast from 'react-hot-toast';
+// import { set } from 'date-fns';
 
 const VerifyMe = () => {
     const dispatch = useDispatch()
@@ -72,6 +72,7 @@ const VerifyMe = () => {
         formData.append('idType', idType);
         formData.append('idImage', selectedFile);
         dispatch(submitVerificationData(formData))
+        dispatch(checkVerificationDataSubmission())
         setIssuingCountry('')
         setIdType('')
         setSelectedFile(null)

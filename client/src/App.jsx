@@ -15,7 +15,7 @@ import Chat from './pages/Chat';
 import Inbox from './pages/Inbox';
 import Wallet from './pages/Wallet';
 import Payment from './pages/Payment';
-import { PublicRoute, ProtectedRoute, ProtectedSellRoute } from './utils/ProtectedRoute'
+import { PublicRoute, ProtectedRoute, ProtectedSellRoute, ProtectedAdRoute } from './utils/ProtectedRoute'
 import VerifyMe from './pages/VerifyMe';
 
 
@@ -36,7 +36,7 @@ function App() {
 					<Route path="/update/item/:id" exact element={<ProtectedRoute> <UpdateAd /> </ProtectedRoute>} />
 					<Route path="/wallet" exact element={<ProtectedRoute> <Wallet /> </ProtectedRoute>} />
 					<Route path="/payment" exact element={<ProtectedRoute> <Payment /> </ProtectedRoute>} />
-					<Route path="/item/:id" element={<PublicRoute> <Ad /> </PublicRoute>} />
+					<Route path="/item/:id" element={<ProtectedAdRoute> <Ad /> </ProtectedAdRoute>} />
 					<Route path="/verify-me" element={<ProtectedRoute> <VerifyMe /> </ProtectedRoute>} />
 				</Routes>
 				<Footer />
