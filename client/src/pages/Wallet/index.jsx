@@ -116,9 +116,9 @@ const Wallet = () => {
                                             data={chartData}
                                             lineWidth={20}
                                             radius={50}
-                                            label={({ dataEntry }) => `$${dataEntry.value}`}
+                                            label={({ dataEntry }) => `Rs ${dataEntry.value}`}
                                             labelStyle={{
-                                                fontSize: '10px',
+                                                fontSize: '8px',
                                                 fontFamily: 'sans-serif',
                                             }}
                                         />

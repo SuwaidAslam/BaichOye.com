@@ -6,6 +6,8 @@ import { FiUpload } from 'react-icons/fi';
 import './VerifyMe.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { submitVerificationData, reset, checkVerificationDataSubmission } from '../../redux/auth/authSlice'
+import axios from 'axios'
+import { SERVER_URL } from '../../constants/url'
 // import { tr } from 'date-fns/locale';
 // import toast from 'react-hot-toast';
 // import { set } from 'date-fns';
@@ -17,18 +19,12 @@ const VerifyMe = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
-    const [reload, setReload] = useState(false)
-
-    const  {verificationStatus} =
-        useSelector((selector) => selector.auth)
-        
+    const verificationStatus = useSelector((selector) => selector.auth.verificationStatus)
     
-
+        
     useEffect(() => {
         dispatch(checkVerificationDataSubmission())
-        setReload(false)
-        return () => dispatch(reset())
-    }, [reload, dispatch])
+    }, [dispatch])
 
 
     useEffect(() => {
@@ -72,11 +68,14 @@ const VerifyMe = () => {
         formData.append('idType', idType);
         formData.append('idImage', selectedFile);
         dispatch(submitVerificationData(formData))
-        dispatch(checkVerificationDataSubmission())
+        // checkVerificationDataSubmission()
         setIssuingCountry('')
         setIdType('')
         setSelectedFile(null)
-        setReload(true)
+        // reload page to show updated status
+        // window.location.reload();
+
+        // setReload(true)
     };
 
     return (

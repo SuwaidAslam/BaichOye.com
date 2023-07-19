@@ -116,20 +116,20 @@ const Chat = () => {
                             <div className="recent_heading">
                                 <h4>Recent</h4>
                             </div>
-                            <div className="srch_bar">
+                            {/* <div className="srch_bar">
                                 <div className="stylish-input-group">
                                     <input type="text" className="search-bar" placeholder="Search" />
                                     <span className="input-group-addon">
                                         <button type="button"> <i className="fa fa-search" aria-hidden="true"></i> </button>
                                     </span> </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="inbox_chat">
                             <div className="chat_list active_chat">
                                 <div className="chat_people">
                                     <div className="chat_img">{initials}</div>
                                     <div className="chat_ib">
-                                        <h5> {fullName} <span className="chat_date">date</span></h5>
+                                        <h5> {fullName}</h5>
                                         <p>{title}</p>
                                     </div>
                                 </div>

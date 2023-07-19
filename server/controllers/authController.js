@@ -3,6 +3,7 @@ import asynHandler from 'express-async-handler'
 import jwt from 'jsonwebtoken'
 import Joi from "joi";
 import authModel from '../mongodb/models/authModel.js'
+import verificationData from "../mongodb/models/verificationDataModel.js";
 import bcrypt from "bcrypt";
 import passwordComplexity from "joi-password-complexity";
 import fs from 'fs';
@@ -10,6 +11,11 @@ import path from 'path'
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import WalletModel from '../mongodb/models/walletModel.js'
+import sharp from 'sharp';
+import tesseract from 'node-tesseract-ocr';
+
+
+
 // const { OAuth2Client } = require('google-auth-library')
 
 
@@ -241,7 +247,6 @@ const submitVerificationData = asynHandler(async (req, res) => {
     const userId = req.params.id;
     const { issuingCountry, idType } = req.body;
 
-
     // Find the user by ID
     const user = await authModel.findById(userId);
 
@@ -260,11 +265,62 @@ const submitVerificationData = asynHandler(async (req, res) => {
     if (!imageName || !issuingCountry || !idType) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
+    // Perform OCR on the image
+    const imagePath = path.join(__dirname, '../public/uploads/', imageName);
+    const filenameWithoutExtension = imageName.split('.').slice(0, -1).join('.');
+    const outputImagePath = path.join(__dirname, '../public/uploads/', filenameWithoutExtension+'_edited.jpg');
+    // const editedImagePath = path.join(__dirname, '../public/uploads/');
+    sharp(imagePath)
+      .modulate({ brightness: 1.8, highlights: 100, shadows: 1.5, contrast: 100 })
+      .toFile(outputImagePath, (err, info) => {
+        if (err) {
+          console.error('Error saving the edited image:', err);
+        } else {
+          console.log('Edited image saved successfully:');
+
+          // Continue with the rest of your code here...
+        }
+      });
+    // get cnic data from database 
+    const cnicData = await verificationData.find({});
+    const arrayOfIds = [];
+    const config = {
+      lang: "eng",
+      oem: 3,
+      psm: 11,
+    }
+    let verificationStatus = 'Pending';
+    try {
+      const text = await tesseract.recognize(outputImagePath, config);
+      const cnic_regex = /(\d{13})|([0-9]{5})[\-]([0-9]{7})[\-]([0-9]{1})/;
+      const match = cnic_regex.exec(text);
+      if (match) {
+        const id = match[0]; // The matched ID
+        //remove dashes from id
+        const modifiedId = id.replace(/-/g, '');
+        // now check modifiedId in database
+        cnicData.forEach((data) => {
+          if (data.cnicNumber === modifiedId) {
+            arrayOfIds.push(data.cnicNumber);
+          }
+        });
+        // Now you can check if the modifiedId exists in the array
+        if (arrayOfIds.includes(modifiedId)) {
+          verificationStatus = 'Approved';
+        } else {
+          verificationStatus = 'Rejected';
+        }
+      } else {
+        console.log("No matching ID found.");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
     // Update the verification details
     user.IDCardImage = imageName;
     user.issuingCountry = issuingCountry;
     user.IDType = idType;
-    user.verificationStatus = 'Pending';
+    user.verificationStatus = verificationStatus;
 
     // Save the updated user
     await user.save();
@@ -292,7 +348,7 @@ const checkVerificationStatus = asynHandler(async (req, res) => {
     }
     // const {  } = user;
 
-    res.json({ user});
+    res.json({ user });
 
   } catch (error) {
     console.error(error);

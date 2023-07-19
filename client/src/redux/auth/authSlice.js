@@ -197,6 +197,7 @@ export const authSlice = createSlice({
         state.isError = false
         state.successMessage = actions.payload.successMsg
         state.errorMessage = ''
+        state.verificationStatus = actions.payload.user.verificationStatus
       })
       .addCase(submitVerificationData.rejected, (state, actions) => {
         console.log(actions)
@@ -216,6 +217,7 @@ export const authSlice = createSlice({
         state.errorMessage = ''
       })
       .addCase(checkVerificationDataSubmission.fulfilled, (state, actions) => {
+        console.log(actions.payload)
         state.verificationStatus = actions.payload
         state.isSuccess = true
         state.isLoading = false

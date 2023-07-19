@@ -111,8 +111,8 @@ const Inbox = () => {
             event.preventDefault();
             handleSendAction(event);
         }
-      };
-      
+    };
+
 
     // if (isLoading) {
     //     return (
@@ -139,13 +139,13 @@ const Inbox = () => {
                             <div className="recent_heading">
                                 <h4>Recent</h4>
                             </div>
-                            <div className="srch_bar">
+                            {/* <div className="srch_bar">
                                 <div className="stylish-input-group">
                                     <input type="text" className="search-bar" placeholder="Search" />
                                     <span className="input-group-addon">
                                         <button type="button"> <i className="fa fa-search" aria-hidden="true"></i> </button>
                                     </span> </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="inbox_chat">
                             {chats.length > 0 ? (
@@ -209,7 +209,7 @@ const Inbox = () => {
                                     </div>
                                     <div className="active_ad_info">
                                         <h5> {active_chat_data.ad.title}</h5>
-                                        <p> Rs {active_chat_data.ad.price}</p>
+                                        {/* <p> Rs {active_chat_data.ad.price}</p> */}
                                     </div>
                                 </div>
                             </>
